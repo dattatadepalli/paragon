@@ -193,6 +193,9 @@
       "/node_modules/(?!(@openedx/paragon)/).*/"
     ]
   },
+  "browserslist": [
+    "extends @edx/browserslist-config"
+  ],
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "npx eslint"
