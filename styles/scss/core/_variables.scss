@@ -1,3 +1,5 @@
+@use "sass:list";
+@use "sass:map";
 // Variables
 //
 // Variables should follow the `$component-state-property-size` formula for
@@ -18,7 +20,7 @@ $gray-900: var(--pgn-color-gray-900) !default;
 $black: var(--pgn-color-black) !default;
 
 $grays: () !default;
-$grays: map-merge(
+$grays: map.merge(
   (
     "100": $gray-100,
     "200": $gray-200,
@@ -40,7 +42,7 @@ $green: var(--pgn-color-green) !default;
 $teal: var(--pgn-color-teal) !default;
 
 $colors: () !default;
-$colors: map-merge(
+$colors: map.merge(
   (
     "blue": $blue,
     "green": $green,
@@ -67,7 +69,7 @@ $accent-a: var(--pgn-color-accent-a) !default;
 $accent-b: var(--pgn-color-accent-b) !default;
 
 $theme-colors: () !default;
-$theme-colors: map-merge(
+$theme-colors: map.merge(
   (
     "primary":    $primary,
     "secondary":  $secondary,
@@ -177,7 +179,7 @@ $dark-900: var(--pgn-color-dark-900) !default;
 
 $theme-color-levels: () !default;
 
-$theme-color-levels: map-merge(
+$theme-color-levels: map.merge(
   (
     "gray-100": $gray-100,
     "gray-200": $gray-200,
@@ -275,7 +277,7 @@ $theme-color-levels: map-merge(
 
 $element-color-levels: () !default;
 
-$element-color-levels: map-merge(
+$element-color-levels: map.merge(
   (
     "background": 100,
     "disabled-border": 100,
@@ -339,7 +341,7 @@ $enable-deprecation-messages:                 true !default;
 $spacer: var(--pgn-spacing-spacer-base) !default;
 $spacers: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$spacers: map-merge(
+$spacers: map.merge(
   (
     0: 0,
     1: calc(#{$spacer} * .25),
@@ -360,7 +362,7 @@ $spacers: map-merge(
 // This variable affects the `.h-*` and `.w-*` classes.
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$sizes: map-merge(
+$sizes: map.merge(
   (
     25: 25%,
     50: 50%,
@@ -672,7 +674,7 @@ $transition-collapse-width: var(--pgn-transition-collapse-width) !default;
 
 $embed-responsive-aspect-ratios: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$embed-responsive-aspect-ratios: join(
+$embed-responsive-aspect-ratios: list.join(
   (
     (21 9),
     (16 9),
@@ -850,7 +852,7 @@ $user-selects: all, auto, none !default;
 // Printing
 
 $print-page-size:                   var(--pgn-typography-print-page-size) !default;
-$print-body-min-width:              map-get($grid-breakpoints, "lg") !default;
+$print-body-min-width:              map.get($grid-breakpoints, "lg") !default;
 
 // List group
 

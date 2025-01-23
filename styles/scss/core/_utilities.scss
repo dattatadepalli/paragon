@@ -1,3 +1,4 @@
+@use "sass:map";
 // explicitly import bootstrap's utility module to exclude some modules which do not work
 // with CSS variables, they are instead overriden by Paragon
 @import "~bootstrap/scss/utilities/align";
@@ -91,7 +92,7 @@ $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 
 // Define classes for z-index
 $indexes: () !default;
-$indexes: map-merge(
+$indexes: map.merge(
   (
     0: 0,
     1: 200,

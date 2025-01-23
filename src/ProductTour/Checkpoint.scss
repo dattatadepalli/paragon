@@ -1,3 +1,5 @@
+@use "sass:map";
+
 .pgn__checkpoint {
   position: absolute;
   background: var(--pgn-color-product-tour-checkpoint-bg);
@@ -57,11 +59,11 @@
     }
 
     &:not(:first-child) {
-      margin-left: map_get($spacers, 1\.5);
+      margin-left: map.get($spacers, 1\.5);
     }
 
     [dir="rtl"] & {
-      margin-left: map_get($spacers, 1\.5);
+      margin-left: map.get($spacers, 1\.5);
       margin-right: 0;
 
       &:last-child {
@@ -77,19 +79,19 @@
 
   .pgn__checkpoint-body {
     color: var(--pgn-color-product-tour-checkpoint-body);
-    margin-bottom: map_get($spacers, 3\.5);
+    margin-bottom: map.get($spacers, 3\.5);
     text-align: start;
   }
 
   .pgn__checkpoint-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: map_get($spacers, 2\.5);
+    margin-bottom: map.get($spacers, 2\.5);
   }
 
   #pgn__checkpoint-title {
     font-size: var(--pgn-typography-font-size-h3-base);
-    margin-inline-end: map_get($spacers, 2\.5);
+    margin-inline-end: map.get($spacers, 2\.5);
     margin-bottom: 0;
   }
 }

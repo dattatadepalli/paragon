@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:string";
 // Bootstrap functions
 //
 // Utility mixins and functions for evaluating source code across our variables, maps, and mixins.
@@ -11,11 +14,11 @@
 // @param {String} $replace ('') - New value
 // @return {String} - Updated string
 @function str-replace($string, $search, $replace: "") {
-  $index: str-index($string, $search);
+  $index: string.index($string, $search);
 
   @if $index {
     // stylelint-disable-next-line max-line-length
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
   }
 
   @return $string;
@@ -26,11 +29,11 @@
 // Requires the use of quotes around data URIs.
 
 @function escape-svg($string) {
-  @if str-index($string, "data:image/svg+xml") {
+  @if string.index($string, "data:image/svg+xml") {
     @each $char, $encoded in $escaped-characters {
       // Do not escape the url brackets
-      @if str-index($string, "url(") == 1 {
-        $string: url("#{str-replace(str-slice($string, 6, -3), $char, $encoded)}");
+      @if string.index($string, "url(") == 1 {
+        $string: url("#{str-replace(string.slice($string, 6, -3), $char, $encoded)}");
       }
 
       @else {
@@ -44,17 +47,17 @@
 
 // Retrieve color Sass maps
 @function color($key: "blue") {
-  @return map-get($colors, $key);
+  @return map.get($colors, $key);
 }
 
 @function gray($key: "100") {
-  @return map-get($grays, $key);
+  @return map.get($grays, $key);
 }
 
 @function divide($dividend, $divisor, $precision: 10) {
   $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1);
-  $dividend: abs($dividend);
-  $divisor: abs($divisor);
+  $dividend: math.abs($dividend);
+  $divisor: math.abs($divisor);
 
   @if $dividend == 0 {
     @return 0;
@@ -87,8 +90,8 @@
   }
 
   $result: $result * $factor * $sign;
-  $dividend-unit: unit($dividend);
-  $divisor-unit: unit($divisor);
+  $dividend-unit: math.unit($dividend);
+  $divisor-unit: math.unit($divisor);
   $unit-map: (
     "px": 1px,
     "rem": 1rem,
@@ -96,8 +99,8 @@
     "%": 1%
   );
 
-  @if ($dividend-unit != $divisor-unit and map-has-key($unit-map, $dividend-unit)) {
-    $result: $result * map-get($unit-map, $dividend-unit);
+  @if ($dividend-unit != $divisor-unit and map.has-key($unit-map, $dividend-unit)) {
+    $result: $result * map.get($unit-map, $dividend-unit);
   }
 
   @return $result;
