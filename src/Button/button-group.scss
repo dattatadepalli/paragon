@@ -36,7 +36,7 @@
     margin-left: calc(var(--pgn-size-btn-border-width) * -1);
   }
 
-  > .btn:not(:last-child):not(.dropdown-toggle),
+  > .btn:not(:last-child, .dropdown-toggle),
   > .btn-group:not(:last-child) > .btn {
     @include border-right-radius(0);
   }
@@ -100,7 +100,7 @@
     margin-top: calc(var(--pgn-size-btn-border-width) * -1);
   }
 
-  > .btn:not(:last-child):not(.dropdown-toggle),
+  > .btn:not(:last-child, .dropdown-toggle),
   > .btn-group:not(:last-child) > .btn {
     @include border-bottom-radius(0);
   }

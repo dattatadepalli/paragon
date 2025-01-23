@@ -29,6 +29,8 @@ THEMES.forEach(theme => {
     outputStyle: 'compressed',
     importer,
     quietDeps: true,
+    // For now we can't resolve these warnings as we need to upgrade our 'bootstrap' dependency to do so:
+    silenceDeprecations: ['abs-percent', 'color-functions', 'import', 'mixed-decls', 'global-builtin'],
   });
 
   postCSS([postCSSCustomMedia({ preserve: true })])
