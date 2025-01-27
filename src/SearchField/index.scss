@@ -1,3 +1,5 @@
+@use "sass:map";
+
 .pgn__searchfield {
   transition: var(--pgn-transition-form-input);
   border: var(--pgn-size-search-field-border-width-base) solid var(--pgn-color-search-field-border-base);
@@ -127,5 +129,5 @@
 .pgn__searchfield__iconbutton-submit,
 .pgn__searchfield__iconbutton-reset {
   flex-shrink: 0;
-  margin-inline-end: map-get($spacers, 1);
+  margin-inline-end: map.get($spacers, 1);
 }
