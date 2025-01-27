@@ -21,7 +21,7 @@
     text-decoration: none;
   }
 
-  &:not(:disabled):not(.disabled) {
+  &:not(:disabled, .disabled) {
     @include hover-focus() {
       opacity: .75;
     }

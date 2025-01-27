@@ -1,3 +1,5 @@
+@use "sass:map";
+
 :root {
   --pgn-spacing-dropdown-padding-header:
     var(--pgn-spacing-dropdown-padding-header-y)
@@ -47,7 +49,7 @@
   }
 }
 
-@each $breakpoint in map-keys($grid-breakpoints) {
+@each $breakpoint in map.keys($grid-breakpoints) {
   @include media-breakpoint-up($breakpoint) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
