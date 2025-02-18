@@ -408,6 +408,7 @@ select.form-control {
   appearance: none;
   height: var(--pgn-size-form-control-indicator-base);
   width: var(--pgn-size-form-control-indicator-base);
+  min-width: var(--pgn-size-form-control-indicator-base);
   background-color: var(--pgn-color-form-control-indicator-bg-base);
   border:
     solid var(--pgn-size-form-control-indicator-border-width)
@@ -467,6 +468,7 @@ select.form-control {
 
 .pgn__form-switch-input {
   width: var(--pgn-size-form-control-switch-width);
+  min-width: var(--pgn-size-form-control-switch-width);
   border-radius: var(--pgn-size-form-control-switch-indicator-border-radius);
   background-image: var(--pgn-other-content-form-control-switch-indicator-icon-off);
   background-position: left center;
