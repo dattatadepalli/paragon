@@ -314,9 +314,9 @@ a.pgn__card {
 
       .pgn__card-image-cap {
         height: 100%;
-        max-width: inherit;
+        max-width: 100%;
         border-radius: $card-image-border-radius 0 0 $card-image-border-radius;
-        width: auto;
+        width: 100%;
         object-fit: cover;
       }
 
