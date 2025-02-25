@@ -125,6 +125,7 @@
 
   .pgn__modal-title {
     font-size: $h3-font-size;
+    line-height: $h3-font-size * $headings-line-height;
     margin-inline-end: 3rem; // roughly accomodate the width of the close buttonn
     text-align: start;
   }
@@ -310,7 +311,6 @@
   }
 
   .pgn__modal-title {
-    font-size: $h4-font-size;
     display: flex;
     flex-grow: 1;
     align-items: center;
