@@ -114,6 +114,7 @@ const ChipCarousel = React.forwardRef(({
     </div>
   );
 });
+ChipCarousel.displayName = 'ChipCarousel';
 
 ChipCarousel.propTypes = {
   /** Text describing the ChipCarousel for screen readers. */

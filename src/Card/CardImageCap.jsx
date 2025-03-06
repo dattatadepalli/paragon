@@ -92,6 +92,7 @@ const CardImageCap = React.forwardRef(({
     </div>
   );
 });
+CardImageCap.displayName = 'CardImageCap';
 
 CardImageCap.propTypes = {
   /** Specifies class name to append to the base element. */

@@ -46,6 +46,7 @@ const SelectableBoxSet = React.forwardRef(({
     children,
   );
 });
+SelectableBoxSet.displayName = 'SelectableBoxSet';
 
 SelectableBoxSet.propTypes = {
   /** Specifies a name for the group of `SelectableBox`'es. */

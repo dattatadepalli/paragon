@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import BaseBadge from 'react-bootstrap/Badge';
 
 const Badge = React.forwardRef((props, ref) => <BaseBadge {...props} ref={ref} />);
+Badge.displayName = 'Badge';
 
 const STYLE_VARIANTS = [
   'primary',

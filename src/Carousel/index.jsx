@@ -8,10 +8,13 @@ export const CAROUSEL_NEXT_LABEL_TEXT = 'Next';
 export const CAROUSEL_PREV_LABEL_TEXT = 'Previous';
 
 const Carousel = React.forwardRef((props, ref) => <BaseCarousel {...props} ref={ref} />);
+Carousel.displayName = 'Carousel';
 
 const CarouselItem = React.forwardRef((props, ref) => <BaseCarouselItem {...props} ref={ref} />);
+CarouselItem.displayName = 'CarouselItem';
 
 const CarouselCaption = React.forwardRef((props, ref) => <BaseCarouselCaption {...props} ref={ref} />);
+CarouselCaption.displayName = 'CarouselCaption';
 
 Carousel.propTypes = {
   /** Specifies element type for this component. */

@@ -7,6 +7,7 @@ const COL_VALUES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'auto'];
 const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 const LayoutElement = React.forwardRef((props, ref) => <div ref={ref} {...props} />);
+LayoutElement.displayName = 'LayoutElement';
 
 const Layout = React.forwardRef(({ children, ...props }, ref) => {
   const childrenLength = children.length;
@@ -44,6 +45,7 @@ const Layout = React.forwardRef(({ children, ...props }, ref) => {
     </Row>
   );
 });
+Layout.displayName = 'Layout';
 
 Layout.defaultProps = {
   xs: undefined,

@@ -12,6 +12,7 @@ const CheckpointBody = React.forwardRef(({ children }, ref) => {
     </div>
   );
 });
+CheckpointBody.displayName = 'CheckpointBody';
 
 CheckpointBody.defaultProps = {
   children: null,

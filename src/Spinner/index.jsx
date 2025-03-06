@@ -19,6 +19,7 @@ const Spinner = React.forwardRef(({
     </BaseSpinner>
   );
 });
+Spinner.displayName = 'Spinner';
 
 Spinner.propTypes = {
   /** Specifies the class name for the component. */

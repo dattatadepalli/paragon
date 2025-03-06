@@ -121,6 +121,7 @@ const ProductTour = React.forwardRef(({ tours }, ref) => {
     />
   );
 });
+ProductTour.displayName = 'ProductTour';
 
 ProductTour.defaultProps = {
   tours: {

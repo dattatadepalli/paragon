@@ -33,6 +33,7 @@ const SwitchControl = React.forwardRef(
     );
   },
 );
+SwitchControl.displayName = 'SwitchControl';
 
 SwitchControl.propTypes = {
   /** Specifies whether input should be rendered in indeterminate state. */
@@ -73,6 +74,7 @@ const FormSwitch = React.forwardRef(({
     )}
   </div>
 ));
+FormSwitch.displayName = 'FormSwitch';
 
 FormSwitch.propTypes = {
   /** Specifies contents of the component. */

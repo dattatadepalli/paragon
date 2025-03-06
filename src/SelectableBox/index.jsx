@@ -76,6 +76,7 @@ const SelectableBox = React.forwardRef(({
     </div>
   );
 });
+SelectableBox.displayName = 'SelectableBox';
 
 SelectableBox.propTypes = {
   /** Content of the `SelectableBox`. */

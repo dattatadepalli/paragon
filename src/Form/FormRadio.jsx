@@ -22,6 +22,7 @@ const RadioControl = React.forwardRef((props, ref) => {
     <input {...radioProps} type="radio" ref={ref} />
   );
 });
+RadioControl.displayName = 'RadioControl';
 
 RadioControl.propTypes = {
   className: PropTypes.string,
@@ -67,6 +68,7 @@ const FormRadio = React.forwardRef(({
     </div>
   </FormGroupContextProvider>
 ));
+FormRadio.displayName = 'FormRadio';
 
 FormRadio.propTypes = {
   /** Specifies id of the FormRadio component. */

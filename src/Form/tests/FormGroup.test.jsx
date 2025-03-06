@@ -8,7 +8,7 @@ import FormControlFeedback from '../FormControlFeedback';
 
 jest.mock('react-bootstrap/FormControl', () => {
   const { forwardRef } = jest.requireActual('react');
-  return forwardRef((props, ref) => {
+  const FormControlWrapped = forwardRef((props, ref) => {
     const { children, ...otherProps } = props;
     return (
       <form-control {...otherProps} ref={ref}>
@@ -16,6 +16,7 @@ jest.mock('react-bootstrap/FormControl', () => {
       </form-control>
     );
   });
+  return FormControlWrapped;
 });
 
 function renderFormGroup() {

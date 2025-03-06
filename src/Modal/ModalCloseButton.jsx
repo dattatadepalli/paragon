@@ -23,6 +23,7 @@ const ModalCloseButton = React.forwardRef(({ as, children, ...props }, ref) => {
   // finely control the component type (defaulted to Button via defaultProps)
   return React.createElement(type, componentProps, children);
 });
+ModalCloseButton.displayName = 'ModalCloseButton';
 
 ModalCloseButton.propTypes = {
   /** Specifies the base element */

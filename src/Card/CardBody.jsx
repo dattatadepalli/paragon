@@ -7,6 +7,7 @@ const CardBody = React.forwardRef(({ className, children, ...rest }, ref) => (
     {children}
   </div>
 ));
+CardBody.displayName = 'CardBody';
 
 CardBody.propTypes = {
   /** Specifies the content of the component. */

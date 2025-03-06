@@ -51,6 +51,7 @@ const MailtoLink = React.forwardRef((props, ref) => {
     </Hyperlink>
   );
 });
+MailtoLink.displayName = 'MailtoLink';
 
 MailtoLink.defaultProps = {
   to: [],

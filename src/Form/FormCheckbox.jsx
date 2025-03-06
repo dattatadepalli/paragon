@@ -37,6 +37,7 @@ const CheckboxControl = React.forwardRef(
     );
   },
 );
+CheckboxControl.displayName = 'CheckboxControl';
 
 CheckboxControl.propTypes = {
   /** Specifies whether the checkbox should be rendered in indeterminate state. */
@@ -102,6 +103,7 @@ const FormCheckbox = React.forwardRef(({
     </FormGroupContextProvider>
   );
 });
+FormCheckbox.displayName = 'FormCheckbox';
 
 FormCheckbox.propTypes = {
   /** Specifies id of the FormCheckbox component. */

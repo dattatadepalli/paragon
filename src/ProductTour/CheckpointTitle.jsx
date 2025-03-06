@@ -6,6 +6,7 @@ const CheckpointTitle = React.forwardRef(({ children }, ref) => (
     {children}
   </h2>
 ));
+CheckpointTitle.displayName = 'CheckpointTitle';
 
 CheckpointTitle.defaultProps = {
   children: null,

@@ -83,6 +83,7 @@ const Alert = React.forwardRef(({
     </BaseAlert>
   );
 });
+Alert.displayName = 'Alert';
 
 // This is needed to display a default prop for Alert.Heading element
 // Copied from react-bootstrap since BaseAlert.Heading component doesn't have defaultProps,
