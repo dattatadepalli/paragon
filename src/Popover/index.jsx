@@ -26,6 +26,7 @@ const Popover = React.forwardRef(({
     {children}
   </BasePopover>
 ));
+Popover.displayName = 'Popover';
 
 function PopoverTitle(props) {
   return <BasePopoverTitle {...props} />;

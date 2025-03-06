@@ -60,6 +60,7 @@ const CardDeck = React.forwardRef(({
     </div>
   );
 });
+CardDeck.displayName = 'CardDeck';
 
 CardDeck.propTypes = {
   /** The class name for the CardDeck component */

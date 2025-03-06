@@ -33,6 +33,7 @@ const CheckpointActionRow = React.forwardRef(({
     </Button>
   </div>
 ));
+CheckpointActionRow.displayName = 'CheckpointActionRow';
 
 CheckpointActionRow.defaultProps = {
   advanceButtonText: '',

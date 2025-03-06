@@ -39,6 +39,7 @@ const CardFooter = React.forwardRef(({
     </div>
   );
 });
+CardFooter.displayName = 'CardFooter';
 
 CardFooter.propTypes = {
   /** Specifies contents of the component. */

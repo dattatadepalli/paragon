@@ -126,6 +126,7 @@ const Checkpoint = React.forwardRef(({
     </div>
   );
 });
+Checkpoint.displayName = 'Checkpoint';
 
 Checkpoint.defaultProps = {
   advanceButtonText: null,

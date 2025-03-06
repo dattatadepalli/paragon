@@ -362,6 +362,7 @@ const FormAutosuggest = forwardRef(
     );
   },
 );
+FormAutosuggest.displayName = 'FormAutosuggest';
 
 FormAutosuggest.defaultProps = {
   arrowKeyNavigationSelector: 'a:not(:disabled),li:not(:disabled, .btn-icon),input:not(:disabled)',

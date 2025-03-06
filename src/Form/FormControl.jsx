@@ -88,6 +88,7 @@ const FormControl = React.forwardRef(({
     </FormControlDecoratorGroup>
   );
 });
+FormControl.displayName = 'FormControl';
 
 const SIZE_CHOICES = ['sm', 'lg'];
 

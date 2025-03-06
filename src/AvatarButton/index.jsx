@@ -37,6 +37,7 @@ const AvatarButton = React.forwardRef(({
     </Button>
   );
 });
+AvatarButton.displayName = 'AvatarButton';
 
 AvatarButton.propTypes = {
   /** The button text */

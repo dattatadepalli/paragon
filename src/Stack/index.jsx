@@ -28,6 +28,7 @@ const Stack = forwardRef(({
     {children}
   </div>
 ));
+Stack.displayName = 'Stack';
 
 Stack.propTypes = {
   /** Specifies the content of the `Stack`. */

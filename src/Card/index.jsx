@@ -44,6 +44,7 @@ const Card = React.forwardRef(({
     </CardContextProvider>
   );
 });
+Card.displayName = 'Card';
 
 export { default as CardColumns } from 'react-bootstrap/CardColumns';
 export { default as CardDeck } from './CardDeck';

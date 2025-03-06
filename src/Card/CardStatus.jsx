@@ -56,6 +56,7 @@ const CardStatus = React.forwardRef(({
     </div>
   );
 });
+CardStatus.displayName = 'CardStatus';
 
 CardStatus.propTypes = {
   /** Specifies the content of the component. */

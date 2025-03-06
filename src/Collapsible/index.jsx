@@ -49,6 +49,7 @@ const Collapsible = React.forwardRef((props, ref) => {
     </Collapsible.Advanced>
   );
 });
+Collapsible.displayName = 'Collapsible';
 
 Collapsible.propTypes = {
   /** Specifies contents of the component. */

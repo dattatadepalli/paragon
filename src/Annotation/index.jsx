@@ -21,6 +21,7 @@ const Annotation = React.forwardRef(({
     {children}
   </span>
 ));
+Annotation.displayName = 'Annotation';
 
 Annotation.defaultProps = {
   className: undefined,

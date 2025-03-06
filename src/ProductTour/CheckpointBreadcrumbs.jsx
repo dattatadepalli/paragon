@@ -29,6 +29,7 @@ const CheckpointBreadcrumbs = React.forwardRef(({ currentIndex, totalCheckpoints
     </span>
   );
 });
+CheckpointBreadcrumbs.displayName = 'CheckpointBreadcrumbs';
 
 CheckpointBreadcrumbs.defaultProps = {
   currentIndex: null,

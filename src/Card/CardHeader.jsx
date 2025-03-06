@@ -58,6 +58,7 @@ const CardHeader = React.forwardRef(({
     </div>
   );
 });
+CardHeader.displayName = 'CardHeader';
 
 CardHeader.propTypes = {
   /** Optional node to render on the top right of the card header,

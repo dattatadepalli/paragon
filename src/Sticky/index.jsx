@@ -63,6 +63,7 @@ const Sticky = React.forwardRef(({
     </div>
   );
 });
+Sticky.displayName = 'Sticky';
 
 Sticky.propTypes = {
   /** Specifies content of the component. */

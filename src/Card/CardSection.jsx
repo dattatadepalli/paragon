@@ -40,6 +40,7 @@ const CardSection = React.forwardRef(({
     </div>
   );
 });
+CardSection.displayName = 'CardSection';
 
 CardSection.propTypes = {
   /** Specifies class name to append to the base element. */

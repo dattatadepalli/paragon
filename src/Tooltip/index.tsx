@@ -40,6 +40,7 @@ const Tooltip: ComponentWithAsProp<'div', TooltipProps> = React.forwardRef(({
     {children}
   </BaseTooltip>
 ));
+Tooltip.displayName = 'Tooltip';
 
 Tooltip.propTypes = {
   ...BaseTooltip.propTypes,

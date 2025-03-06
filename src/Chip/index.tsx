@@ -91,6 +91,7 @@ const Chip = React.forwardRef(({
     </div>
   );
 });
+Chip.displayName = 'Chip';
 
 Chip.propTypes = {
   /** Specifies the content of the `Chip`. */
