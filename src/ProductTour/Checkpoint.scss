@@ -5,6 +5,10 @@ $checkpoint-arrow-top-color: solid $checkpoint-arrow-width $checkpoint-border-co
 $checkpoint-arrow-default-color: solid $checkpoint-arrow-width $checkpoint-background-color;
 $checkpoint-arrow-transparent: solid $checkpoint-arrow-width transparent;
 
+.pgn__checkpoint-overlay {
+  z-index: $checkpoint-background-z-index;
+}
+
 .pgn__checkpoint {
   position: absolute;
   background: $checkpoint-background-color;

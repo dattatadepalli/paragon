@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import PropTypes from 'prop-types';
 import { createPopper } from '@popperjs/core';
@@ -11,6 +11,60 @@ import CheckpointBody from './CheckpointBody';
 import CheckpointBreadcrumbs from './CheckpointBreadcrumbs';
 import CheckpointTitle from './CheckpointTitle';
 import messages from './messages';
+
+function CheckpointOverlay({ target }) {
+  const [rect, setRect] = useState(null);
+
+  useLayoutEffect(() => {
+    const updatePosition = () => {
+      const targetElement = document.querySelector(target);
+      if (targetElement) {
+        const boundingRect = targetElement.getBoundingClientRect();
+        setRect({
+          top: boundingRect.top,
+          left: boundingRect.left,
+          width: boundingRect.width,
+          height: boundingRect.height,
+        });
+      }
+    };
+
+    updatePosition(); // Initial positioning
+
+    window.addEventListener('scroll', updatePosition);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [target]);
+
+  if (!rect) {
+    return null;
+  }
+
+  return (
+    <div
+      className="pgn__checkpoint-overlay"
+      style={{
+        position: 'fixed',
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 0 0 5000px rgba(0, 0, 0, 0.6)',
+        pointerEvents: 'none',
+      }}
+    />
+  );
+}
+
+CheckpointOverlay.propTypes = {
+  /** The CSS selector for the Checkpoint's desired target. */
+  target: PropTypes.string.isRequired,
+};
 
 const Checkpoint = React.forwardRef(({
   body,
@@ -27,6 +81,7 @@ const Checkpoint = React.forwardRef(({
   useEffect(() => {
     const targetElement = document.querySelector(target);
     const checkpoint = document.querySelector('#pgn__checkpoint');
+
     if (targetElement && checkpoint) {
       // Use the Popper library to translate the Checkpoint to its target's coordinates
       const checkpointPopper = createPopper(targetElement, checkpoint, {
@@ -90,40 +145,43 @@ const Checkpoint = React.forwardRef(({
   const isOnlyCheckpoint = totalCheckpoints === 1;
 
   return (
-    <div
-      id="pgn__checkpoint"
-      className="pgn__checkpoint"
-      aria-labelledby="pgn__checkpoint-title"
-      ref={ref}
-      role="dialog"
-      style={{ visibility: checkpointVisible ? 'visible' : 'hidden', pointerEvents: checkpointVisible ? 'auto' : 'none' }}
-    >
-      <span className="sr-only">
-        <FormattedMessage
-          {...messages.topPositionText}
-          values={{ step: index + 1 }}
+    <>
+      {checkpointVisible && <CheckpointOverlay target={target} />}
+      <div
+        id="pgn__checkpoint"
+        className="pgn__checkpoint"
+        aria-labelledby="pgn__checkpoint-title"
+        ref={ref}
+        role="dialog"
+        style={{ visibility: checkpointVisible ? 'visible' : 'hidden', pointerEvents: checkpointVisible ? 'auto' : 'none' }}
+      >
+        <span className="sr-only">
+          <FormattedMessage
+            {...messages.topPositionText}
+            values={{ step: index + 1 }}
+          />
+        </span>
+        {(title || !isOnlyCheckpoint) && (
+          <div className="pgn__checkpoint-header">
+            <CheckpointTitle>{title}</CheckpointTitle>
+            <CheckpointBreadcrumbs currentIndex={index} totalCheckpoints={totalCheckpoints} />
+          </div>
+        )}
+        <CheckpointBody>{body}</CheckpointBody>
+        <CheckpointActionRow
+          isLastCheckpoint={isLastCheckpoint}
+          index={index}
+          {...props}
         />
-      </span>
-      {(title || !isOnlyCheckpoint) && (
-        <div className="pgn__checkpoint-header">
-          <CheckpointTitle>{title}</CheckpointTitle>
-          <CheckpointBreadcrumbs currentIndex={index} totalCheckpoints={totalCheckpoints} />
-        </div>
-      )}
-      <CheckpointBody>{body}</CheckpointBody>
-      <CheckpointActionRow
-        isLastCheckpoint={isLastCheckpoint}
-        index={index}
-        {...props}
-      />
-      <div id="pgn__checkpoint-arrow" data-popper-arrow />
-      <span className="sr-only">
-        <FormattedMessage
-          {...messages.bottomPositionText}
-          values={{ step: index + 1 }}
-        />
-      </span>
-    </div>
+        <div id="pgn__checkpoint-arrow" data-popper-arrow />
+        <span className="sr-only">
+          <FormattedMessage
+            {...messages.bottomPositionText}
+            values={{ step: index + 1 }}
+          />
+        </span>
+      </div>
+    </>
   );
 });
 
