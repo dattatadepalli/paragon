@@ -525,7 +525,7 @@ An optional `actions` prop may be passed to include call-to-action button(s).
       <ExamplePropsForm
         inputs={[
           { value: orientation, setValue: setOrientation, options: ['horizontal', 'vertical'], name: 'orientation' },
-          { value: variant, setValue: setVariant, options: ['primary', 'warning', 'danger', 'success'], name: 'status-variant' },
+          { value: variant, setValue: setVariant, options: ['primary', 'warning', 'danger', 'success', 'info'], name: 'status-variant' },
           { value: showCardStatusActions, setValue: setCardStatusActions, options: ['true', 'false'], name: 'card-status-actions' },
         ]}
       />
