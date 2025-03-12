@@ -1,14 +1,31 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { Requireable } from 'prop-types';
 import classNames from 'classnames';
 import Skeleton from 'react-loading-skeleton';
 import Icon from '../Icon';
 import CardContext from './CardContext';
 
-const CardStatus = React.forwardRef(({
+type Variant = 'primary' | 'success' | 'danger' | 'warning' | 'info';
+
+export interface CardStatusProps {
+  /** Specifies the content of the component. */
+  children: React.ReactNode;
+  /** The class to append to the base element. */
+  className?: string;
+  /** Icon that will be shown in the top-left corner. */
+  icon?: React.ComponentType;
+  /** Specifies variant to use. */
+  variant?: Variant;
+  /** Specifies title for the `Card.Status`. */
+  title?: React.ReactNode;
+  /** Specifies any optional actions, e.g. button(s). */
+  actions?: React.ReactNode;
+}
+
+const CardStatus = React.forwardRef<HTMLDivElement, CardStatusProps>(({
   className,
   children,
-  variant,
+  variant = 'warning',
   icon,
   title,
   actions,
@@ -56,10 +73,11 @@ const CardStatus = React.forwardRef(({
     </div>
   );
 });
+CardStatus.displayName = 'CardStatus';
 
 CardStatus.propTypes = {
   /** Specifies the content of the component. */
-  children: PropTypes.node.isRequired,
+  children: (PropTypes.node as unknown as Requireable<React.ReactNode>).isRequired,
   /** The class to append to the base element. */
   className: PropTypes.string,
   /** Icon that will be shown in the top-left corner. */
@@ -70,11 +88,12 @@ CardStatus.propTypes = {
     'success',
     'danger',
     'warning',
+    'info',
   ]),
   /** Specifies title for the `Card.Status`. */
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  title: (PropTypes.node as unknown as Requireable<React.ReactNode>),
   /** Specifies any optional actions, e.g. button(s). */
-  actions: PropTypes.node,
+  actions: (PropTypes.node as unknown as Requireable<React.ReactNode>),
 };
 
 CardStatus.defaultProps = {
@@ -82,7 +101,7 @@ CardStatus.defaultProps = {
   icon: undefined,
   variant: 'warning',
   title: undefined,
-  actions: undefined,
+  actions: null,
 };
 
 export default CardStatus;
