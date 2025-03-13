@@ -315,13 +315,13 @@ a.pgn__card {
 
       .pgn__card-image-cap {
         height: 100%;
-        max-width: 100%;
+        max-width: inherit;
         border-radius: $card-image-border-radius 0 0 $card-image-border-radius;
-        width: 100%;
+        width: auto;
         object-fit: cover;
         position: absolute;
-        top: 0;
         left: 0;
+        top: 0;
       }
 
       .pgn__card-logo-cap {
