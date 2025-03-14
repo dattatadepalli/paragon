@@ -92,7 +92,8 @@ const COMMANDS = {
       },
       {
         name: '-t, --themes',
-        description: 'Specify themes to include in the token build.',
+        description: `Specify themes to include in the token build.
+          Can be provided as a comma-separated list (e.g., "light,dark") or multiple arguments (e.g., "-t light -t dark").`,
         defaultValue: 'light',
       },
       {
