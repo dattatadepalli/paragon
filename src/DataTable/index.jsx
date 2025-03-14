@@ -1,5 +1,7 @@
 import React, {
   useEffect, useMemo, useReducer,
+  useRef,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useTable, useMountedLayoutEffect } from 'react-table';
@@ -35,6 +37,7 @@ import ExpandRow from './ExpandRow';
 
 import { useSelectionActions } from './hooks';
 import selectionsReducer, { initialState as initialSelectionsState } from './selection/data/reducer';
+import { toggleIsEntireTableSelectedAction } from './selection/data/actions';
 
 function DataTable({
   columns, data, defaultColumnValues, additionalColumns, isSelectable,
@@ -166,8 +169,12 @@ function DataTable({
     selectedRowIds: tableStateSelectedRowIds,
   } = instance.state;
 
+  // const [isInternalLoading, setIsInternalLoading] = useState(!!fetchData && !!data);
+  const previousFilters = useRef(tableStateFilters);
+
   useEffect(() => {
     if (fetchData) {
+      // setIsInternalLoading(true);
       fetchData({
         pageSize: tableStatePageSize,
         pageIndex: tableStatePageIndex,
@@ -176,6 +183,62 @@ function DataTable({
       });
     }
   }, [fetchData, tableStatePageSize, tableStatePageIndex, tableStateSortBy, tableStateFilters]);
+
+  // console.log('isInternalLoading', isInternalLoading);
+
+  useEffect(() => {
+    // if (isInternalLoading) {
+    //   // While loading, do nothing!
+    //   return;
+    // }
+
+    console.log('tableStateFilters', tableStateFilters);
+    const numSelectedRows = Object.keys(tableStateSelectedRowIds).length;
+
+    // Check If identical filters id’s values have changed
+    const hasFiltersChanged = previousFilters.current.some((previousFilter) => {
+      const currentFilter = tableStateFilters.find(f => f.id === previousFilter.id);
+      console.log('previousFilters & currentFilter', { previousFilters: previousFilters.current, currentFilter });
+      if (!currentFilter) {
+        return true;
+      }
+      if (previousFilter.value !== currentFilter.value) {
+        return true;
+      }
+      return false;
+    });
+
+    console.log('stuff?!?!', {
+      itemCount,
+      numSelectedRows,
+      hasFiltersChanged,
+      isEntireTableSelected: selections.isEntireTableSelected,
+    });
+
+    if (selections.isEntireTableSelected && hasFiltersChanged && itemCount !== numSelectedRows) {
+      console.log('[useEffect] selectionsDispatch!!!');
+      selectionsDispatch(toggleIsEntireTableSelectedAction());
+    } else {
+      console.log('[useEffect] noop...');
+    }
+  }, [
+    selections.isEntireTableSelected,
+    // selections.selectedRows,
+    itemCount,
+    tableStateFilters,
+    tableStateSelectedRowIds,
+    // isInternalLoading,
+  ]);
+
+  useEffect(() => {
+    previousFilters.current = tableStateFilters;
+  }, [tableStateFilters]);
+
+  // useEffect(() => {
+  //   if (isInternalLoading) {
+  //     setIsInternalLoading(false);
+  //   }
+  // }, [isInternalLoading, data]);
 
   useMountedLayoutEffect(() => {
     if (onSelectedRowsChanged) {

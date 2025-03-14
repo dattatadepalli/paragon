@@ -18,12 +18,15 @@ function ControlledSelectionStatus({ className, clearSelectionText }) {
   const {
     itemCount,
     page,
-    controlledTableSelections: [{ selectedRows, isEntireTableSelected, isSelectAllRowsAllPages }, dispatch],
+    controlledTableSelections: [{ selectedRows, isEntireTableSelected }, dispatch],
   } = useContext(DataTableContext);
+
+  const numSelectedRowsOnPage = (page || []).filter(r => r.isSelected).length;
 
   useEffect(
     () => {
-      if (isEntireTableSelected && isSelectAllRowsAllPages) {
+      console.log('ControlledSelectionStatus isEntireTableSelected', isEntireTableSelected);
+      if (isEntireTableSelected) {
         const selectedRowIds = getRowIds(selectedRows);
         const unselectedPageRows = getUnselectedPageRows(selectedRowIds, page);
         if (unselectedPageRows.length) {
@@ -31,11 +34,10 @@ function ControlledSelectionStatus({ className, clearSelectionText }) {
         }
       }
     },
-    [isEntireTableSelected, selectedRows, itemCount, page, dispatch, isSelectAllRowsAllPages],
+    [isEntireTableSelected, selectedRows, itemCount, page, dispatch, numSelectedRowsOnPage],
   );
 
-  const numSelectedRows = isEntireTableSelected ? itemCount : selectedRows.length;
-  const numSelectedRowsOnPage = (page || []).filter(r => r.isSelected).length;
+  const numSelectedRows = selectedRows.length;
 
   const selectionStatusProps = {
     className,

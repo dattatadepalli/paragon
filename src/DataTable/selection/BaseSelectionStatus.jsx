@@ -27,7 +27,7 @@ function BaseSelectionStatus({
   const hasAppliedFilters = state?.filters?.length > 0;
   const isAllRowsSelected = numSelectedRows === itemCount;
   const filteredItems = manualFilters ? itemCount : (filteredRows?.length || itemCount);
-  const hasMaxSelectedRows = isSelectable && maxSelectedRows;
+  const hasMaxSelectedRows = isSelectable && !!maxSelectedRows;
 
   const intlAllSelectedText = allSelectedText || (
     <FormattedMessage
