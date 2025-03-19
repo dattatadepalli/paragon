@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -7,10 +5,41 @@ import { IntlProvider } from 'react-intl';
 import ChipCarousel from '.';
 
 const items = [
-  <div onClick={jest.fn()} data-testid="chip">Item 1</div>,
-  <div onClick={jest.fn()} data-testid="chip">Item 2</div>,
-  <div onClick={jest.fn()} data-testid="chip">Item 3</div>,
-  <div onClick={jest.fn()} data-testid="chip" />,
+  <div
+    onClick={jest.fn()}
+    onKeyDown={(e) => e.key === 'Enter' && e.target.click()}
+    role="button"
+    tabIndex={0}
+    data-testid="chip"
+  >
+    Item 1
+  </div>,
+  <div
+    onClick={jest.fn()}
+    onKeyDown={(e) => e.key === 'Enter' && e.target.click()}
+    role="button"
+    tabIndex={0}
+    data-testid="chip"
+  >
+    Item 2
+  </div>,
+  <div
+    onClick={jest.fn()}
+    onKeyDown={(e) => e.key === 'Enter' && e.target.click()}
+    role="button"
+    tabIndex={0}
+    data-testid="chip"
+  >
+    Item 3
+  </div>,
+  // eslint-disable-next-line jsx-a11y/control-has-associated-label
+  <div
+    onClick={jest.fn()}
+    onKeyDown={(e) => e.key === 'Enter' && e.target.click()}
+    role="button"
+    tabIndex={0}
+    data-testid="chip"
+  />,
 ];
 
 const ariaLabel = 'Test aria label';

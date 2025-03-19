@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 import ModalLayer from '../ModalLayer';
 
-/* eslint-disable react/prop-types */
 jest.mock('../Portal', () => function PortalMock(props: any) {
   const { children, ...otherProps } = props;
   return (
