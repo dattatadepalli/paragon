@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import DataTableContext from '../DataTableContext';
@@ -18,25 +18,27 @@ function ControlledSelectionStatus({ className, clearSelectionText }) {
   const {
     itemCount,
     page,
-    controlledTableSelections: [{ selectedRows, isEntireTableSelected, isSelectAllRowsAllPages }, dispatch],
+    controlledTableSelections: [{ selectedRows, isSelectAllEnabled, isEntireTableSelected }, dispatch],
   } = useContext(DataTableContext);
-
+  console.log(useContext(DataTableContext))
+  console.log(isSelectAllEnabled, itemCount > selectedRows.length, isEntireTableSelected)
   useEffect(
     () => {
-      if (isEntireTableSelected && isSelectAllRowsAllPages) {
+      if ((isSelectAllEnabled) && itemCount > selectedRows.length) {
         const selectedRowIds = getRowIds(selectedRows);
         const unselectedPageRows = getUnselectedPageRows(selectedRowIds, page);
         if (unselectedPageRows.length) {
           dispatch(setSelectedRowsAction(unselectedPageRows, itemCount));
+          dispatch(setSelectAllRowsAllPagesAction());
         }
       }
     },
-    [isEntireTableSelected, selectedRows, itemCount, page, dispatch, isSelectAllRowsAllPages],
+    [selectedRows, itemCount, page, dispatch, isSelectAllEnabled],
   );
-
-  const numSelectedRows = isEntireTableSelected ? itemCount : selectedRows.length;
+  console.log(itemCount, selectedRows.length, selectedRows, 'itemCount, selectedRows.length, selectedRows', 'controlledselectionstatus')
+  const numSelectedRows = itemCount === selectedRows.length || isSelectAllEnabled ? itemCount : selectedRows.length;
   const numSelectedRowsOnPage = (page || []).filter(r => r.isSelected).length;
-
+  console.log(numSelectedRowsOnPage, numSelectedRows, page, 'numSelectedRowsOnPage, numSelectedRows, page', 'controlledselectionstatus')
   const selectionStatusProps = {
     className,
     numSelectedRows,

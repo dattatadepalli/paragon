@@ -34,7 +34,11 @@ import ExpandAll from './ExpandAll';
 import ExpandRow from './ExpandRow';
 
 import { useSelectionActions } from './hooks';
-import selectionsReducer, { initialState as initialSelectionsState } from './selection/data/reducer';
+import selectionsReducer, {
+  initialState as selection,
+  initialState as initialSelectionsState
+} from './selection/data/reducer';
+import { toggleIsEntireTableSelectedAction } from './selection/data/actions';
 
 function DataTable({
   columns, data, defaultColumnValues, additionalColumns, isSelectable,
@@ -184,6 +188,12 @@ function DataTable({
   }, [tableStateSelectedRowIds, onSelectedRowsChanged]);
 
   const selectionActions = useSelectionActions(instance, controlledTableSelections);
+  const [_, dispatch] = controlledTableSelections;
+  console.log(itemCount, selectedRows.length, selection, 'index')
+  if (!selection.isSelectAllEnabled && selections.isEntireTableSelected && itemCount > selectedRows.length) {
+    dispatch(toggleIsEntireTableSelectedAction());
+  }
+  console.log(itemCount, selectedRows.length, selection, 'index')
 
   const enhancedInstance = {
     ...instance,
