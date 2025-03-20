@@ -8,6 +8,7 @@ import {
   clearSelectionAction,
   setSelectAllRowsAllPagesAction,
   setSelectedRowsAction,
+  toggleIsEntireTableSelected,
 } from './data/actions';
 import {
   getUnselectedPageRows,
@@ -18,22 +19,26 @@ function ControlledSelectionStatus({ className, clearSelectionText }) {
   const {
     itemCount,
     page,
-    controlledTableSelections: [{ selectedRows, isSelectAllEnabled }, dispatch],
+    controlledTableSelections: [{ selectedRows, isSelectAllEnabled, isEntireTableSelected }, dispatch],
   } = useContext(DataTableContext);
-
   useEffect(
     () => {
-      if ((isSelectAllEnabled) && itemCount > selectedRows.length) {
+      if (isSelectAllEnabled && itemCount > selectedRows.length) {
         const selectedRowIds = getRowIds(selectedRows);
         const unselectedPageRows = getUnselectedPageRows(selectedRowIds, page);
         if (unselectedPageRows.length) {
           dispatch(setSelectedRowsAction(unselectedPageRows, itemCount));
-          dispatch(setSelectAllRowsAllPagesAction());
         }
       }
     },
-    [selectedRows, itemCount, page, dispatch, isSelectAllEnabled],
+    [selectedRows, itemCount, page, dispatch, isSelectAllEnabled, isEntireTableSelected],
   );
+
+  useEffect(() => {
+    if (isSelectAllEnabled && !isEntireTableSelected) {
+      dispatch(toggleIsEntireTableSelected());
+    }
+  }, [dispatch, isEntireTableSelected, isSelectAllEnabled]);
 
   const numSelectedRows = itemCount === selectedRows.length || isSelectAllEnabled ? itemCount : selectedRows.length;
   const numSelectedRowsOnPage = (page || []).filter(r => r.isSelected).length;

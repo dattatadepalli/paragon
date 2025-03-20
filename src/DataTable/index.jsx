@@ -38,7 +38,7 @@ import selectionsReducer, {
   initialState as selection,
   initialState as initialSelectionsState,
 } from './selection/data/reducer';
-import { toggleIsEntireTableSelectedAction } from './selection/data/actions';
+import { toggleIsEntireTableSelected } from './selection/data/actions';
 
 function DataTable({
   columns, data, defaultColumnValues, additionalColumns, isSelectable,
@@ -190,12 +190,14 @@ function DataTable({
   const selectionActions = useSelectionActions(instance, controlledTableSelections);
   const [, dispatch] = controlledTableSelections;
 
-  if (!selection.isSelectAllEnabled && selections.isEntireTableSelected && itemCount > selectedRows.length) {
-    dispatch(toggleIsEntireTableSelectedAction());
-  }
-  if (selection.isSelectAllEnabled && !selections.isEntireTableSelected) {
-    dispatch(toggleIsEntireTableSelectedAction());
-  }
+  useEffect(() => {
+    if (!selection.isSelectAllEnabled && selections.isEntireTableSelected && !instance.isAllPageRowsSelected) {
+      dispatch(toggleIsEntireTableSelected());
+    }
+    if (selection.isSelectAllEnabled && !selections.isEntireTableSelected && instance.isAllPageRowsSelected) {
+      dispatch(toggleIsEntireTableSelected());
+    }
+  }, [dispatch, instance.isAllPageRowsSelected, selections.isEntireTableSelected]);
 
   const enhancedInstance = {
     ...instance,

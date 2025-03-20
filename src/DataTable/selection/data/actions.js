@@ -35,6 +35,6 @@ export const clearPageSelectionAction = (rowIds) => ({
 });
 
 export const TOGGLE_IS_ENTIRE_TABLE_SELECTED = 'TOGGLE IS ENTIRE TABLE SELECTED';
-export const toggleIsEntireTableSelectedAction = () => ({
+export const toggleIsEntireTableSelected = () => ({
   type: TOGGLE_IS_ENTIRE_TABLE_SELECTED,
 });

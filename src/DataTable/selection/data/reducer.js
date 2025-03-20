@@ -23,7 +23,7 @@ const selectionsReducer = (state = initialState, action = {}) => {
         ...state,
         selectedRows,
       };
-      if (selectedRows.length === action.itemCount) {
+      if (state.isSelectAllEnabled || selectedRows.length === action.itemCount) {
         updatedState.isEntireTableSelected = true;
       }
       return updatedState;
