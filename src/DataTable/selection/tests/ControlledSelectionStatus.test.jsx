@@ -4,7 +4,11 @@ import { IntlProvider } from 'react-intl';
 import userEvent from '@testing-library/user-event';
 
 import ControlledSelectionStatus from '../ControlledSelectionStatus';
-import { clearSelectionAction, setSelectAllRowsAllPagesAction, setSelectedRowsAction } from '../data/actions';
+import {
+  clearSelectionAction,
+  setSelectAllRowsAllPagesAction,
+  toggleIsEntireTableSelected,
+} from '../data/actions';
 import DataTableContext from '../../DataTableContext';
 import {
   SELECT_ALL_TEST_ID,
@@ -99,7 +103,8 @@ describe('<ControlledSelectionStatus />', () => {
             controlledTableSelections: [
               {
                 selectedRows,
-                isEntireTableSelected: true,
+                isEntireTableSelected: false,
+                isSelectAllEnabled: true,
               },
               dispatchSpy,
             ],
@@ -107,8 +112,9 @@ describe('<ControlledSelectionStatus />', () => {
         />,
       );
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      const action = setSelectedRowsAction(instance.page, instance.itemCount);
+      const action = toggleIsEntireTableSelected();
       expect(dispatchSpy).toHaveBeenCalledWith(action);
+      expect(screen.getByText(`All ${instance.itemCount} selected`)).toBeInTheDocument();
     });
   });
 

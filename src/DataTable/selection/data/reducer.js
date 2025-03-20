@@ -44,6 +44,7 @@ const selectionsReducer = (state = initialState, action = {}) => {
       const selectedRows = uniqBy([...state.selectedRows, action.row], row => row.id);
       const isEntireTableSelected = selectedRows.length === action.itemCount;
       return {
+        ...state,
         selectedRows,
         isEntireTableSelected,
       };
@@ -53,7 +54,6 @@ const selectionsReducer = (state = initialState, action = {}) => {
     case CLEAR_PAGE_SELECTION:
       return {
         isEntireTableSelected: false,
-        isSelectAllRowsAllPages: false,
         selectedRows: state.selectedRows.filter(row => !action.rowIds.includes(row.id)),
         isSelectAllEnabled: false,
       };
