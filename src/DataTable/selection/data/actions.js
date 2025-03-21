@@ -38,3 +38,9 @@ export const TOGGLE_IS_ENTIRE_TABLE_SELECTED = 'TOGGLE IS ENTIRE TABLE SELECTED'
 export const toggleIsEntireTableSelected = () => ({
   type: TOGGLE_IS_ENTIRE_TABLE_SELECTED,
 });
+
+export const SET_IS_ENTIRE_TABLE_SELECTED = 'SET IS ENTIRE TABLE SELECTED';
+export const setIsEntireTableSelected = (isEntireTableSelected) => ({
+  type: SET_IS_ENTIRE_TABLE_SELECTED,
+  isEntireTableSelected,
+});
