@@ -195,22 +195,10 @@ function DataTable({
   useEffect(() => {
     const hasFiltersChanged = JSON.stringify(originalFilters.current) !== JSON.stringify(tableStateFilters);
     if (hasFiltersChanged) {
-      console.log('tableStateFilters', tableStateFilters);
-      console.log('itemCount', itemCount);
       selectionsDispatch(setIsEntireTableSelected(false));
       originalFilters.current = tableStateFilters;
     }
   }, [tableStateFilters, itemCount]);
-
-  // useEffect(() => {
-  //   console.log('selectedRows.length', selectedRows.length);
-  //   console.log('itemCount', itemCount);
-  //   if (itemCount && selectedRows.length >= itemCount) {
-  //     selectionsDispatch(setIsEntireTableSelected(true));
-  //   } else {
-  //     selectionsDispatch(setIsEntireTableSelected(false));
-  //   }
-  // }, [tableStateFilters, itemCount, selectedRows.length]);
 
   useEffect(
     () => {
