@@ -23,8 +23,12 @@ const selectionsReducer = (state = initialState, action = {}) => {
         ...state,
         selectedRows,
       };
-      if (selectedRows.length === action.itemCount) {
-        updatedState.isEntireTableSelected = true;
+      if (action.options?.shouldUpdateIsEntireTableSelected) {
+        if (selectedRows.length === action.itemCount) {
+          updatedState.isEntireTableSelected = true;
+        } else {
+          updatedState.isEntireTableSelected = false;
+        }
       }
       return updatedState;
     }
@@ -40,11 +44,11 @@ const selectionsReducer = (state = initialState, action = {}) => {
       };
     case ADD_ROW: {
       const selectedRows = uniqBy([...state.selectedRows, action.row], row => row.id);
-      // const isEntireTableSelected = selectedRows.length === action.itemCount;
+      const isEntireTableSelected = selectedRows.length === action.itemCount;
       return {
         ...state,
         selectedRows,
-        // isEntireTableSelected,
+        isEntireTableSelected,
       };
     }
     case CLEAR_SELECTION:

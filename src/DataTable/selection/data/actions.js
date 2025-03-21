@@ -4,10 +4,11 @@ export const setSelectAllRowsAllPagesAction = () => ({
 });
 
 export const SET_SELECTED_ROWS = 'SET SELECTED ROWS';
-export const setSelectedRowsAction = (rows, itemCount) => ({
+export const setSelectedRowsAction = (rows, itemCount, options = {}) => ({
   type: SET_SELECTED_ROWS,
   rows,
   itemCount,
+  options,
 });
 
 export const DELETE_ROW = 'DELETE ROW';

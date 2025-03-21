@@ -190,9 +190,27 @@ function DataTable({
 
   const selectionActions = useSelectionActions(instance, controlledTableSelections);
 
+  const originalFilters = useRef(tableStateFilters);
+
   useEffect(() => {
-    selectionsDispatch(setIsEntireTableSelected(false));
-  }, [tableStateFilters]);
+    const hasFiltersChanged = JSON.stringify(originalFilters.current) !== JSON.stringify(tableStateFilters);
+    if (hasFiltersChanged) {
+      console.log('tableStateFilters', tableStateFilters);
+      console.log('itemCount', itemCount);
+      selectionsDispatch(setIsEntireTableSelected(false));
+      originalFilters.current = tableStateFilters;
+    }
+  }, [tableStateFilters, itemCount]);
+
+  // useEffect(() => {
+  //   console.log('selectedRows.length', selectedRows.length);
+  //   console.log('itemCount', itemCount);
+  //   if (itemCount && selectedRows.length >= itemCount) {
+  //     selectionsDispatch(setIsEntireTableSelected(true));
+  //   } else {
+  //     selectionsDispatch(setIsEntireTableSelected(false));
+  //   }
+  // }, [tableStateFilters, itemCount, selectedRows.length]);
 
   useEffect(
     () => {
@@ -202,7 +220,15 @@ function DataTable({
       const selectedRowIds = getRowIds(selectedRows);
       const unselectedPageRows = getUnselectedPageRows(selectedRowIds, instance.page);
       if (unselectedPageRows.length) {
-        selectionsDispatch(setSelectedRowsAction(unselectedPageRows, itemCount));
+        selectionsDispatch(
+          setSelectedRowsAction(
+            unselectedPageRows,
+            itemCount,
+            {
+              shouldUpdateIsEntireTableSelected: false,
+            },
+          ),
+        );
       }
     },
     [
@@ -213,13 +239,6 @@ function DataTable({
       selections.isEntireTableSelected,
     ],
   );
-
-  // useEffect(() => {
-  //   console.log('filters & itemCount', selections.isEntireTableSelected, itemCount);
-  //   if (selections.isEntireTableSelected) {
-  //     setIsEntireTableSelected(false);
-  //   }
-  // }, [selections.isEntireTableSelected, itemCount]);
 
   const enhancedInstance = {
     ...instance,
