@@ -1,6 +1,5 @@
 import React, {
   useEffect, useMemo, useReducer,
-  useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useTable, useMountedLayoutEffect } from 'react-table';
@@ -34,12 +33,10 @@ import DataTableLayout from './DataTableLayout';
 import ExpandAll from './ExpandAll';
 import ExpandRow from './ExpandRow';
 
-import { useSelectionActions } from './hooks';
+import { useDataTableControlledSelections, useSelectionActions } from './hooks';
 import selectionsReducer, {
   initialState as initialSelectionsState,
 } from './selection/data/reducer';
-import { setIsEntireTableSelected, setSelectedRowsAction } from './selection/data/actions';
-import { getRowIds, getUnselectedPageRows } from './selection/data/helpers';
 
 function DataTable({
   columns, data, defaultColumnValues, additionalColumns, isSelectable,
@@ -190,36 +187,13 @@ function DataTable({
 
   const selectionActions = useSelectionActions(instance, controlledTableSelections);
 
-  useEffect(() => {
-    selectionsDispatch(setIsEntireTableSelected(false));
-  }, [tableStateFilters]);
-
-  useEffect(
-    () => {
-      if (!selections.isEntireTableSelected) {
-        return;
-      }
-      const selectedRowIds = getRowIds(selectedRows);
-      const unselectedPageRows = getUnselectedPageRows(selectedRowIds, instance.page);
-      if (unselectedPageRows.length) {
-        selectionsDispatch(setSelectedRowsAction(unselectedPageRows, itemCount));
-      }
-    },
-    [
-      selectedRows,
-      itemCount,
-      instance.page,
-      selectionsDispatch,
-      selections.isEntireTableSelected,
-    ],
-  );
-
-  // useEffect(() => {
-  //   console.log('filters & itemCount', selections.isEntireTableSelected, itemCount);
-  //   if (selections.isEntireTableSelected) {
-  //     setIsEntireTableSelected(false);
-  //   }
-  // }, [selections.isEntireTableSelected, itemCount]);
+  useDataTableControlledSelections({
+    selections,
+    selectionsDispatch,
+    selectedRows,
+    itemCount,
+    page: instance.page,
+  });
 
   const enhancedInstance = {
     ...instance,
