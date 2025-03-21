@@ -33,12 +33,10 @@ import DataTableLayout from './DataTableLayout';
 import ExpandAll from './ExpandAll';
 import ExpandRow from './ExpandRow';
 
-import { useSelectionActions } from './hooks';
+import { useDataTableSelections, useSelectionActions } from './hooks';
 import selectionsReducer, {
-  initialState as selection,
   initialState as initialSelectionsState,
 } from './selection/data/reducer';
-import { toggleIsEntireTableSelected } from './selection/data/actions';
 
 function DataTable({
   columns, data, defaultColumnValues, additionalColumns, isSelectable,
@@ -188,16 +186,15 @@ function DataTable({
   }, [tableStateSelectedRowIds, onSelectedRowsChanged]);
 
   const selectionActions = useSelectionActions(instance, controlledTableSelections);
-  const [, dispatch] = controlledTableSelections;
 
-  useEffect(() => {
-    if (!selection.isSelectAllEnabled && selections.isEntireTableSelected && !instance.isAllPageRowsSelected) {
-      dispatch(toggleIsEntireTableSelected());
-    }
-    if (selection.isSelectAllEnabled && !selections.isEntireTableSelected && instance.isAllPageRowsSelected) {
-      dispatch(toggleIsEntireTableSelected());
-    }
-  }, [dispatch, instance.isAllPageRowsSelected, selections.isEntireTableSelected]);
+  useDataTableSelections({
+    selections,
+    selectionsDispatch,
+    itemCount,
+    selectedRows,
+    page: instance.page,
+    isAllPageRowsSelected: instance.isAllPageRowsSelected,
+  });
 
   const enhancedInstance = {
     ...instance,

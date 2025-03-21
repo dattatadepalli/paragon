@@ -243,9 +243,11 @@ To enable proper selection behavior with backend pagination (i.e., when ``isSele
         )));
     }
 
-    const useDebouncedFetchData = (setData, setTotalItems, setTotalPages) => useCallback(
+    const useDebouncedFetchData = (setData, setTotalItems, setTotalPages, setIsLoading) => useCallback(
         debounce((args) => {
             if (!args) { return; }
+            setIsLoading(true);
+
             setTimeout(() => {
                 // Filter the data based on the current filters
                 const filteredData = filterData(DATA, args.filters);
@@ -258,12 +260,12 @@ To enable proper selection behavior with backend pagination (i.e., when ``isSele
                 setData(currentPageData);
                 setTotalItems(filteredData.length);
                 setTotalPages(paginatedData.length);
+
+                setIsLoading(false);
             }, 1000);
         }, 300),
         [],
     );
-
-    const PAGINATED_DATA = paginateData(DATA);
 
     const selectColumn = {
         id: 'selection',
@@ -272,14 +274,37 @@ To enable proper selection behavior with backend pagination (i.e., when ``isSele
         disableSortBy: true,
     };
 
-    const [data, setData] = useState(PAGINATED_DATA[0]);
-    const [totalItems, setTotalItems] = useState(DATA.length);
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
 
-    const fetchData = useDebouncedFetchData(setData, setTotalItems, setTotalPages);
+    const fetchData = useDebouncedFetchData(setData, setTotalItems, setTotalPages, setIsLoading);
+
+    const DownloadCSVAction = ({ as: Component, selectedFlatRows, ...rest }) => (
+      <Component onClick={() => console.log('Download CSV', selectedFlatRows, rest)}>
+        Download CSV
+      </Component>
+    );
+    const ClearAction = ({ as: Component, tableInstance }) => (
+      <Component
+        variant="danger"
+        onClick={() => {
+          console.log('Clear Selection');
+          tableInstance.clearSelection();
+        }}
+      >
+        Clear Selection
+      </Component>
+    );
 
     return (
         <DataTable
+            isLoading={isLoading}
+            bulkActions={[
+              <DownloadCSVAction />,
+              <ClearAction />,
+            ]}
             isSelectable
             manualSelectColumn={selectColumn}
             SelectionStatusComponent={DataTable.ControlledSelectionStatus}

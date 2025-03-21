@@ -7,7 +7,6 @@ import ControlledSelectionStatus from '../ControlledSelectionStatus';
 import {
   clearSelectionAction,
   setSelectAllRowsAllPagesAction,
-  toggleIsEntireTableSelected,
 } from '../data/actions';
 import DataTableContext from '../../DataTableContext';
 import {
@@ -91,30 +90,6 @@ describe('<ControlledSelectionStatus />', () => {
       );
       const selectAllButton = screen.queryByTestId(SELECT_ALL_TEST_ID);
       expect(selectAllButton).not.toBeInTheDocument();
-    });
-
-    it('selects any unselected page rows', () => {
-      const selectedRows = Array(instance.itemCount).map((item, index) => ({ id: index + 1 }));
-      const dispatchSpy = jest.fn();
-      render(
-        <ControlledSelectionStatusWrapper
-          value={{
-            ...instance,
-            controlledTableSelections: [
-              {
-                selectedRows,
-                isEntireTableSelected: false,
-                isSelectAllEnabled: true,
-              },
-              dispatchSpy,
-            ],
-          }}
-        />,
-      );
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      const action = toggleIsEntireTableSelected();
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-      expect(screen.getByText(`All ${instance.itemCount} selected`)).toBeInTheDocument();
     });
   });
 
