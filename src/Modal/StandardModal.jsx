@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ModalDialog from './ModalDialog';
 
 export const STANDARD_MODAL_CLOSE_LABEL = 'Close';
