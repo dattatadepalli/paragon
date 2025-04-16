@@ -1,22 +1,91 @@
-@import "functions";
-@import "variables";
+// @import "functions";
+// @import "variables";
+// @import "~bootstrap/scss/mixins";
+// @import "./bootstrap-override/mixins";
+// @import "~bootstrap/scss/maps"; 
+// @import "~bootstrap/scss/root";
+// @import "~bootstrap/scss/reboot";
+// @import "typography";
+// @import "grid";
+// @import "react-loading-skeleton/dist/skeleton.css";
+// @import "~bootstrap/scss/transitions";
+// @import "utilities";
+// @import "~bootstrap/scss/media";
+// @import "~bootstrap/scss/list-group";
+// @import "~bootstrap/scss/print";
+
+// // Paragon core CSS
+// @import "../../css/core/variables";
+// @import "../../css/core/abstraction-variables";
+// @import "../../css/core/custom-media-breakpoints";
+
+// // Paragon components
+// @import "../../../src";
+
+
+// // 1. Functions first
+// @import "functions";
+
+// // 2. Then variables
+// @import "variables";
+
+// // 3. Bootstrap mixins and overrides
+// @import "~bootstrap/scss/mixins";
+// @import "./bootstrap-override/mixins";
+
+// // 4. Bootstrap core
+// @import "~bootstrap/scss/maps";
+// @import "~bootstrap/scss/root";
+// @import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/media";
+// @import "~bootstrap/scss/list-group";
+// @import "~bootstrap/scss/print";
+
+// // 5. Custom layout and structure
+// @import "typography";
+// @import "grid";
+// @import "utilities"; // Must come last so it gets full variable context
+
+// // 6. External CSS
+// @import "react-loading-skeleton/dist/skeleton.css";
+
+// // 7. Paragon core
+// @import "../../css/core/variables";
+// @import "../../css/core/abstraction-variables";
+// @import "../../css/core/custom-media-breakpoints";
+
+// // 8. Paragon components (last)
+// @import "../../../src";
+
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
+
+// Your custom overrides (after Bootstrap base to override safely)
 @import "./bootstrap-override/mixins";
-@import "~bootstrap/scss/root";
-@import "~bootstrap/scss/reboot";
+@import "functions"; // Your custom functions
+@import "variables"; // Your custom variables — override Bootstrap ones here
 @import "typography";
 @import "grid";
-@import "react-loading-skeleton/dist/skeleton.css";
-@import "~bootstrap/scss/transitions";
-@import "utilities";
-@import "~bootstrap/scss/media";
-@import "~bootstrap/scss/list-group";
-@import "~bootstrap/scss/print";
+@import "~bootstrap/scss/utilities";
 
-// Paragon core CSS
+// Bootstrap base components
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/list-group";
+
+// 3rd-party style
+@import "react-loading-skeleton/dist/skeleton.css";
+
+// Paragon core and components
 @import "../../css/core/variables";
 @import "../../css/core/abstraction-variables";
 @import "../../css/core/custom-media-breakpoints";
-
-// Paragon components
 @import "../../../src";

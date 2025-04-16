@@ -103,7 +103,8 @@
   opacity: var(--pgn-other-carousel-control-opacity-base);
   transition: var(--pgn-transition-carousel-control);
 
-  @include hover-focus() {
+  &:hover,
+&:focus() {
     color: var(--pgn-carousel-control-color);
     text-decoration: none;
     outline: 0;

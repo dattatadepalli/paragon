@@ -344,7 +344,7 @@ export default function ElevationPage({ pageContext }) {
                 </td>
                 <td className="p-3">
                   {boxShadowSides.map(side => (
-                    <code key={side} className="mr-2">{side}</code>
+                    <code key={side} className="me-2">{side}</code>
                   ))}
                 </td>
               </tr>
@@ -356,7 +356,7 @@ export default function ElevationPage({ pageContext }) {
                 </td>
                 <td className="p-3 align-baseline">
                   {boxShadowLevels.map(level => (
-                    <code key={level} className="mr-2">{level}</code>
+                    <code key={level} className="me-2">{level}</code>
                   ))}
                 </td>
               </tr>

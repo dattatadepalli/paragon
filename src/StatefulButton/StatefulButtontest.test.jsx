@@ -12,7 +12,7 @@ describe('StatefulButton', () => {
         pending: 'Saving',
         complete: 'Saved',
       },
-      className: 'mr-2',
+      className: 'me-2',
       variant: 'primary',
     };
     const tree = renderer.create((
@@ -38,7 +38,7 @@ describe('StatefulButton', () => {
         complete: <Icon className="fa fa-check" />,
       },
       disabledStates: ['pending'],
-      className: 'mr-2',
+      className: 'me-2',
       variant: 'primary',
     };
     const tree = renderer.create((
@@ -62,7 +62,7 @@ describe('StatefulButton', () => {
         edited: <Icon className="fa fa-save" />,
       },
       disabledStates: ['unedited'],
-      className: 'mr-2',
+      className: 'me-2',
       variant: 'primary',
     };
     const tree = renderer.create((

@@ -16,13 +16,14 @@
 
   @include font-size(var(--pgn-typography-close-button-font-size));
 
-  @include hover() {
+  &:hover() {
     color: var(--pgn-color-close-button);
     text-decoration: none;
   }
 
   &:not(:disabled, .disabled) {
-    @include hover-focus() {
+    &:hover,
+&:focus() {
       opacity: .75;
     }
   }

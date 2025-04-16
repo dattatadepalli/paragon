@@ -109,7 +109,7 @@ describe('<Button />', () => {
     test('with size="inline"', () => {
       const tree = renderer.create((
         <p>
-          <span className="mr-1">2 items selected.</span>
+          <span className="me-1">2 items selected.</span>
           <Button variant="link" size="inline">Clear</Button>
         </p>
       )).toJSON();

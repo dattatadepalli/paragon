@@ -24,19 +24,19 @@ notes: |
 ```jsx live
 <>
   <Image
-    className="mr-2"
+    className="me-2"
     src="https://picsum.photos/100/100/"
     rounded
     alt="Image description"
   />
   <Image
-    className="mr-2"
+    className="me-2"
     src="https://picsum.photos/100/100/"
     roundedCircle
     alt="Image description"
   />
   <Image
-    className="mr-2"
+    className="me-2"
     src="https://picsum.photos/100/100/"
     thumbnail
     alt="Image description"

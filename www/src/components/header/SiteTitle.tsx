@@ -26,7 +26,7 @@ export default function SiteTitle({ title, isFullVersion, className } : SiteTitl
           <img src={Logo} alt={title} />
         </span>
         {isFullVersion && (
-          <div className="ml-3 mr-3">
+          <div className="ms-3 me-3">
             <h1 className="pgn-doc__header-title-heading h4">{title}</h1>
           </div>
         )}

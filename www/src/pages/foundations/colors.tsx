@@ -94,7 +94,7 @@ function Swatch({
 
   return (
     <div className="d-flex align-items-center mb-2">
-      <div className={classNames('p-3 mr-2 rounded', colorClassName)} />
+      <div className={classNames('p-3 me-2 rounded', colorClassName)} />
       <div style={{ lineHeight: 1 }} className="small">
         <code className="d-block text-lowercase text-dark">
           {name}
@@ -277,7 +277,7 @@ export default function ColorsPage({ data, pageContext }: IColorsPage) {
         <div className="d-flex flex-wrap">
           {colors.map(({ themeName }) => (
             <div key={themeName} style={{ flexBasis: '33%' }}>
-              <div className="mr-3 mb-3">
+              <div className="me-3 mb-3">
                 <div
                   className={classNames(
                     'p-3 rounded',
@@ -297,7 +297,7 @@ export default function ColorsPage({ data, pageContext }: IColorsPage) {
         <div className="d-flex flex-wrap">
           {colors.map(({ themeName }) => (
             <div key={themeName} style={{ flexBasis: '33%' }}>
-              <div className="mr-3 mb-3">
+              <div className="me-3 mb-3">
                 <div
                   className={classNames(
                     'p-3 rounded border',
@@ -317,7 +317,7 @@ export default function ColorsPage({ data, pageContext }: IColorsPage) {
         <div className="d-flex flex-wrap">
           {colors.map(({ themeName }) => (
             <div key={themeName} style={{ flexBasis: '33%' }}>
-              <div className="mr-3 mb-3">
+              <div className="me-3 mb-3">
                 <div
                   className={classNames(
                     'p-3 rounded border',

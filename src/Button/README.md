@@ -133,8 +133,8 @@ Use inline size buttons for when a button sits with a line of text.
 
 ```jsx live
 <p>
-  <span className="mr-1">2 items selected.</span>
-  <Button variant="link" size="inline" className="mr-1">Select all</Button>
+  <span className="me-1">2 items selected.</span>
+  <Button variant="link" size="inline" className="me-1">Select all</Button>
   <Button variant="link" size="inline">Clear</Button>
 </p>
 ```

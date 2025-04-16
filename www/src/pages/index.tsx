@@ -18,7 +18,7 @@ function HomePage() {
         <div className="mb-5">
           <Button
             variant="inverse-outline-primary"
-            className="mr-2"
+            className="me-2"
             as="a"
             target="_blank"
             rel="noopener noreferrer"

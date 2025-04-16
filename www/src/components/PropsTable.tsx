@@ -34,7 +34,7 @@ function DefaultValue({ value }: DefaultValueTypes) {
   return (
     <>
       <Badge variant="light">Default</Badge>
-      <span className="small text-monospace ml-2">{value}</span>
+      <span className="small text-monospace ms-2">{value}</span>
     </>
   );
 }
@@ -64,7 +64,7 @@ function Prop({
     <li className="px-4 border-top border-light-300">
       <div className="my-3">
         <div className="mb-2">
-          <span className="mr-2 font-weight-bold">{`${name} `}</span>
+          <span className="me-2 font-weight-bold">{`${name} `}</span>
           <PropType {...type} />
           {required && (
           <>
@@ -127,7 +127,7 @@ function PropsTable({ props: componentProps, displayName, content }: IPropsTable
             .filter(metadata => !IGNORED_COMPONENT_PROPS.includes(metadata.name))
             .map(metadata => <Prop key={metadata.name} {...metadata} />)}
         </ul>
-      ) : <div className="pb-3 pl-4">This component does not receive any props.</div>}
+      ) : <div className="pb-3 ps-4">This component does not receive any props.</div>}
     </Card>
   );
 }

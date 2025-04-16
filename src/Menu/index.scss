@@ -42,7 +42,7 @@
       flex-grow: 1;
     }
 
-    @include hover {
+    &:hover {
       text-decoration: none;
       color: var(--pgn-color-menu-item-hover-color);
       border-color: var(--pgn-color-menu-item-hover-border);

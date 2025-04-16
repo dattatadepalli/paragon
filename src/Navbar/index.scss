@@ -37,7 +37,8 @@
 
   @include font-size(var(--pgn-typography-navbar-brand-font-size));
 
-  @include hover-focus() {
+  &:hover,
+&:focus() {
     text-decoration: none;
   }
 }
@@ -81,7 +82,8 @@
   @include border-radius(var(--pgn-size-navbar-toggler-border-radius));
   @include font-size(var(--pgn-typography-navbar-toggler-font-size));
 
-  @include hover-focus() {
+  &:hover,
+&:focus() {
     text-decoration: none;
   }
 }
@@ -177,7 +179,8 @@
   .navbar-brand {
     color: var(--pgn-color-navbar-light-brand-text);
 
-    @include hover-focus() {
+    &:hover,
+&:focus() {
       color: var(--pgn-color-navbar-light-brand-hover);
     }
   }
@@ -186,7 +189,8 @@
     .nav-link {
       color: var(--pgn-color-navbar-light-text);
 
-      @include hover-focus() {
+      &:hover,
+&:focus() {
         color: var(--pgn-color-navbar-light-hover);
       }
 
@@ -218,7 +222,8 @@
     a {
       color: var(--pgn-color-navbar-light-active);
 
-      @include hover-focus() {
+      &:hover,
+&:focus() {
         color: var(--pgn-color-navbar-light-active);
       }
     }
@@ -229,7 +234,8 @@
   .navbar-brand {
     color: var(--pgn-color-navbar-dark-brand-text);
 
-    @include hover-focus() {
+    &:hover,
+&:focus() {
       color: var(--pgn-color-navbar-dark-brand-hover);
     }
   }
@@ -238,7 +244,8 @@
     .nav-link {
       color: var(--pgn-color-navbar-dark-text);
 
-      @include hover-focus() {
+      &:hover,
+&:focus() {
         color: var(--pgn-color-navbar-dark-hover);
       }
 
@@ -270,7 +277,8 @@
     a {
       color: var(--pgn-color-navbar-dark-active);
 
-      @include hover-focus() {
+      &:hover,
+&:focus() {
         color: var(--pgn-color-navbar-dark-active);
       }
     }

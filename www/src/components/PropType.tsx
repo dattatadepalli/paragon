@@ -118,7 +118,7 @@ function PropTypeEnum({ name, value: enumValue, isRequired }: IPropTypeEnum) {
     <span>
       <code>{name}</code>
       <RequiredBadge isRequired={isRequired} />
-      <span className="text-monospace small ml-2">
+      <span className="text-monospace small ms-2">
         {enumValue.map
           ? enumValue.map(({ value }) => value).join(' | ')
           : JSON.stringify(enumValue)}
@@ -250,7 +250,7 @@ function PropTypeShape({ name, value, isRequired }: IPropTypeShape) {
       <RequiredBadge isRequired={isRequired} />
       {' {'}
       {Object.entries(value).map(([key, propType]) => (
-        <div className="text-monospace pl-3" key={key}>
+        <div className="text-monospace ps-3" key={key}>
           {key}: <PropType {...propType} />,
         </div>
       ))}
@@ -284,7 +284,7 @@ function PropTypeExact({ name, value, isRequired }: IPropTypeExact) {
       <RequiredBadge isRequired={isRequired} />
       {' {'}
       {Object.entries(value).map(([key, propType]) => (
-        <div className="text-monospace pl-3">
+        <div className="text-monospace ps-3">
           {key}: <PropType {...propType} />,
         </div>
       ))}

@@ -26,7 +26,7 @@ const measuredTypeProps = {
 
     return (
       <p className="m-0 text-muted">
-        <span className="mr-2">
+        <span className="me-2">
           {fontFamily} {weight}
         </span>
         {fontSize}px / {lineHeight}px

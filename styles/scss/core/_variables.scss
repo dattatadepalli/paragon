@@ -7,6 +7,7 @@
 @import "exports.module.scss";
 
 // Color system
+$prefix: "bs-"; 
 $white: var(--pgn-color-white) !default;
 $gray-100: var(--pgn-color-gray-100) !default;
 $gray-200: var(--pgn-color-gray-200) !default;

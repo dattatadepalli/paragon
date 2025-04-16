@@ -38,7 +38,7 @@ Try using <Link to="/components/modal/modal-popup/">ModalPopup</Link> instead if
         </Popover>
       }
     >
-      <Button variant="secondary" className="mr-2 mb-2">Popover on {placement}</Button>
+      <Button variant="secondary" className="me-2 mb-2">Popover on {placement}</Button>
     </OverlayTrigger>
   ))}
 </>
@@ -61,7 +61,7 @@ Try using <Link to="/components/modal/modal-popup/">ModalPopup</Link> instead if
       </Popover>
     }
   >
-    <Button variant="secondary" className="mr-2 mb-2">
+    <Button variant="secondary" className="me-2 mb-2">
       Popover Basic
     </Button>
   </OverlayTrigger>
@@ -78,7 +78,7 @@ Try using <Link to="/components/modal/modal-popup/">ModalPopup</Link> instead if
       </Popover>
     }
   >
-    <Button variant="secondary" className="mr-2 mb-2">
+    <Button variant="secondary" className="me-2 mb-2">
       Popover Success
     </Button>
   </OverlayTrigger>
@@ -95,7 +95,7 @@ Try using <Link to="/components/modal/modal-popup/">ModalPopup</Link> instead if
       </Popover>
     }
   >
-    <Button variant="secondary" className="mr-2 mb-2">
+    <Button variant="secondary" className="me-2 mb-2">
       Popover Warning
     </Button>
   </OverlayTrigger>
@@ -112,7 +112,7 @@ Try using <Link to="/components/modal/modal-popup/">ModalPopup</Link> instead if
       </Popover>
     }
   >
-    <Button variant="secondary" className="mr-2 mb-2">
+    <Button variant="secondary" className="me-2 mb-2">
       Popover Danger
     </Button>
   </OverlayTrigger>

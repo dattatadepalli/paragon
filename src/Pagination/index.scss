@@ -25,11 +25,11 @@
     &:first-child .page-link {
       margin-left: 0;
 
-      @include border-left-radius(var(--pgn-size-border-radius-base));
+      @include border-start-radius(var(--pgn-size-border-radius-base));
     }
 
     &:last-child .page-link {
-      @include border-right-radius(var(--pgn-size-border-radius-base));
+      @include border-end-radius(var(--pgn-size-border-radius-base));
     }
 
     &:first-child .btn-icon.page-link {

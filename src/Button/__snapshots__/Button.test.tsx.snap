@@ -201,7 +201,7 @@ exports[`<Button /> correct rendering renders without props 1`] = `
 exports[`<Button /> correct rendering with size="inline" 1`] = `
 <p>
   <span
-    className="mr-1"
+    className="me-1"
   >
     2 items selected.
   </span>

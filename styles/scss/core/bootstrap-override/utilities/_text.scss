@@ -53,9 +53,21 @@
 
 // Misc
 
-.text-hide {
-  @include text-hide($ignore-warning: true);
+// .text-hide {
+//   @include text-hide($ignore-warning: true);
+// }
+@mixin text-hide($ignore-warning: false) {
+  @if not $ignore-warning {
+    @warn "The `text-hide` mixin is deprecated. Use `.visually-hidden` instead.";
+  }
+
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
 }
+
 
 .text-decoration-none { text-decoration: none !important; }
 

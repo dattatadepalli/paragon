@@ -64,7 +64,7 @@ export function colorCSSDeclaration(value: string) {
   return value.split(' ').map((item, index, originalArray) => {
     if (item.startsWith('#')) {
       return (
-        <mark key={item} className="mr-1" style={{ backgroundColor: item, color: getInverseColorContrast(item) }}>
+        <mark key={item} className="me-1" style={{ backgroundColor: item, color: getInverseColorContrast(item) }}>
           {item}
         </mark>
       );
@@ -80,12 +80,12 @@ export function colorCSSDeclaration(value: string) {
       }
 
       return (
-        <mark key={val} className="mr-1" style={{ backgroundColor: val, color: getInverseColorContrast(val) }}>
+        <mark key={val} className="me-1" style={{ backgroundColor: val, color: getInverseColorContrast(val) }}>
           {val}
         </mark>
       );
     }
 
-    return <span key={item} className="mr-1">{item}</span>;
+    return <span key={item} className="me-1">{item}</span>;
   });
 }

@@ -28,7 +28,8 @@
   color: var(--pgn-color-nav-link-text-base);
   font-weight: var(--pgn-typography-nav-link-font-weight);
 
-  @include hover-focus {
+  &:hover,
+&:focus {
     text-decoration: none;
     color: var(--pgn-color-nav-link-text-base);
   }
@@ -249,10 +250,10 @@
     border: solid 1px var(--pgn-color-nav-tabs-base-border-base);
 
     &:first-child {
-      @include border-left-radius(var(--pgn-size-nav-pills-border-radius));
+      @include border-start-radius(var(--pgn-size-nav-pills-border-radius));
 
       [dir="rtl"] & {
-        @include border-right-radius(var(--pgn-size-nav-pills-border-radius));
+        @include border-end-radius(var(--pgn-size-nav-pills-border-radius));
 
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -261,10 +262,10 @@
     }
 
     &:last-child {
-      @include border-right-radius(var(--pgn-size-nav-pills-border-radius));
+      @include border-end-radius(var(--pgn-size-nav-pills-border-radius));
 
       [dir="rtl"] & {
-        @include border-left-radius(var(--pgn-size-nav-pills-border-radius));
+        @include border-start-radius(var(--pgn-size-nav-pills-border-radius));
 
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;

@@ -134,7 +134,7 @@ ${columnsString.join('').slice(0, -1)}
         values for each column and see the output below.
       </p>
       <FormGroup className="form-inline mb-4">
-        <FormLabel isInline className="mr-3" htmlFor="num-cols-range">
+        <FormLabel isInline className="me-3" htmlFor="num-cols-range">
           Number of Columns: {numColumns}
         </FormLabel>
         <FormControl

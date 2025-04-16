@@ -259,7 +259,7 @@ function Menu() {
             <li>
               <Link to="/playground" onClick={handlePlaygroundClick}>
                 Playground
-                <Badge className="ml-1" variant="warning">Beta</Badge>
+                <Badge className="ms-1" variant="warning">Beta</Badge>
               </Link>
             </li>
             <li>
@@ -312,7 +312,7 @@ function Menu() {
         target="_blank"
       >
         <Image
-          className="mr-2"
+          className="me-2"
           src="https://img.shields.io/npm/v/@openedx/paragon.svg"
           alt="npm_version"
           width={94}

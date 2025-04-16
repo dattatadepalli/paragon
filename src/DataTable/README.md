@@ -1399,7 +1399,7 @@ You can create your own custom expander column and use it, see code example belo
   const currentDate = new Date().toDateString();
 
   const renderSubComponent = ({ row }) => (
-    <div className="ml-5 w-50">
+    <div className="ms-5 w-50">
       <DataTable
         itemCount={1}
         data={[

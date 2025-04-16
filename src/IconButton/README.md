@@ -20,7 +20,7 @@ notes: ''
   return (
     <div className="d-flex flex-wrap">
       {variants.map((variant) => (
-        <IconButton key={variant} src={Close} alt="Close" onClick={() => {}} variant={variant} className="mr-2" />
+        <IconButton key={variant} src={Close} alt="Close" onClick={() => {}} variant={variant} className="me-2" />
       ))}
     </div>
   );
@@ -43,7 +43,7 @@ notes: ''
           alt="Close"
           onClick={() => {}}
           variant={variant}
-          className="mr-2"
+          className="me-2"
         />
       ))}
     </div>
@@ -66,7 +66,7 @@ notes: ''
           alt="Close"
           onClick={() => {}}
           variant={variant}
-          className="mr-2 mb-2"
+          className="me-2 mb-2"
         />
       ))}
     </div>
@@ -90,7 +90,7 @@ notes: ''
           alt="Close"
           onClick={() => {}}
           variant={variant}
-          className="mr-2"
+          className="me-2"
         />
       ))}
     </div>

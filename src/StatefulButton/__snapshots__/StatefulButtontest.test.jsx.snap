@@ -5,7 +5,7 @@ exports[`StatefulButton renders basic usage 1`] = `
   <button
     aria-disabled={false}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-default mr-2 btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-default me-2 btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -21,7 +21,7 @@ exports[`StatefulButton renders basic usage 1`] = `
   <button
     aria-disabled={true}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-pending mr-2 disabled btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-pending me-2 disabled btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -60,7 +60,7 @@ exports[`StatefulButton renders basic usage 1`] = `
   <button
     aria-disabled={true}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-complete mr-2 disabled btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-complete me-2 disabled btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -104,7 +104,7 @@ exports[`StatefulButton renders custom icons and disable during state 1`] = `
   <button
     aria-disabled={false}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-default mr-2 btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-default me-2 btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -129,7 +129,7 @@ exports[`StatefulButton renders custom icons and disable during state 1`] = `
   <button
     aria-disabled={true}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-pending mr-2 disabled btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-pending me-2 disabled btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -154,7 +154,7 @@ exports[`StatefulButton renders custom icons and disable during state 1`] = `
   <button
     aria-disabled={false}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-complete mr-2 btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-complete me-2 btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -184,7 +184,7 @@ exports[`StatefulButton renders custom states 1`] = `
   <button
     aria-disabled={true}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-unedited mr-2 disabled btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-unedited me-2 disabled btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -209,7 +209,7 @@ exports[`StatefulButton renders custom states 1`] = `
   <button
     aria-disabled={false}
     aria-live="assertive"
-    className="pgn__stateful-btn pgn__stateful-btn-state-edited mr-2 btn btn-primary"
+    className="pgn__stateful-btn pgn__stateful-btn-state-edited me-2 btn btn-primary"
     disabled={false}
     onClick={[Function]}
     type="button"
