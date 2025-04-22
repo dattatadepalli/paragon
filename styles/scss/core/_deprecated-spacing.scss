@@ -1,0 +1,59 @@
+// Spacing scale: 0 through 5 → (0 to 1.25rem in 0.25rem increments)
+@for $i from 0 through 5 {
+    // Margin
+    .ml-#{$i} { margin-left: #{$i * 0.25}rem !important; }
+    .mr-#{$i} { margin-right: #{$i * 0.25}rem !important; }
+    .mt-#{$i} { margin-top: #{$i * 0.25}rem !important; }
+    .mb-#{$i} { margin-bottom: #{$i * 0.25}rem !important; }
+    .mx-#{$i} {
+      margin-left: #{$i * 0.25}rem !important;
+      margin-right: #{$i * 0.25}rem !important;
+    }
+    .my-#{$i} {
+      margin-top: #{$i * 0.25}rem !important;
+      margin-bottom: #{$i * 0.25}rem !important;
+    }
+  
+    // Padding
+    .pl-#{$i} { padding-left: #{$i * 0.25}rem !important; }
+    .pr-#{$i} { padding-right: #{$i * 0.25}rem !important; }
+    .pt-#{$i} { padding-top: #{$i * 0.25}rem !important; }
+    .pb-#{$i} { padding-bottom: #{$i * 0.25}rem !important; }
+    .px-#{$i} {
+      padding-left: #{$i * 0.25}rem !important;
+      padding-right: #{$i * 0.25}rem !important;
+    }
+    .py-#{$i} {
+      padding-top: #{$i * 0.25}rem !important;
+      padding-bottom: #{$i * 0.25}rem !important;
+    }
+  }
+  
+  // Auto margin classes (deprecated in BS5)
+  .ml-auto { margin-left: auto !important; }
+  .mr-auto { margin-right: auto !important; }
+  .mt-auto { margin-top: auto !important; }
+  .mb-auto { margin-bottom: auto !important; }
+  .mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .my-auto {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+  
+  // Optional: Padding auto (less commonly used)
+  .pl-auto { padding-left: auto !important; }
+  .pr-auto { padding-right: auto !important; }
+  .pt-auto { padding-top: auto !important; }
+  .pb-auto { padding-bottom: auto !important; }
+  .px-auto {
+    padding-left: auto !important;
+    padding-right: auto !important;
+  }
+  .py-auto {
+    padding-top: auto !important;
+    padding-bottom: auto !important;
+  }
+  

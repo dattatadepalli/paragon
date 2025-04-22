@@ -7,6 +7,7 @@ $enable-utilities: true;
 @import "variables";
 @import "typography";
 @import "grid";
+@import "deprecated-spacing";
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
