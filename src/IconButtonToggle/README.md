@@ -23,7 +23,7 @@ You can pass a tooltip if you use the ``IconButtonWithTooltip`` subcomponent.
       const [activeValue, setActiveValue] = React.useState('card');
       return (
         <>
-        <div className="me-2 mt-2 mb-2">Current value is: <strong>{activeValue}</strong></div>
+        <div className="mr-2 mt-2 mb-2">Current value is: <strong>{activeValue}</strong></div>
         <IconButtonToggle activeValue={activeValue} onChange={ value => setActiveValue(value) }>
           <IconButton value="card" src={GridView} iconAs={Icon} alt="Card" />
           <IconButton value="list" src={ListView} iconAs={Icon} alt="List" />
@@ -39,7 +39,7 @@ You can pass a tooltip if you use the ``IconButtonWithTooltip`` subcomponent.
       const [activeValue, setActiveValue] = React.useState('card');
       return (
         <>
-        <div className="me-2 mt-2 mb-2">Current value is: <strong>{activeValue}</strong></div>
+        <div className="mr-2 mt-2 mb-2">Current value is: <strong>{activeValue}</strong></div>
         <IconButtonToggle activeValue={activeValue} onChange={ value => setActiveValue(value) }>
           <IconButtonWithTooltip tooltipContent="Card view" value="card" src={GridView} iconAs={Icon} alt="Card" />
           <IconButtonWithTooltip tooltipContent="List view" value="list" src={ListView} iconAs={Icon} alt="List" />

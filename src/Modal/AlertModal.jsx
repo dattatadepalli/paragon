@@ -19,13 +19,7 @@ function AlertModal({
     >
       <ModalDialog.Header>
         <ModalDialog.Title>
-          {icon && (
-          <Icon
-            data-testid="title-icon"
-            src={icon}
-            className={classNames('pgn__alert-modal__title_icon')}
-          />
-          )}
+          {icon && <Icon src={icon} className={classNames('pgn__alert-modal__title_icon')} />}
           {props.title}
         </ModalDialog.Title>
       </ModalDialog.Header>
@@ -41,7 +35,7 @@ AlertModal.propTypes = {
   title: PropTypes.string.isRequired,
   /** Is the modal dialog open or closed */
   isOpen: PropTypes.bool,
-  /** Prevent clicking on the backdrop or pressing Esc to close the modal */
+  /** Prevent clicking on the backdrop to close the modal */
   isBlocking: PropTypes.bool,
   /** Specifies whether the dialog box should contain 'x' icon button in the top right */
   hasCloseButton: PropTypes.bool,

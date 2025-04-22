@@ -1,16 +1,18 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
+import { mount } from 'enzyme';
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Stepper from '../Stepper';
+import StepperHeader from '../StepperHeader';
+import StepperHeaderStep from '../StepperHeaderStep';
 import { stepsReducer } from '../StepperContext';
 
 const mockWindowSize = { width: 1000, height: 1000 };
 
-jest.mock('../../hooks/useWindowSizeHook', () => () => mockWindowSize);
+jest.mock('../../hooks/useWindowSize', () => () => mockWindowSize);
 
 function Example({
-  // eslint-disable-next-line react/prop-types
+// eslint-disable-next-line react/prop-types
   activeKey, hasStepWithError, hasFourthStep, handleStepClick,
 }) {
   return (
@@ -39,9 +41,9 @@ function Example({
         <span id="review-content">Review content</span>
       </Stepper.Step>
       {hasFourthStep && (
-        <Stepper.Step eventKey="extra" title="Extra" index={3}>
-          <span id="extra-content">Extra content</span>
-        </Stepper.Step>
+      <Stepper.Step eventKey="extra" title="Extra" index={3}>
+        <span id="extra-content">Extra content</span>
+      </Stepper.Step>
       )}
 
       <Stepper.ActionRow eventKey="welcome">
@@ -58,154 +60,127 @@ function Example({
 }
 
 describe('Stepper', () => {
+  const wrapper = mount((
+    <Example
+      activeKey="welcome"
+      showError={false}
+      hasFourthStep
+    />
+  ));
+
   it('renders the activeKey content', () => {
-    const { rerender } = render(
-      <Example activeKey="welcome" showError={false} hasFourthStep />,
-    );
+    wrapper.setProps({ activeKey: 'welcome' });
+    wrapper.update();
+    expect(wrapper.exists('#welcome-content')).toBe(true);
+    expect(wrapper.exists('#cats-content')).toBe(false);
+    expect(wrapper.exists('#review-content')).toBe(false);
+    expect(wrapper.exists('#welcome-actions')).toBe(true);
+    expect(wrapper.exists('#cats-actions')).toBe(false);
+    expect(wrapper.exists('#review-actions')).toBe(false);
 
-    expect(screen.getByText('Welcome content')).toBeInTheDocument();
-    expect(screen.queryByText('Cat content')).not.toBeInTheDocument();
-    expect(screen.queryByText('Review content')).not.toBeInTheDocument();
-    expect(screen.getByText('Welcome actions content')).toBeInTheDocument();
-    expect(screen.queryByText('Cat actions content')).not.toBeInTheDocument();
-    expect(screen.queryByText('Review actions content')).not.toBeInTheDocument();
-
-    rerender(
-      <Example activeKey="cats" showError={false} hasFourthStep />,
-    );
-
-    expect(screen.getByText('Cat content')).toBeInTheDocument();
-    expect(screen.queryByText('Welcome content')).not.toBeInTheDocument();
-    expect(screen.queryByText('Review content')).not.toBeInTheDocument();
-    expect(screen.queryByText('Welcome actions content')).not.toBeInTheDocument();
-    expect(screen.getByText('Cat actions content')).toBeInTheDocument();
-    expect(screen.queryByText('Review actions content')).not.toBeInTheDocument();
+    wrapper.setProps({ activeKey: 'cats' });
+    expect(wrapper.exists('#welcome-content')).toBe(false);
+    expect(wrapper.exists('#cats-content')).toBe(true);
+    expect(wrapper.exists('#review-content')).toBe(false);
+    expect(wrapper.exists('#welcome-actions')).toBe(false);
+    expect(wrapper.exists('#cats-actions')).toBe(true);
+    expect(wrapper.exists('#review-actions')).toBe(false);
   });
 
   describe('clickable variant', () => {
-    it('ignores onClick function if Step has not been visited yet', async () => {
-      const onStepClick = jest.fn();
-      render(
-        <Example activeKey="welcome" showError={false} hasFourthStep handleStepClick={onStepClick} />,
-      );
+    const onStepClick = jest.fn();
 
-      await userEvent.click(screen.getByText('Cat'));
+    it('ignores onClick function if Step has not been visited yet', () => {
+      render(<Example activeKey="welcome" showError={false} hasFourthStep handleStepClick={onStepClick} />);
+      const step = screen.getAllByRole('listitem').find(listitem => listitem.textContent.includes('Cat'));
+      fireEvent.click(step);
       expect(onStepClick).toHaveBeenCalledTimes(0);
     });
 
-    it('invokes onClick function if Step has been visited', async () => {
-      const onStepClick = jest.fn();
-      render(
-        <Example activeKey="review" showError={false} hasFourthStep handleStepClick={onStepClick} />,
-      );
-
-      await userEvent.click(screen.getByText('Welcome'));
+    it('invokes onClick function if Step has been visited', () => {
+      render(<Example activeKey="review" showError={false} hasFourthStep handleStepClick={onStepClick} />);
+      const step = screen.getAllByRole('button').find(button => button.textContent.includes('Welcome'));
+      fireEvent.click(step);
       expect(onStepClick).toHaveBeenCalledTimes(1);
     });
   });
+
   describe('stepper header compact view', () => {
     beforeEach(() => {
       mockWindowSize.width = 200;
+      wrapper.update();
     });
 
     afterEach(() => {
       mockWindowSize.width = 1000;
+      wrapper.update();
     });
 
     const step = '.flex-grow-1';
 
     it('renders the compact view of stepper header', () => {
-      const { container } = render(
-        <Example activeKey="cats" />,
-      );
-
-      expect(screen.getByText('Cat')).toBeInTheDocument();
-      expect(container.querySelector(step)).toBeInTheDocument();
+      wrapper.setProps({ activeKey: 'cats' });
+      expect(wrapper.find(StepperHeader).exists(step)).toBe(true);
     });
 
     it('renders the standard view when the window is outside of the max width for compact view', () => {
       mockWindowSize.width = 800;
-
-      const { container } = render(
-        <Example activeKey="cats" />,
-      );
-
-      expect(container.querySelector(step)).not.toBeInTheDocument();
+      wrapper.setProps({ activeKey: 'cats' });
+      expect(wrapper.find(StepperHeader).exists(step)).toBe(false);
     });
 
     it('renders the compact view when the desired max width is medium', () => {
-      const { container } = render(
-        <Example compactWidth="md" activeKey="cats" />,
-      );
-
+      wrapper.setProps({ compactWidth: 'md', activeKey: 'cats' });
       mockWindowSize.width = 768;
-
-      expect(container.querySelector(step)).toBeInTheDocument();
+      expect(wrapper.find(StepperHeader).exists(step)).toBe(true);
     });
   });
 
   describe('tab updates', () => {
     it('removes a step if a step child is removed', () => {
-      const { rerender, getAllByTestId } = render(
-        <Example activeKey="welcome" hasFourthStep />,
-      );
-
-      expect(getAllByTestId('step').length).toBe(4);
-
-      rerender(
-        <Example activeKey="welcome" hasFourthStep={false} />,
-      );
-
-      expect(getAllByTestId('step').length).toBe(3);
+      wrapper.setProps({ hasFourthStep: true });
+      wrapper.update();
+      expect(wrapper.find(StepperHeaderStep).length).toBe(4);
+      wrapper.setProps({ hasFourthStep: false });
+      wrapper.update();
+      expect(wrapper.find(StepperHeaderStep).length).toBe(3);
     });
 
     it('updates the step context if the Step component is updated', () => {
-      const {
-        rerender, getAllByTestId, queryAllByTestId,
-      } = render(
-        <Example activeKey="welcome" hasStepWithError={false} />,
-      );
-
-      expect(queryAllByTestId('step-error')).toHaveLength(0);
-
-      rerender(
-        <Example activeKey="welcome" hasStepWithError />,
-      );
-
-      const oneStepWithErrors = getAllByTestId('step-error').length;
-      expect(oneStepWithErrors).toBe(1);
-
+      wrapper.setProps({ hasStepWithError: false });
+      wrapper.update();
+      const noStepsWithErrors = wrapper.find(StepperHeaderStep).filterWhere((n) => n.props().hasError);
+      expect(noStepsWithErrors.length).toBe(0);
+      wrapper.setProps({ hasStepWithError: true });
+      wrapper.update();
+      const oneStepWithErrors = wrapper.find(StepperHeaderStep).filterWhere((n) => n.props().hasError);
+      expect(oneStepWithErrors.length).toBe(1);
       // Ensure the step is still in the correct position
-      const allSteps = getAllByTestId('step');
-      expect(allSteps[1].classList.contains('pgn__stepper-header-step-has-error')).toBeTruthy();
+      const allSteps = wrapper.find(StepperHeaderStep).getElements();
+      expect(allSteps[1].props.hasError).toBeTruthy();
     });
   });
 
   describe('mobile view', () => {
-    beforeEach(() => {
+    beforeAll(() => {
       mockWindowSize.width = 200;
+      wrapper.update();
     });
 
-    afterEach(() => {
+    afterAll(() => {
       mockWindowSize.width = 1000;
+      wrapper.update();
     });
 
     it('renders the activeKey content', () => {
-      const { container } = render(
-        <Example activeKey="cats" />,
-      );
-
-      expect(container.querySelector('#welcome-content')).not.toBeInTheDocument();
-      expect(screen.getByText('Cat content')).toBeInTheDocument();
-      expect(container.querySelector('#review-content')).not.toBeInTheDocument();
+      wrapper.setProps({ activeKey: 'cats' });
+      expect(wrapper.exists('#welcome-content')).toBe(false);
+      expect(wrapper.exists('#cats-content')).toBe(true);
+      expect(wrapper.exists('#review-content')).toBe(false);
     });
 
     it('renders one header step', () => {
-      const { getAllByTestId } = render(
-        <Example activeKey="cats" />,
-      );
-
-      expect(getAllByTestId('step').length).toBe(1);
+      expect(wrapper.find(StepperHeaderStep).length).toBe(1);
     });
   });
 });
@@ -223,10 +198,10 @@ describe('stepsReducer', () => {
   const step2WithError = { ...step2, hasError: true };
 
   it('registers a steps in order', () => {
-    const action1 = { type: 'register', step: step1 };
+    const action1 = { type: 'register ', step: step1 };
     const stepsState1 = stepsReducer([], action1);
     expect(stepsState1).toEqual([step1]);
-    const action2 = { type: 'register', step: step2 };
+    const action2 = { type: 'register ', step: step2 };
     const stepsState2 = stepsReducer(stepsState1, action2);
     expect(stepsState2).toEqual([step1, step2]);
   });

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import Form from '../../Form';
+import Form, { FormLabel } from '../../Form';
+import Input from '../../Input';
 import { newId } from '../../utils';
 
 const formatHeaderForLabel = (header) => {
@@ -22,9 +23,10 @@ function TextFilter({
   const formattedHeader = formatHeaderForLabel(Header);
   const inputText = React.isValidElement(formattedHeader) ? formattedHeader : `Search ${formattedHeader}`;
   return (
-    <Form.Group controlId={ariaLabel.current}>
-      <Form.Label className="sr-only">{inputText}</Form.Label>
-      <Form.Control
+    <Form.Group>
+      <FormLabel id={ariaLabel.current} className="sr-only">{inputText}</FormLabel>
+      <Input
+        aria-labelledby={ariaLabel.current}
         value={filterValue || ''}
         type="text"
         onChange={e => {
@@ -50,7 +52,7 @@ TextFilter.propTypes = {
    */
   column: PropTypes.shape({
     setFilter: PropTypes.func.isRequired,
-    Header: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]).isRequired,
+    Header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
     getHeaderProps: PropTypes.func.isRequired,
     filterValue: PropTypes.string,
   }).isRequired,

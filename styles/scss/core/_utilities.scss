@@ -1,39 +1,27 @@
-@use "sass:map";
-// explicitly import bootstrap's utility module to exclude some modules which do not work
-// with CSS variables, they are instead overriden by Paragon
-// @import "~bootstrap/scss/utilities/align";
-// @import "~bootstrap/scss/utilities/clearfix";
-// @import "~bootstrap/scss/utilities/display";
-// @import "~bootstrap/scss/utilities/embed";
-// @import "~bootstrap/scss/utilities/flex";
-// @import "~bootstrap/scss/utilities/float";
-// @import "~bootstrap/scss/utilities/interactions";
-// @import "~bootstrap/scss/utilities/overflow";
-// @import "~bootstrap/scss/utilities/position";
-// @import "~bootstrap/scss/utilities/screenreaders";
-// @import "~bootstrap/scss/utilities/shadows";
-// @import "~bootstrap/scss/utilities/sizing";
-// @import "~bootstrap/scss/utilities/stretched-link";
-// @import "~bootstrap/scss/utilities/visibility";
-@import "./bootstrap-override/utilities";
 @import "~bootstrap/scss/utilities";
 
 // Add background, border, and text color utilities
 // for all theme color levels.
 $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 
+@each $color, $value in $theme-colors {
+  @each $level in $color-levels {
+    @include bg-variant(".bg-#{$color}-#{$level}", theme-color($color, $level), true);
+    @include text-emphasis-variant(".text-#{$color}-#{$level}", theme-color($color, $level), true);
+    .border-#{$color}-#{$level} {
+      border-color: theme-color($color, $level) !important;
+    }
+  }
+}
+
 .x-small {
-  font-size: $x-small-font-size !important;
+  font-size: $x-small-font-size;
 }
 
 .micro {
-  font-size: $micro-font-size !important;
+  font-size: $micro-font-size;
   font-weight: normal;
-  line-height: $micro-line-height !important;
-}
-
-.font-size-normal {
-  font-size: $font-size-base !important;
+  line-height: $micro-line-height;
 }
 
 .mw-xs {
@@ -93,7 +81,7 @@ $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 
 // Define classes for z-index
 $indexes: () !default;
-$indexes: map.merge(
+$indexes: map-merge(
   (
     0: 0,
     1: 200,

@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
-import userEvent from '@testing-library/user-event';
 
 import SelectionStatus from '../SelectionStatus';
 import DataTableContext from '../../DataTableContext';
@@ -12,6 +11,7 @@ import {
 } from '../data/constants';
 
 const instance = {
+  // represents how `react-table` passes the row data for the current page
   page: [1, 2, 3, 4],
   toggleAllRowsSelected: () => {},
   itemCount: 101,
@@ -39,10 +39,9 @@ function SelectionStatusWrapper({ value, props = {} }) {
 
 describe('<SelectionStatus />', () => {
   it('Shows the number of rows selected', () => {
-    render(<SelectionStatusWrapper value={instance} data-testid="selection-status" />);
-    expect(screen.getByTestId('selection-status')).toHaveTextContent(instance.page.length.toString());
+    const wrapper = mount(<SelectionStatusWrapper value={instance} />);
+    expect(wrapper.text()).toContain(instance.page.length.toString());
   });
-
   it('Shows that all rows are selected', () => {
     const selectedRowIds = {};
     [...new Array(101)].forEach((_, index) => {
@@ -55,39 +54,33 @@ describe('<SelectionStatus />', () => {
         selectedRowIds,
       },
     };
-    render(
+    const wrapper = mount(
       <SelectionStatusWrapper value={value} />,
     );
-    expect(screen.getByText('All 101 selected')).toBeInTheDocument();
-    const selectAllButton = screen.queryByTestId(SELECT_ALL_TEST_ID);
-    expect(selectAllButton).not.toBeInTheDocument();
+    expect(wrapper.text()).toContain('All 101');
+    const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+    expect(button.length).toEqual(0);
   });
-
-  it('toggles select all on select all button click', async () => {
+  it('toggles select all on select all button click', () => {
     const toggleAllRowsSpy = jest.fn();
-    render(
-      <SelectionStatusWrapper
-        value={{ ...instance, toggleAllRowsSelected: toggleAllRowsSpy }}
-      />,
+    const wrapper = mount(
+      <SelectionStatusWrapper value={{ ...instance, toggleAllRowsSelected: toggleAllRowsSpy }} />,
     );
-    const selectAllButton = screen.getByTestId(SELECT_ALL_TEST_ID);
-    await userEvent.click(selectAllButton);
+    const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+    button.simulate('click');
     expect(toggleAllRowsSpy).toHaveBeenCalledTimes(1);
     expect(toggleAllRowsSpy).toHaveBeenCalledWith(true);
   });
-
   it('updates select all button text after applying filters', () => {
-    render(<SelectionStatusWrapper value={{ ...instance }} />);
-    const selectAllButton = screen.getByTestId(SELECT_ALL_TEST_ID);
-    expect(selectAllButton).toHaveTextContent('Select all 27');
+    const wrapper = mount(<SelectionStatusWrapper value={{ ...instance }} />);
+    const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+    expect(button.text()).toContain('Select all 27');
   });
-
   it('updates select all text if filters value is empty', () => {
-    render(<SelectionStatusWrapper value={{ ...instance, filteredRows: 0 }} />);
-    const selectAllButton = screen.getByTestId(SELECT_ALL_TEST_ID);
-    expect(selectAllButton).toHaveTextContent('Select all 101');
+    const wrapper = mount(<SelectionStatusWrapper value={{ ...instance, filteredRows: 0 }} />);
+    const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+    expect(button.text()).toContain('Select all 101');
   });
-
   it('does not render the clear selection button if there are no selected rows', () => {
     const value = {
       ...instance,
@@ -97,39 +90,34 @@ describe('<SelectionStatus />', () => {
         selectedRowIds: {},
       },
     };
-    render(
+    const wrapper = mount(
       <SelectionStatusWrapper value={value} />,
     );
-    expect(screen.queryByTestId(CLEAR_SELECTION_TEST_ID)).not.toBeInTheDocument();
+    expect(wrapper.find(CLEAR_SELECTION_TEST_ID).length).toEqual(0);
   });
-
-  it('toggles select all on clear all button click', async () => {
+  it('toggles select all on clear all button click', () => {
     const toggleAllRowsSpy = jest.fn();
-    render(
+    const wrapper = mount(
       <SelectionStatusWrapper value={{ ...instance, toggleAllRowsSelected: toggleAllRowsSpy }} />,
     );
-    const clearSelectionButton = screen.getByTestId(CLEAR_SELECTION_TEST_ID);
-    await userEvent.click(clearSelectionButton);
+    const button = wrapper.find(`button.${CLEAR_SELECTION_TEST_ID}`);
+    button.simulate('click');
     expect(toggleAllRowsSpy).toHaveBeenCalledTimes(1);
     expect(toggleAllRowsSpy).toHaveBeenCalledWith(false);
   });
-
   it('renders default selection text', () => {
-    render(<SelectionStatusWrapper value={instance} />);
-    expect(screen.getByText(CLEAR_SELECTION_TEXT)).toBeInTheDocument();
+    const wrapper = mount(<SelectionStatusWrapper value={instance} />);
+    expect(wrapper.text()).toContain(CLEAR_SELECTION_TEXT);
   });
-
   it('can accept clear selection text as a prop', () => {
     const customText = 'CLEAR ME';
-    render(<SelectionStatusWrapper value={instance} props={{ clearSelectionText: customText }} />);
-    expect(screen.getByText(customText)).toBeInTheDocument();
-    expect(screen.queryByText(CLEAR_SELECTION_TEXT)).not.toBeInTheDocument();
+    const wrapper = mount(<SelectionStatusWrapper value={instance} props={{ clearSelectionText: customText }} />);
+    expect(wrapper.text()).toContain(customText);
+    expect(wrapper.text()).not.toContain(CLEAR_SELECTION_TEXT);
   });
-
   it('accepts a class name', () => {
     const customClassName = 'classy';
-    render(<SelectionStatusWrapper value={instance} props={{ className: customClassName }} />);
-    const component = screen.getByTestId('selection-status-component');
-    expect(component).toHaveClass(customClassName);
+    const wrapper = mount(<SelectionStatusWrapper value={instance} props={{ className: customClassName }} />);
+    expect(wrapper.find(SelectionStatus).props().className).toEqual(customClassName);
   });
 });

@@ -11,7 +11,7 @@ function TableFooter({ className, children }) {
   const RowStatus = RowStatusComponent || RowStatusDefault;
 
   return (
-    <div className={classNames(className, 'pgn__data-table-footer')} data-testid="table-footer">
+    <div className={classNames(className, 'pgn__data-table-footer')}>
       {children || (
         <>
           <RowStatus />
@@ -25,7 +25,11 @@ function TableFooter({ className, children }) {
 
 TableFooter.propTypes = {
   /** Specifies the content of the `TableFooter` */
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.node])),
+  ]),
   /** Specifies class name to append to the base element. */
   className: PropTypes.string,
 };

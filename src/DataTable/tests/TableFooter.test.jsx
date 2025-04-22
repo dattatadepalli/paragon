@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-
+import { mount } from 'enzyme';
 import TableFooter from '../TableFooter';
+import RowStatus from '../RowStatus';
+import TablePagination from '../TablePagination';
 import DataTableContext from '../DataTableContext';
 
 const footerInstance = {
@@ -14,52 +14,39 @@ const footerInstance = {
   pageCount: 3,
   itemCount: 30,
   RowStatusComponent: undefined,
-  page: [1],
 };
 
 // eslint-disable-next-line react/prop-types
 function TableFooterWrapper({ value = footerInstance, props = {}, children }) {
   return (
-    <IntlProvider locale="en" messages={{}}>
-      <DataTableContext.Provider value={value}>
-        <TableFooter {...props}>{children}</TableFooter>
-      </DataTableContext.Provider>
-    </IntlProvider>
+    <DataTableContext.Provider value={value}>
+      <TableFooter {...props}>{children}</TableFooter>
+    </DataTableContext.Provider>
   );
 }
 
 describe('<TableFooter />', () => {
   it('Renders the default footer', () => {
-    render(<TableFooterWrapper />);
-    expect(screen.getByTestId('row-status')).toBeInTheDocument();
-
-    // The TableFooter contains two components that have the aria-label
-    // "table pagination" - DataTable and DataTableMinimal.
-    const tables = screen.getAllByLabelText('table pagination');
-    tables.forEach(table => expect(table).toBeInTheDocument());
+    const wrapper = mount(<TableFooterWrapper />);
+    expect(wrapper.find(RowStatus)).toHaveLength(1);
+    expect(wrapper.find(TablePagination)).toHaveLength(1);
   });
-
   it('accepts a class name', () => {
     const fakeClass = 'fancy-class';
-    render(<TableFooterWrapper props={{ className: fakeClass }} />);
-    const footer = screen.getByTestId('table-footer');
-    expect(footer).toHaveClass(fakeClass);
+    const wrapper = mount(<TableFooterWrapper props={{ className: fakeClass }} />);
+    expect(wrapper.find(TableFooter).props().className).toContain(fakeClass);
   });
-
-  it('renders children', () => {
+  it('renders a children', () => {
     const leftText = "I'm on the left";
-    render(<TableFooterWrapper><div>{leftText}</div></TableFooterWrapper>);
-    const childDiv = screen.getByText(leftText);
-    expect(childDiv).toBeInTheDocument();
+    const wrapper = mount(<TableFooterWrapper><div>{leftText}</div></TableFooterWrapper>);
+    expect(wrapper.text()).toContain(leftText);
   });
-
   it('uses custom RowStatus component, if provided', () => {
     const dataTableContextValue = {
       ...footerInstance,
       RowStatusComponent: () => <p>Hello world</p>,
     };
-    render(<TableFooterWrapper value={dataTableContextValue} />);
-    const customRowStatus = screen.getByText('Hello world');
-    expect(customRowStatus).toBeInTheDocument();
+    const wrapper = mount(<TableFooterWrapper value={dataTableContextValue} />);
+    expect(wrapper.text()).toContain('Hello world');
   });
 });

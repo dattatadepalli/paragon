@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { FormControl } from '../Form';
+import Input from '../Input';
 import { SearchFieldContext } from './SearchFieldAdvanced';
 
 function SearchFieldInput(props) {
@@ -10,7 +10,7 @@ function SearchFieldInput(props) {
   } = useContext(SearchFieldContext);
 
   return (
-    <FormControl
+    <Input
       {...props}
       ref={refs.input}
       type="text"

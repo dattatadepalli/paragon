@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import PropTypes from 'prop-types';
 import { createPopper } from '@popperjs/core';
-import { FormattedMessage } from 'react-intl';
 
 import breakpoints from '../utils/breakpoints';
 
@@ -10,7 +9,6 @@ import CheckpointActionRow from './CheckpointActionRow';
 import CheckpointBody from './CheckpointBody';
 import CheckpointBreadcrumbs from './CheckpointBreadcrumbs';
 import CheckpointTitle from './CheckpointTitle';
-import messages from './messages';
 
 const Checkpoint = React.forwardRef(({
   body,
@@ -31,7 +29,6 @@ const Checkpoint = React.forwardRef(({
       // Use the Popper library to translate the Checkpoint to its target's coordinates
       const checkpointPopper = createPopper(targetElement, checkpoint, {
         placement: isMobile ? 'top' : placement,
-        strategy: 'fixed',
         modifiers: [
           {
             name: 'arrow',
@@ -98,12 +95,8 @@ const Checkpoint = React.forwardRef(({
       role="dialog"
       style={{ visibility: checkpointVisible ? 'visible' : 'hidden', pointerEvents: checkpointVisible ? 'auto' : 'none' }}
     >
-      <span className="sr-only">
-        <FormattedMessage
-          {...messages.topPositionText}
-          values={{ step: index + 1 }}
-        />
-      </span>
+      {/* This text is not translated due to Paragon's lack of i18n support */}
+      <span className="sr-only">Top of step {index + 1}</span>
       {(title || !isOnlyCheckpoint) && (
         <div className="pgn__checkpoint-header">
           <CheckpointTitle>{title}</CheckpointTitle>
@@ -117,12 +110,8 @@ const Checkpoint = React.forwardRef(({
         {...props}
       />
       <div id="pgn__checkpoint-arrow" data-popper-arrow />
-      <span className="sr-only">
-        <FormattedMessage
-          {...messages.bottomPositionText}
-          values={{ step: index + 1 }}
-        />
-      </span>
+      {/* This text is not translated due to Paragon's lack of i18n support */}
+      <span className="sr-only">Bottom of step {index + 1}</span>
     </div>
   );
 });

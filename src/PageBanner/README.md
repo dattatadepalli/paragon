@@ -1,5 +1,5 @@
 ---
-title: 'PageBanner'
+title: 'Page Banner'
 type: 'component'
 components:
 - PageBanner

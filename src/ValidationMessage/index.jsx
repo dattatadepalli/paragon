@@ -92,7 +92,6 @@ class ValidationMessage extends React.Component {
         )}
         id={id}
         aria-live="polite"
-        data-testid="validation-message"
       >
         { isValid ? (
           <span />

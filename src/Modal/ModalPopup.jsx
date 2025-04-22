@@ -34,14 +34,6 @@ function ModalPopup({
     },
   ];
 
-  const handleOnClickOutside = (e) => {
-    if (e.type === 'touchstart') {
-      return;
-    }
-
-    onClose();
-  };
-
   return (
     <ModalContextProvider onClose={onClose} isOpen={isOpen} isBlocking={isBlocking}>
       <RootComponent>
@@ -55,7 +47,7 @@ function ModalPopup({
             scrollLock={false}
             enabled={isOpen}
             onEscapeKey={onClose}
-            onClickOutside={handleOnClickOutside}
+            onClickOutside={onClose}
           >
             {isOpen && (
               <div className="pgn__modal-popup__tooltip">
@@ -63,7 +55,6 @@ function ModalPopup({
                 {hasArrow && (
                   <div
                     id="arrow"
-                    data-testid="modal-popup-arrow"
                     className={`pgn__modal-popup__arrow pgn__modal-popup__arrow-${placement}`}
                     data-popper-arrow=""
                   />
@@ -84,7 +75,7 @@ ModalPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
   /** Is the modal dialog open or closed */
   isOpen: PropTypes.bool.isRequired,
-  /** Prevent clicking on the backdrop or pressing Esc to close the modal */
+  /** Prevent clicking on the backdrop to close the modal */
   isBlocking: PropTypes.bool,
   /** Insert modal into a different location in the DOM */
   withPortal: PropTypes.bool,

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,6 +8,8 @@ import SearchFieldLabel from './SearchFieldLabel';
 import SearchFieldInput from './SearchFieldInput';
 import SearchFieldClearButton from './SearchFieldClearButton';
 import SearchFieldSubmitButton from './SearchFieldSubmitButton';
+
+import Icon from '../Icon';
 
 export const SEARCH_FIELD_SCREEN_READER_TEXT_LABEL = 'search';
 export const SEARCH_FIELD_SCREEN_READER_TEXT_SUBMIT_BUTTON = 'submit search';
@@ -126,14 +129,14 @@ SearchField.propTypes = {
    *
    * ```jsx
    * {
-   *   submit: import {Search} from '@openedx/paragon/icons';,
-   *   clear: import {Close} from '@openedx/paragon/icons'.
+   *   submit: import {Search} from '@edx/paragon/icons';,
+   *   clear: import {Close} from '@edx/paragon/icons'.
    * }
    * ```
    */
   icons: PropTypes.shape({
-    submit: PropTypes.elementType.isRequired,
-    clear: PropTypes.elementType,
+    submit: PropTypes.element.isRequired,
+    clear: PropTypes.element,
   }),
   /**
    * Specifies the aria-label attribute on the form element.
@@ -167,8 +170,8 @@ SearchField.defaultProps = {
     clearButton: SEARCH_FIELD_SCREEN_READER_TEXT_CLEAR_BUTTON,
   },
   icons: {
-    clear: Close,
-    submit: Search,
+    clear: <Icon src={Close} />,
+    submit: <Icon src={Search} />,
   },
   onBlur: () => {},
   onChange: () => {},

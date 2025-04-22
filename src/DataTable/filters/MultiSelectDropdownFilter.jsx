@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Badge from '../../Badge';
-import Stack from '../../Stack';
 import { DropdownButton } from '../../Dropdown';
 import { newId } from '../../utils';
-import Form from '../../Form';
+import LabelledCheckbox from './LabelledCheckbox';
 
 function MultiSelectDropdownFilter({
   column: {
@@ -22,28 +21,20 @@ function MultiSelectDropdownFilter({
     checkedBoxes.push(value);
     return setFilter(checkedBoxes);
   };
-
+  const headerBasedId = useMemo(() => `checkbox-filter-check-${getHeaderProps().key}-`, [getHeaderProps]);
   return (
     <DropdownButton variant="outline-primary" id={ariaLabel.current} title={Header}>
-      <Form.CheckboxSet
-        className="pgn__dropdown-filter-checkbox-group"
-        name={Header}
-        aria-label={Header}
-      >
+      <div role="group" aria-label={Header} className="pgn__dropdown-filter-checkbox-group">
         {filterChoices.map(({ name, number, value }) => (
-          <Form.Checkbox
+          <LabelledCheckbox
             key={name}
-            value={name}
+            id={headerBasedId}
             checked={checkedBoxes.includes(value)}
-            onChange={() => changeCheckbox(value)}
-            aria-label={name}
-          >
-            <Stack direction="horizontal" gap={2}>
-              {name} {number && <Badge variant="light">{number}</Badge>}
-            </Stack>
-          </Form.Checkbox>
+            onChange={() => { changeCheckbox(value); }}
+            label={<>{name} {number && <Badge variant="light">{number}</Badge>}</>}
+          />
         ))}
-      </Form.CheckboxSet>
+      </div>
     </DropdownButton>
   );
 }
@@ -66,7 +57,7 @@ MultiSelectDropdownFilter.propTypes = {
     /** Function to set the filter value */
     setFilter: PropTypes.func.isRequired,
     /** Column header used for labels and placeholders */
-    Header: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]).isRequired,
+    Header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
     /** Names and values for the select options */
     filterChoices: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,

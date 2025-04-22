@@ -46,7 +46,7 @@ const ProductTour = React.forwardRef(({ tours }, ref) => {
 
   useEffect(() => {
     const handleEsc = (event) => {
-      if (event.key === 'Escape') {
+      if (event.keyCode === 27) {
         setIsTourEnabled(false);
         if (onEscape) {
           onEscape();

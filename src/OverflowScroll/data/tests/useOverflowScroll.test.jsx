@@ -1,5 +1,6 @@
 import React from 'react';
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks/dom';
+import { act } from '@testing-library/react';
 import useOverflowScroll from '../useOverflowScroll';
 import useOverflowScrollActions from '../useOverflowScrollActions';
 import getChildrenElements from '../getChildrenElements';

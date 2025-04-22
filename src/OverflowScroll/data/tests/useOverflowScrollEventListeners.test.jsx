@@ -1,4 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks/dom';
+import { act } from '@testing-library/react';
 import useOverflowScrollEventListeners from '../useOverflowScrollEventListeners';
 
 const divElement = document.createElement('div');

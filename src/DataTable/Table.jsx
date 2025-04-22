@@ -27,12 +27,9 @@ function Table({
   }
 
   return (
-    <div
-      className={classNames('pgn__data-table-container', { 'is-loading': isLoading })}
-      data-testid="data-table-container"
-    >
+    <div className={classNames('pgn__data-table-container', { 'is-loading': isLoading })}>
       {isLoading && (
-        <div className="pgn__data-table-spinner" data-testid="data-table-spinner">
+        <div className="pgn__data-table-spinner">
           <Spinner animation="border" screenReaderText="loading" />
         </div>
       )}

@@ -28,11 +28,11 @@ designStatus: 'Done'
 devStatus: 'In progress'
 ---
 
-The DataTable component is a wrapper that uses the <a href="https://github.com/TanStack/table/tree/v7/docs/src/pages/docs" target="_blank" rel="noopener noreferrer">react-table</a> library to
+The DataTable component is a wrapper that uses the <a href="https://react-table.tanstack.com/docs/overview">react-table</a> library to
 create tables. It can be used as is, or its subcomponents can be used on their own, allowing the developer full control.
 
 Paragon also exports all React hooks from ``react-table`` allowing the developers to use them and make customizations more freely without adding ``react-table`` as a separate dependency to their project.
-For full list of available hooks view <a href="https://github.com/TanStack/table/tree/v7/docs/src/pages/docs/api" target="_blank" rel="noopener noreferrer">react-table API reference</a>.
+For full list of available hooks view <a href="https://react-table.tanstack.com/docs/api/overview">react-table API reference</a>.
 
 ## How children get information
 
@@ -49,102 +49,101 @@ const instance = useContext(DataTableContext)
 For small tables (less than ~10,000 rows), filtering, sorting and pagination can be done quickly and easily on the frontend.
 
 In this example, a default TextFilter component is used for all columns. A default filter can be passed in,
-or a filter component can be defined on the column. See <a href="https://github.com/TanStack/table/blob/v7/docs/src/pages/docs/api/useFilters.md" target="_blank" rel="noopener noreferrer">react-table filters documentation</a>
+or a filter component can be defined on the column. See <a href="https://react-table.tanstack.com/docs/api/useFilters">react-table filters documentation</a>
 for more information.
 
 ```jsx live
-() => {
-  const data = useMemo(() => [
-    {
-      name: 'Lil Bub',
-      color: 'brown tabby',
-      famous_for: 'weird tongue',
-    },
-    {
-      name: 'Grumpy Cat',
-      color: 'siamese',
-      famous_for: 'serving moods',
-    },
-    {
-      name: 'Smoothie',
-      color: 'orange tabby',
-      famous_for: 'modeling',
-    },
-    {
-      name: 'Maru',
-      color: 'brown tabby',
-      famous_for: 'being a lovable oaf',
-    },
-    {
-      name: 'Keyboard Cat',
-      color: 'orange tabby',
-      famous_for: 'piano virtuoso',
-    },
-    {
-      name: 'Long Cat',
-      color: 'russian white',
-      famous_for:
-        'being loooooooooooooooooooooooooooooooooooooooooooooooooooooong',
-    },
-    {
-      name: 'Zeno',
-      color: 'brown tabby',
-      famous_for: 'getting halfway there'
-    },
-  ], [])
+  <DataTable
+    isPaginated
+    isSelectable
+    initialState={{
+      pageSize: 2,
+    }}
+    isFilterable
+    isSortable
+    defaultColumnValues={{ Filter: TextFilter }}
+    itemCount={7}
+    data={[
+      {
+        name: 'Lil Bub',
+        color: 'brown tabby',
+        famous_for: 'weird tongue',
+      },
+      {
+        name: 'Grumpy Cat',
+        color: 'siamese',
+        famous_for: 'serving moods',
+      },
+      {
+        name: 'Smoothie',
+        color: 'orange tabby',
+        famous_for: 'modeling',
+      },
+      {
+        name: 'Maru',
+        color: 'brown tabby',
+        famous_for: 'being a lovable oaf',
+      },
+      {
+        name: 'Keyboard Cat',
+        color: 'orange tabby',
+        famous_for: 'piano virtuoso',
+      },
+      {
+        name: 'Long Cat',
+        color: 'russian white',
+        famous_for:
+          'being loooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+      },
+      {
+        name: 'Zeno',
+        color: 'brown tabby',
+        famous_for: 'getting halfway there'
+      },
+    ]}
+    columns={[
+      {
+        Header: 'Name',
+        accessor: 'name',
 
-  const reducedChoices = data.reduce((acc, currentObject) => {
-    const { color } = currentObject;
-    if (color in acc) {
-      acc[color].number += 1;
-    } else {
-      acc[color] = {
-        name: color,
-        number: 1,
-        value: color,
-      };
-    }
-    return acc;
-  }, {});
-
-   return (
-    <DataTable
-      isPaginated
-      isSelectable
-      initialState={{
-        pageSize: 2,
-      }}
-      isFilterable
-      isSortable
-      defaultColumnValues={{ Filter: TextFilter }}
-      itemCount={data.length}
-      data={data}
-      columns={[
-        {
-          Header: 'Name',
-          accessor: 'name',
-
+      },
+      {
+        Header: 'Famous For',
+        accessor: 'famous_for',
+      },
+      {
+        Header: 'Coat Color',
+        accessor: 'color',
+        Filter: CheckboxFilter,
+        filter: 'includesValue',
+        filterChoices: [{
+          name: 'russian white',
+          number: 1,
+          value: 'russian white',
         },
         {
-          Header: 'Famous For',
-          accessor: 'famous_for',
+          name: 'orange tabby',
+          number: 2,
+          value: 'orange tabby',
         },
         {
-          Header: 'Coat Color',
-          accessor: 'color',
-          Filter: CheckboxFilter,
-          filter: 'includesValue',
-          filterChoices: Object.values(reducedChoices),
+          name: 'brown tabby',
+          number: 3,
+          value: 'brown tabby',
         },
-      ]}
-    >
-      <DataTable.TableControlBar />
-      <DataTable.Table />
-      <DataTable.EmptyTable content="No results found" />
-      <DataTable.TableFooter />
-    </DataTable>
-   );
-}
+        {
+          name: 'siamese',
+          number: 1,
+          value: 'siamese',
+        }]
+      },
+    ]}
+  >
+    <DataTable.TableControlBar />
+    <DataTable.Table />
+    <DataTable.EmptyTable content="No results found" />
+    <DataTable.TableFooter />
+  </DataTable>
 ```
 
 ## Backend filtering and sorting
@@ -253,7 +252,7 @@ To enable proper selection behavior with backend pagination (i.e., when ``isSele
     </Component>
   );
 
-  const ClearAction = ({ as: Component, tableInstance }) => (
+  const ClearAction = ({ as: Component, tableInstance, ...rest }) => (
     <Component
       variant="danger"
       onClick={() => {
@@ -361,7 +360,6 @@ See ``dataViewToggleOptions`` props documentation for all supported props.
       famous_for: 'modeling',
     },
   ], [])
-
   return (
     <DataTable
       isFilterable
@@ -373,7 +371,7 @@ See ``dataViewToggleOptions`` props documentation for all supported props.
       }}
       isSortable
       defaultColumnValues={{ Filter: TextFilter }}
-      itemCount={data.length}
+      itemCount={3}
       data={data}
       columns={[
         {
@@ -390,20 +388,25 @@ See ``dataViewToggleOptions`` props documentation for all supported props.
           Filter: CheckboxFilter,
           filter: 'includesValue',
           filterChoices: [{
-            name: 'orange tabby',
+            name: 'russian white',
             number: 1,
+            value: 'russian white',
+          },
+          {
+            name: 'orange tabby',
+            number: 2,
             value: 'orange tabby',
           },
           {
             name: 'brown tabby',
-            number: 1,
+            number: 3,
             value: 'brown tabby',
           },
           {
             name: 'siamese',
             number: 1,
             value: 'siamese',
-          }],
+          }]
         },
       ]}
     >
@@ -436,7 +439,7 @@ See ``dataViewToggleOptions`` props documentation for all supported props.
       }}
       isSortable
       defaultColumnValues={{ Filter: TextFilter }}
-      itemCount={3}
+      itemCount={7}
       data={[
         {
           name: 'Lil Bub',
@@ -470,13 +473,18 @@ See ``dataViewToggleOptions`` props documentation for all supported props.
           Filter: CheckboxFilter,
           filter: 'includesValue',
           filterChoices: [{
-            name: 'orange tabby',
+            name: 'russian white',
             number: 1,
+            value: 'russian white',
+          },
+          {
+            name: 'orange tabby',
+            number: 2,
             value: 'orange tabby',
           },
           {
             name: 'brown tabby',
-            number: 1,
+            number: 3,
             value: 'brown tabby',
           },
           {
@@ -845,7 +853,7 @@ a responsive grid of cards.
     </Component>
   );
 
-  const ClearAction = ({ as: Component, tableInstance }) => (
+  const ClearAction = ({ as: Component, tableInstance, ...rest }) => (
     <Component
       variant="danger"
       onClick={() => {
@@ -1062,7 +1070,7 @@ a responsive grid of cards.
 ### Customizing number of Cards shown per row
 Use `columnSizes` prop of `CardView` component to define how many `Cards` are shown per row at each breakpoint.
 
-`columnSizes` is an object containing the desired column size at each breakpoint. The example below shows 1 `Card` per row at `xs` breakpoint, 2 `Cards` at `sm` and `md`, and 4 `Cards` at `lg` and higher. You can read more about the API at [React-Bootstrap's grid documentation](https://react-bootstrap-v4.netlify.app/layout/grid/).
+`columnSizes` is an object containing the desired column size at each breakpoint. The example below shows 1 `Card` per row at `xs` breakpoint, 2 `Cards` at `sm` and `md`, and 4 `Cards` at `lg` and higher. You can read more about the API at https://react-bootstrap.netlify.app/layout/grid/.
 
 ```jsx live
 () => {
@@ -1272,13 +1280,18 @@ For a more desktop friendly view, you can move filters into a sidebar by providi
         Filter: CheckboxFilter,
         filter: 'includesValue',
         filterChoices: [{
+          name: 'russian white',
+          number: 1,
+          value: 'russian white',
+        },
+        {
           name: 'orange tabby',
           number: 2,
           value: 'orange tabby',
         },
         {
           name: 'brown tabby',
-          number: 2,
+          number: 3,
           value: 'brown tabby',
         },
         {
@@ -1399,7 +1412,7 @@ You can create your own custom expander column and use it, see code example belo
   const currentDate = new Date().toDateString();
 
   const renderSubComponent = ({ row }) => (
-    <div className="ms-5 w-50">
+    <div className="ml-5 w-50">
       <DataTable
         itemCount={1}
         data={[
@@ -1553,105 +1566,6 @@ You can create your own cell content by passing the `Cell` property to a specifi
       <DataTable.TableControlBar/>
       <DataTable.Table/>
       <DataTable.TableFooter/>
-    </DataTable>
-  );
-}
-
-```
-##  maxSelectedRows and onMaxSelectedRows props
-
-These props will allow us to handle the maximum number of selectable rows, which is necessary for validation. Using the `maxSelectedRows` prop, the implementation process can be simplified. You only need to pass the maximum number of rows you want to have selected.
-
-After selecting the maximum possible number of rows, you can display an error message or perform other actions. This is achieved through the  `onMaxSelectedRows`  callback. In the example below, the callback will be executed when the table has 3 rows selected.
-
-```jsx live
-() => {
-  return (
-    <DataTable
-      isPaginated
-      isSelectable
-      maxSelectedRows={3}
-      onMaxSelectedRows={() => console.log('this is the last row allowed')}
-      itemCount={7}
-      data={[
-        {
-          name: 'Lil Bub',
-          color: 'brown tabby',
-          famous_for: 'weird tongue',
-        },
-        {
-          name: 'Grumpy Cat',
-          color: 'siamese',
-          famous_for: 'serving moods',
-        },
-        {
-          name: 'Smoothie',
-          color: 'orange tabby',
-          famous_for: 'modeling',
-        },
-        {
-          name: 'Maru',
-          color: 'brown tabby',
-          famous_for: 'being a lovable oaf',
-        },
-        {
-          name: 'Keyboard Cat',
-          color: 'orange tabby',
-          famous_for: 'piano virtuoso',
-        },
-        {
-          name: 'Long Cat',
-          color: 'russian white',
-          famous_for: 'being looooooooooooooooooooooooooong',
-        },
-        {
-          name: 'Zeno',
-          color: 'brown tabby',
-          famous_for: 'getting halfway there',
-        },
-      ]}
-      columns={[
-        {
-          Header: 'Name',
-          accessor: 'name',
-        },
-        {
-          Header: 'Famous For',
-          accessor: 'famous_for',
-        },
-        {
-          Header: 'Coat Color',
-          accessor: 'color',
-          filter: 'includesValue',
-          filterChoices: [
-            {
-              name: 'russian white',
-              number: 1,
-              value: 'russian white',
-            },
-            {
-              name: 'orange tabby',
-              number: 2,
-              value: 'orange tabby',
-            },
-            {
-              name: 'brown tabby',
-              number: 3,
-              value: 'brown tabby',
-            },
-            {
-              name: 'siamese',
-              number: 1,
-              value: 'siamese',
-            },
-          ],
-        },
-      ]}
-    >
-      <DataTable.TableControlBar />
-      <DataTable.Table />
-      <DataTable.EmptyTable content="No results found" />
-      <DataTable.TableFooter />
     </DataTable>
   );
 }

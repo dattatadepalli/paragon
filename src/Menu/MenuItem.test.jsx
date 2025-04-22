@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import userEvent from '@testing-library/user-event';
-
 import { Add, Check } from '../../icons';
 import { MenuItem } from '..';
 import Button from '../Button';
@@ -16,32 +14,28 @@ describe('Menu Item', () => {
     )).toJSON();
     expect(tree).toMatchSnapshot();
   });
-
-  it('The Button can be clicked', async () => {
+  it('The Button can be clicked', () => {
     const clickFn = jest.fn();
-    render(
-      <MenuItem as={Button} iconBefore={Add} onClick={clickFn}>
-        {children}
-      </MenuItem>,
-    );
-    const button = screen.getByRole('button');
-
-    await userEvent.click(button);
-
+    const wrapper = mount((
+      <MenuItem as={Button} iconBefore={Add} onClick={clickFn}>{children}</MenuItem>
+    ));
+    expect(clickFn).toHaveBeenCalledTimes(0);
+    wrapper
+      .find('button')
+      .simulate('click');
     expect(clickFn).toHaveBeenCalledTimes(1);
   });
-
-  it('Disabled Button can\'t be clicked', async () => {
+  it('Disabled Button cant be clicked', () => {
     const clickFn = jest.fn();
-    render(
+    const wrapper = mount(
       <MenuItem as={Button} iconBefore={Add} onClick={clickFn} disabled>
         I am nonoperational
       </MenuItem>,
     );
-    const button = screen.getByRole('button');
-
-    await userEvent.click(button);
-
+    expect(clickFn).toHaveBeenCalledTimes(0);
+    wrapper
+      .find('button')
+      .simulate('click');
     expect(clickFn).toHaveBeenCalledTimes(0);
   });
 });

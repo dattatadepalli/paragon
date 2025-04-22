@@ -8,12 +8,14 @@ categories:
 - Navigation
 status: 'Stable'
 designStatus: 'Done'
-devStatus: 'Done'
+devStatus: 'TO DO'
+notes: |
+  TODO: Remove subcomponent of deprecated implementation soon
 ---
 
 <p>
   This is a pass through component from React-Bootstrap.<br/>
-  <a href="https://react-bootstrap-v4.netlify.app/components/tabs/" target="_blank" rel="noopener noreferrer">
+  <a href="https://react-bootstrap.github.io/components/cards/" target="_blank" rel="noopener noreferrer">
     See React-Bootstrap for documentation.
   </a>
 </p>
@@ -224,58 +226,24 @@ devStatus: 'Done'
 </Tabs>
 ```
 
-## Conditional rendering
+***
+
+## Tabs.Deprecated
+
+<br/>
+
+### (Deprecated) basic usage
 
 ```jsx live
-() => {
-  const librariesEnabled = true;
-  const visibleTabs = useMemo(() => {
-    const tabs = [];
-        
-    tabs.push(
-      <Tab
-        key="courses"
-        eventKey="courses"
-        title="Courses"
-      >
-        Hello I am the courses panel.
-      </Tab>
-    );
-
-    tabs.push(
-      <Tab
-        key="programs"
-        eventKey="programs"
-        title="Programs"
-      >
-        Hello I am the programs panel.
-      </Tab>
-    );
-    
-    if (librariesEnabled) {
-      tabs.push(
-        <Tab
-          key="libraries"
-          eventKey="libraries"
-          title="Libraries"
-        >
-          Hello I am the libraries panel.
-        </Tab>
-      );   
-    }
-
-    return tabs;
-  }, [librariesEnabled]);
-
-  return (
-    <Tabs
-      id="tabs"
-      defaultActiveKey="courses"
-    >
-      {visibleTabs}
-    </Tabs>
-  );
-}
+<Tabs.Deprecated
+  labels={[
+    'Panel 1',
+    'Panel 2',
+    'Panel 3'
+  ]}
+>
+  <div>Hello I am the first panel</div>
+  <div>Hello I am the second panel</div>
+  <div>Hello I am the third panel</div>
+</Tabs.Deprecated>
 ```
-
-***

@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import RBFormControl from 'react-bootstrap/FormControl';
-import { IMaskInput } from 'react-imask';
 import { useFormGroupContext } from './FormGroupContext';
 import FormControlFeedback from './FormControlFeedback';
 import FormControlDecoratorGroup from './FormControlDecoratorGroup';
@@ -18,7 +17,6 @@ const FormControl = React.forwardRef(({
   floatingLabel,
   autoResize,
   onChange,
-  inputMask,
   ...props
 }, ref) => {
   const {
@@ -36,7 +34,13 @@ const FormControl = React.forwardRef(({
     value: props.value,
   });
 
-  const handleResize = useCallback(() => {
+  const controlProps = getControlProps({
+    ...props,
+    // eslint-disable-next-line react/prop-types
+    onBlur: callAllHandlers(checkInputEventValue, props.onBlur),
+  });
+
+  const handleOnChange = (e) => {
     if (as === 'textarea' && autoResize) {
       if (!resolvedRef.current.initialHeight && !resolvedRef.current.offsets) {
         resolvedRef.current.initialHeight = resolvedRef.current.offsetHeight;
@@ -45,20 +49,6 @@ const FormControl = React.forwardRef(({
       resolvedRef.current.style.height = `${resolvedRef.current.initialHeight}px`;
       resolvedRef.current.style.height = `${resolvedRef.current.scrollHeight + resolvedRef.current.offsets}px`;
     }
-  }, [as, autoResize, resolvedRef]);
-
-  useEffect(() => {
-    handleResize();
-  }, [handleResize]);
-
-  const controlProps = getControlProps({
-    ...props,
-    // eslint-disable-next-line react/prop-types
-    onBlur: callAllHandlers(checkInputEventValue, props.onBlur),
-  });
-
-  const handleOnChange = (e) => {
-    handleResize();
     if (onChange) {
       onChange(e);
     }
@@ -73,7 +63,7 @@ const FormControl = React.forwardRef(({
       className={className}
     >
       <RBFormControl
-        as={inputMask ? IMaskInput : as}
+        as={as}
         ref={resolvedRef}
         size={size}
         isInvalid={isInvalid}
@@ -82,7 +72,6 @@ const FormControl = React.forwardRef(({
           'has-value': hasValue,
         })}
         onChange={handleOnChange}
-        mask={inputMask}
         {...controlProps}
       />
     </FormControlDecoratorGroup>
@@ -125,8 +114,6 @@ FormControl.propTypes = {
   isInvalid: PropTypes.bool,
   /** Only for `as="textarea"`. Specifies whether the input can be resized according to the height of content. */
   autoResize: PropTypes.bool,
-  /** Specifies what format to use for the input mask. */
-  inputMask: PropTypes.string,
 };
 
 FormControl.defaultProps = {
@@ -145,7 +132,6 @@ FormControl.defaultProps = {
   isValid: undefined,
   isInvalid: undefined,
   autoResize: false,
-  inputMask: undefined,
 };
 
 export default FormControl;

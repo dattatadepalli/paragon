@@ -1,10 +1,14 @@
 import React from 'react';
+
 import { render, screen } from '@testing-library/react'; // (or /dom, /vue, ...)
-import useIsVisible from '../hooks/useIsVisibleHook';
+import useIsVisible from '../hooks/useIsVisible';
 
-import Scrollable, { CLASSNAME_SCROLL_BOTTOM, CLASSNAME_SCROLL_TOP } from '.';
+// adds special assertions like toHaveTextContent
+import '@testing-library/jest-dom/extend-expect';
 
-jest.mock('../hooks/useIsVisibleHook');
+import Scrollable, { CLASSNAME_SCROLL_BOTTOM, CLASSNAME_SCROLL_TOP } from './index';
+
+jest.mock('../hooks/useIsVisible');
 
 function rangeOfNumbers() {
   return Array.from({ length: 50 }, (v, k) => k + 1);

@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
 import DropdownFilters from '../DropdownFilters';
-import { useWindowSize } from '../..';
+import { useWindowSize, DropdownButton } from '../..';
 import DataTableContext from '../DataTableContext';
 
-jest.mock('../../hooks/useWindowSizeHook');
+jest.mock('../../hooks/useWindowSize');
 
 const instance = {
   columns: [
@@ -30,68 +30,65 @@ const instance = {
 
 // eslint-disable-next-line react/prop-types
 function DropdownFiltersWrapper({ value = instance, props }) {
-  return (
-    <DataTableContext.Provider value={value}>
-      <DropdownFilters {...props} />
-    </DataTableContext.Provider>
-  );
+  return <DataTableContext.Provider value={value}><DropdownFilters {...props} /></DataTableContext.Provider>;
 }
 
 describe('<DropdownFilters />', () => {
-  afterEach(() => {
+  afterAll(() => {
     jest.restoreAllMocks();
   });
-
   describe('non-mobile site', () => {
     it('renders a breakout filter', () => {
       useWindowSize.mockReturnValue({ width: 800 });
 
-      render(<DropdownFiltersWrapper />);
-      expect(screen.getByText('Bears filter')).toBeInTheDocument();
+      const wrapper = mount(<DropdownFiltersWrapper />);
+      expect(wrapper.text()).toContain('Bears filter');
     });
-
     it('renders additional filters in a dropdown', async () => {
       useWindowSize.mockReturnValue({ width: 800 });
-      render(<DropdownFiltersWrapper />);
+      const wrapper = mount(<DropdownFiltersWrapper />);
       // filter should be rendered in the dropdown, so should not be present before
       // clicking the button.
-      expect(screen.queryByText('Occupation filter')).toBeNull();
-      const filtersButton = screen.getByRole('button', { name: /Filters/i });
-      await userEvent.click(filtersButton);
-      expect(screen.getByText('Occupation filter')).toBeInTheDocument();
+      expect(wrapper.text()).not.toContain('Occupation filter');
+      const filtersButton = wrapper.find(DropdownButton);
+      expect(filtersButton).toHaveLength(1);
+      await act(async () => {
+        filtersButton.find('button').simulate('click');
+      });
+      expect(wrapper.text()).toContain('Occupation filter');
     });
-
     it('should not render filters for non-filterable rows', async () => {
       useWindowSize.mockReturnValue({ width: 800 });
-      render(<DropdownFiltersWrapper />);
-      expect(screen.queryByText('DOB filter')).toBeNull();
-      const filtersButton = screen.getByRole('button', { name: /Filters/i });
-      await userEvent.click(filtersButton);
-      expect(screen.queryByText('DOB filter')).toBeNull();
+      const wrapper = mount(<DropdownFiltersWrapper />);
+      expect(wrapper.text()).not.toContain('DOB filter');
+      const filtersButton = wrapper.find('button');
+      await act(async () => {
+        filtersButton.simulate('click');
+      });
+      expect(wrapper.text()).not.toContain('DOB filter');
     });
-
     it('does not render a dropdown if there is only one filter', () => {
       useWindowSize.mockReturnValue({ width: 800 });
-      render(<DropdownFiltersWrapper value={{ columns: [instance.columns[1]] }} />);
-      expect(screen.getByText('Occupation filter')).toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /Filters/i })).toBeNull();
+      const wrapper = mount(<DropdownFiltersWrapper value={{ columns: [instance.columns[1]] }} />);
+      expect(wrapper.text()).toContain('Occupation filter');
+      expect(wrapper.find(DropdownButton)).toHaveLength(0);
     });
   });
-
   describe('on mobile', () => {
     it('does not render a breakout filter', () => {
       useWindowSize.mockReturnValue({ width: 500 });
-      render(<DropdownFiltersWrapper />);
-      expect(screen.queryByText('Bears filter')).toBeNull();
+      const wrapper = mount(<DropdownFiltersWrapper />);
+      expect(wrapper.text()).not.toContain('Bears filter');
     });
-
     it('renders all filters in the dropdown', async () => {
       useWindowSize.mockReturnValue({ width: 500 });
-      render(<DropdownFiltersWrapper />);
-      const filtersButton = screen.getByRole('button', { name: /Filters/i });
-      await userEvent.click(filtersButton);
-      expect(screen.getByText('Bears filter')).toBeInTheDocument();
-      expect(screen.getByText('Occupation filter')).toBeInTheDocument();
+      const wrapper = mount(<DropdownFiltersWrapper />);
+      const filtersButton = wrapper.find('button');
+      await act(async () => {
+        filtersButton.simulate('click');
+      });
+      expect(wrapper.text()).toContain('Bears filter');
+      expect(wrapper.text()).toContain('Occupation filter');
     });
   });
 });

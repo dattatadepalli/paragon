@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-
+import { mount } from 'enzyme';
+import TableHeaderRow from '../TableHeaderRow';
 import Table from '../Table';
 import DataTableContext from '../DataTableContext';
 
@@ -64,29 +64,26 @@ function TableWrapper({ value = instance, props }) {
 
 describe('DataTable <Table />', () => {
   it('renders a table header', () => {
-    const { getByText } = render(<TableWrapper />);
-    const headerText = getByText(header1Name);
-    expect(headerText).toBeInTheDocument();
+    const wrapper = mount(<TableWrapper />);
+    const row = wrapper.find(TableHeaderRow);
+    expect(row.length).toEqual(1);
   });
-
   it('renders rows', () => {
-    const { getByText } = render(<TableWrapper />);
-    const rowText = getByText('Fido');
-    expect(rowText).toBeInTheDocument();
+    const wrapper = mount(<TableWrapper />);
+    const row = wrapper.find('tbody tr');
+    expect(row.length).toEqual(1);
   });
-
   it('adds table props', () => {
     const tableProps = {
       summary: 'It is a table',
     };
     const getTablePropsSpy = jest.fn();
     getTablePropsSpy.mockReturnValue(tableProps);
-    const { getByRole } = render(<TableWrapper value={{ ...instance, getTableProps: getTablePropsSpy }} />);
-    const table = getByRole('table');
+    const wrapper = mount(<TableWrapper value={{ ...instance, getTableProps: getTablePropsSpy }} />);
+    const table = wrapper.find('table');
 
-    expect(table).toHaveAttribute('summary', tableProps.summary);
+    expect(table.props().summary).toEqual(tableProps.summary);
   });
-
   it('adds table body props', () => {
     const tableProps = {
       foo: 'bar',
@@ -94,14 +91,13 @@ describe('DataTable <Table />', () => {
     };
     const getTableBodyPropsSpy = jest.fn();
     getTableBodyPropsSpy.mockReturnValue(tableProps);
-    const { getByRole } = render(<TableWrapper value={{ ...instance, getTableBodyProps: getTableBodyPropsSpy }} />);
-    const tableBody = getByRole('table').querySelector('tbody');
-    expect(tableBody).toHaveAttribute('foo', tableProps.foo);
-    expect(tableBody).toHaveAttribute('baz', tableProps.baz);
+    const wrapper = mount(<TableWrapper value={{ ...instance, getTableBodyProps: getTableBodyPropsSpy }} />);
+    const table = wrapper.find('tbody');
+    expect(table.props().foo).toEqual(tableProps.foo);
+    expect(table.props().baz).toEqual(tableProps.baz);
   });
-
   it('returns null if the instance does not exist', () => {
-    const { container } = render(<TableWrapper value={{}} />);
-    expect(container.firstChild).toBeNull();
+    const wrapper = mount(<TableWrapper value={{}} />);
+    expect(wrapper.text()).toEqual('');
   });
 });

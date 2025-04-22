@@ -22,12 +22,10 @@ function BaseSelectionStatus({
 }) {
   const {
     itemCount, filteredRows, isPaginated, state,
-    isSelectable, maxSelectedRows, manualFilters,
   } = useContext(DataTableContext);
   const hasAppliedFilters = state?.filters?.length > 0;
   const isAllRowsSelected = numSelectedRows === itemCount;
-  const filteredItems = manualFilters ? itemCount : (filteredRows?.length || itemCount);
-  const hasMaxSelectedRows = isSelectable && maxSelectedRows;
+  const filteredItems = filteredRows?.length || itemCount;
 
   const intlAllSelectedText = allSelectedText || (
     <FormattedMessage
@@ -57,13 +55,11 @@ function BaseSelectionStatus({
   const intlSelectedText = selectedText || defaultSelectedText;
 
   return (
-    <div className={className} data-testid="selection-status-component">
-      <span data-testid="selection-status">
-        {isAllRowsSelected ? intlAllSelectedText : intlSelectedText}
-      </span>
-      {!isAllRowsSelected && !hasMaxSelectedRows && (
+    <div className={className}>
+      <span>{isAllRowsSelected ? intlAllSelectedText : intlSelectedText}</span>
+      {!isAllRowsSelected && (
         <Button
-          data-testid={SELECT_ALL_TEST_ID}
+          className={SELECT_ALL_TEST_ID}
           variant="link"
           size="inline"
           onClick={onSelectAll}
@@ -80,7 +76,7 @@ function BaseSelectionStatus({
       )}
       {numSelectedRows > 0 && (
         <Button
-          data-testid={CLEAR_SELECTION_TEST_ID}
+          className={CLEAR_SELECTION_TEST_ID}
           variant="link"
           size="inline"
           onClick={onClear}

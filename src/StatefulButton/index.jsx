@@ -75,7 +75,7 @@ StatefulButton.propTypes = {
    *     complete: <Icon className="fa fa-check" />,
    *   }}
    *   disabledStates=['pending']
-   *   className='btn-primary me-2'
+   *   className='btn-primary mr-2'
    * />
    * ```
    */

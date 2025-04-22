@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks/dom';
 import { act } from 'react-test-renderer';
 import useOverflowScrollActions from '../useOverflowScrollActions';
 

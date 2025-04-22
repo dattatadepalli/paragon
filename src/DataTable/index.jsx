@@ -52,8 +52,6 @@ function DataTable({
   isLoading,
   children,
   onSelectedRowsChanged,
-  maxSelectedRows,
-  onMaxSelectedRows,
   ...props
 }) {
   const defaultColumn = useMemo(
@@ -62,7 +60,7 @@ function DataTable({
   );
   const tableOptions = useMemo(() => {
     const updatedTableOptions = {
-      stateReducer: (newState, action, previousState) => {
+      stateReducer: (newState, action) => {
         switch (action.type) {
           // Note: we override the `toggleAllRowsSelected` action
           // from react-table because it only clears the selections on the
@@ -77,28 +75,6 @@ function DataTable({
             return {
               ...newState,
               selectedRowIds: {},
-            };
-          }
-          /*  Note: We override the `toggleRowSelected` action from react-table
-              because we need to preserve the order of the selected rows.
-              While `selectedRowIds` is an object that contains the selected rows as key-value pairs,
-              it does not maintain the order of selection. Therefore, we have added the `selectedRowsOrdered` property
-              to keep track of the order in which the rows were selected.
-          */
-          case 'toggleRowSelected': {
-            const rowIndex = parseInt(action.id, 10);
-            const { selectedRowsOrdered = [] } = previousState;
-
-            let newSelectedRowsOrdered;
-            if (action.value) {
-              newSelectedRowsOrdered = [...selectedRowsOrdered, rowIndex];
-            } else {
-              newSelectedRowsOrdered = selectedRowsOrdered.filter((item) => item !== rowIndex);
-            }
-
-            return {
-              ...newState,
-              selectedRowsOrdered: newSelectedRowsOrdered,
             };
           }
           default:
@@ -117,7 +93,7 @@ function DataTable({
       initialState,
       ...updatedTableOptions,
     };
-  }, [initialTableOptions, columns, data, defaultColumn, manualFilters, manualPagination, manualSortBy, initialState]);
+  }, [columns, data, defaultColumn, manualFilters, manualPagination, initialState, initialTableOptions, manualSortBy]);
 
   const [selections, selectionsDispatch] = useReducer(selectionsReducer, initialSelectionsState);
 
@@ -187,7 +163,6 @@ function DataTable({
 
   const enhancedInstance = {
     ...instance,
-    manualFilters,
     itemCount,
     numBreakoutFilters,
     bulkActions,
@@ -201,8 +176,6 @@ function DataTable({
     isSelectable,
     isPaginated,
     manualSelectColumn,
-    maxSelectedRows,
-    onMaxSelectedRows,
     ...selectionProps,
     ...selectionActions,
     ...props,
@@ -263,21 +236,19 @@ DataTable.defaultProps = {
   isExpandable: false,
   isLoading: false,
   onSelectedRowsChanged: undefined,
-  maxSelectedRows: undefined,
-  onMaxSelectedRows: undefined,
 };
 
 DataTable.propTypes = {
   /** Definition of table columns */
   columns: PropTypes.arrayOf(PropTypes.shape({
     /** User visible column name */
-    Header: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]).isRequired,
+    Header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
     /** String used to access the correct cell data for this column */
     accessor: requiredWhenNot(PropTypes.string, 'Cell'),
     /** Specifies a function that receives `row` as argument and returns cell content */
-    Cell: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]),
+    Cell: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     /** Specifies filter component */
-    Filter: PropTypes.elementType,
+    Filter: PropTypes.func,
     /** Specifies filter type */
     filter: PropTypes.string,
     /** Specifies filter choices */
@@ -294,8 +265,8 @@ DataTable.propTypes = {
   /** Alternate column for selecting rows. See react table useSort docs for more information */
   manualSelectColumn: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    Header: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]).isRequired,
-    Cell: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]),
+    Header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
+    Cell: PropTypes.func.isRequired,
     disableSortBy: PropTypes.bool.isRequired,
   }),
   /** Table columns can be sorted */
@@ -316,28 +287,27 @@ DataTable.propTypes = {
   /** defaults that will be set on each column. Will be overridden by individual column values */
   defaultColumnValues: PropTypes.shape({
     /** A default filter component for the column */
-    Filter: PropTypes.elementType,
+    Filter: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   }),
   /** Actions or other additional non-data columns can be added here  */
   additionalColumns: PropTypes.arrayOf(PropTypes.shape({
     /** id must be unique from other columns ids */
     id: PropTypes.string.isRequired,
     /** column header that will be displayed to the user */
-    Header: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]),
+    Header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /** Component that renders in the added column. It will receive the row as a prop */
-    Cell: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node]),
+    Cell: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   })),
   /** Function that will fetch table data. Called when page size, page index or filters change.
     * Meant to be used with manual filters and pagination */
   fetchData: PropTypes.func,
-  /** Initial state passed to react-table's documentation https://github.com/TanStack/table/blob/v7/docs/src/pages/docs/api/useTable.md */
+  /** Initial state passed to react-table's documentation https://react-table.tanstack.com/docs/api/useTable */
   initialState: PropTypes.shape({
     pageSize: requiredWhen(PropTypes.number, 'isPaginated'),
     pageIndex: requiredWhen(PropTypes.number, 'isPaginated'),
     filters: requiredWhen(PropTypes.arrayOf(PropTypes.shape()), 'manualFilters'),
     sortBy: requiredWhen(PropTypes.arrayOf(PropTypes.shape()), 'manualSortBy'),
     selectedRowIds: PropTypes.shape(),
-    selectedRowsOrdered: PropTypes.arrayOf(PropTypes.number),
   }),
   /** Table options passed to react-table's useTable hook. Will override some options passed in to DataTable, such
      as: data, columns, defaultColumn, manualFilters, manualPagination, manualSortBy, and initialState */
@@ -402,15 +372,15 @@ DataTable.propTypes = {
   /** Number between one and four filters that can be shown on the top row. */
   numBreakoutFilters: PropTypes.oneOf([1, 2, 3, 4]),
   /** Component to be displayed when the table is empty */
-  EmptyTableComponent: PropTypes.elementType,
+  EmptyTableComponent: PropTypes.func,
   /** Component to be displayed for row status, ie, 10 of 20 rows. Displayed by default in the TableControlBar */
-  RowStatusComponent: PropTypes.elementType,
+  RowStatusComponent: PropTypes.func,
   /** Component to be displayed for selection status. Displayed when there are selected rows and no active filters */
-  SelectionStatusComponent: PropTypes.elementType,
+  SelectionStatusComponent: PropTypes.func,
   /** Component to be displayed for filter status. Displayed when there are active filters. */
-  FilterStatusComponent: PropTypes.elementType,
+  FilterStatusComponent: PropTypes.func,
   /** If children are not provided a table with control bar and footer will be rendered */
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   /** If true filters will be shown on sidebar instead */
   showFiltersInSidebar: PropTypes.bool,
   /** options for data view toggle */
@@ -435,10 +405,6 @@ DataTable.propTypes = {
   isLoading: PropTypes.bool,
   /** Callback function called when row selections change. */
   onSelectedRowsChanged: PropTypes.func,
-  /** Indicates the max of rows selectable in the table. Requires isSelectable prop */
-  maxSelectedRows: PropTypes.number,
-  /** Callback after selected max rows. Requires isSelectable and maxSelectedRows props */
-  onMaxSelectedRows: PropTypes.func,
 };
 
 DataTable.BulkActions = BulkActions;

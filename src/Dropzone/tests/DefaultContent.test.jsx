@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { IntlProvider } from 'react-intl';
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import DefaultContent from '../DefaultContent';
 

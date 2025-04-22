@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import StepperHeaderStep from './StepperHeaderStep';
 import { StepperContext } from './StepperContext';
-import useWindowSize from '../hooks/useWindowSizeHook';
+import useWindowSize from '../hooks/useWindowSize';
 import breakpoints, { Size } from '../utils/breakpoints';
 
 function StepListSeparator() {

@@ -4,26 +4,20 @@ import { FormattedMessage } from 'react-intl';
 import DataTableContext from './DataTableContext';
 
 function RowStatus({ className, statusText }) {
-  const {
-    page, rows, itemCount, state,
-  } = useContext(DataTableContext);
-  const rowCount = page?.length || rows?.length;
-  const pageSize = state?.pageSize || 0;
-  const pageIndex = state?.pageIndex || 0;
-  const firstRow = pageSize * pageIndex + 1;
-  const lastRow = firstRow + rowCount - 1;
+  const { page, rows, itemCount } = useContext(DataTableContext);
+  const pageSize = page?.length || rows?.length;
 
-  if (!rowCount) {
+  if (!pageSize) {
     return null;
   }
   return (
-    <div className={className} data-testid="row-status">
+    <div className={className}>
       {statusText || (
         <FormattedMessage
           id="pgn.DataTable.RowStatus.statusText"
-          defaultMessage="Showing {firstRow} - {lastRow} of {itemCount}."
+          defaultMessage="Showing {pageSize} of {itemCount}."
           description="A text describing how many rows is shown in the table"
-          values={{ itemCount, firstRow, lastRow }}
+          values={{ itemCount, pageSize }}
         />
       )}
     </div>

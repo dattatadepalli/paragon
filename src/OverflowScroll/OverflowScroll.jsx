@@ -84,9 +84,7 @@ OverflowScroll.propTypes = {
   onScrollPrevious: PropTypes.func,
   /** Callback function for when the user scrolls to the next element. */
   onScrollNext: PropTypes.func,
-  /** A value specifying the distance the scroll should move. */
-  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  /** Type of offset value (percentage or fixed). */
+  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   offsetType: PropTypes.oneOf(['percentage', 'fixed']),
 };
 

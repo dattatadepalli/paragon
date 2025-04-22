@@ -5,6 +5,7 @@ import BaseDropdown from 'react-bootstrap/Dropdown';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import BaseDropdownItem from 'react-bootstrap/DropdownItem';
 import BaseDropdownToggle from 'react-bootstrap/DropdownToggle';
+import DropdownDeprecated from './deprecated';
 import Button from '../Button';
 import IconButton from '../IconButton';
 
@@ -68,7 +69,6 @@ const Dropdown = React.forwardRef(
     );
   },
 );
-
 Dropdown.propTypes = {
   autoClose: PropTypes.oneOfType([
     PropTypes.string,
@@ -79,7 +79,6 @@ Dropdown.propTypes = {
   show: PropTypes.bool,
   variant: PropTypes.oneOf(['light', 'dark']),
 };
-
 Dropdown.defaultProps = {
   autoClose: true,
   className: '',
@@ -128,15 +127,14 @@ Dropdown.Item = React.forwardRef(
     );
   },
 );
-
 Dropdown.Item.propTypes = {
   className: PropTypes.string,
 };
-
 Dropdown.Item.defaultProps = {
   className: undefined,
 };
 
+Dropdown.Deprecated = DropdownDeprecated;
 Dropdown.Toggle = DropdownToggle;
 Dropdown.Menu = DropdownMenu;
 Dropdown.Header = BaseDropdown.Header;

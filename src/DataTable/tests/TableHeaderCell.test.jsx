@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 
-import TableHeaderCell from '../TableHeaderCell';
+import TableHeaderCell, { SortIndicator } from '../TableHeaderCell';
 
 const sortByToggleProps = { foo: 'bar' };
 const props = {
@@ -15,51 +15,61 @@ const props = {
 };
 
 // eslint-disable-next-line react/prop-types
-function FakeTable({ ...rest }) {
-  return <table><thead><tr><TableHeaderCell {...rest} /></tr></thead></table>;
+function FakeTable({ children }) {
+  return <table><thead><tr>{children}</tr></thead></table>;
 }
 
 describe('<TableHeaderCell />', () => {
   describe('unsorted', () => {
-    render(<FakeTable {...props} />);
-    const cell = screen.getByRole('columnheader');
-    const innerCell = cell.firstChild;
-
+    const wrapper = mount(<FakeTable><TableHeaderCell {...props} /></FakeTable>);
     it('renders a table header cell', () => {
-      expect(cell).toBeInTheDocument();
+      const cell = wrapper.find('th');
+      expect(cell.length).toEqual(1);
     });
-
     it('adds props to the cell', () => {
-      expect(cell.className).toBe('red');
+      const cell = wrapper.find('th');
+      expect(cell.props().className).toEqual('red');
     });
-
+    it('renders cell content', () => {
+      const cell = wrapper.find('th');
+      expect(cell.text()).toEqual('Title');
+    });
     it('adds the headerClassName to inner span', () => {
-      expect(innerCell.className).toContain(props.headerClassName);
+      const innerCell = wrapper.find('th span').at(0);
+      expect(innerCell.props().className).toContain(props.headerClassName);
     });
   });
-
   describe('with sorting', () => {
     it('renders a sortable indicator if sorting is available', () => {
-      render(<FakeTable {...props} canSort />);
-      const sortIndicator = screen.getByTestId('arrow-drop-up-down');
-      expect(sortIndicator).toBeInTheDocument();
+      const wrapper = mount(<FakeTable><TableHeaderCell {...props} canSort /></FakeTable>);
+      expect(wrapper.find(SortIndicator).props().isSorted).toBe(false);
+      expect(wrapper.find(SortIndicator).props().isSortedDesc).toBe(false);
     });
-
     it('renders a sorted ascending indicator when sorted ascending', () => {
-      render(<FakeTable {...props} canSort isSorted />);
-      const sortIndicator = screen.getByTestId('arrow-drop-up');
-      expect(sortIndicator).toBeInTheDocument();
+      const wrapper = mount(
+        <FakeTable>
+          <TableHeaderCell {...props} canSort isSorted />
+        </FakeTable>,
+      );
+      expect(wrapper.find(SortIndicator).props().isSorted).toBe(true);
+      expect(wrapper.find(SortIndicator).props().isSortedDesc).toBe(false);
     });
-
-    it('renders a sorted descending indicator when sorted descending', () => {
-      render(<FakeTable {...props} canSort isSorted isSortedDesc />);
-      const sortIndicator = screen.getByTestId('arrow-drop-down');
-      expect(sortIndicator).toBeInTheDocument();
+    it('renders a sorted descending indicator when sorted ascending', () => {
+      const wrapper = mount(
+        <FakeTable>
+          <TableHeaderCell {...props} canSort isSorted isSortedDesc />
+        </FakeTable>,
+      );
+      expect(wrapper.find(SortIndicator).props().isSorted).toBe(true);
+      expect(wrapper.find(SortIndicator).props().isSortedDesc).toBe(true);
     });
-
     it('adds the toggle props to the header props if toggle props are available', () => {
       const headerPropsSpy = jest.fn().mockReturnValueOnce({});
-      render(<FakeTable {...props} canSort getHeaderProps={headerPropsSpy} />);
+      mount(
+        <FakeTable>
+          <TableHeaderCell {...props} canSort getHeaderProps={headerPropsSpy} />
+        </FakeTable>,
+      );
       expect(headerPropsSpy).toHaveBeenCalledWith(sortByToggleProps);
     });
   });

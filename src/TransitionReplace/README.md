@@ -25,10 +25,10 @@ TransitionReplace expects only one child at any time. Swap content inside the co
     <div>
       <TransitionReplace className="mb-3">
         {isEditing ? (
-          <Form.Group>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control value="some name" />
-          </Form.Group>
+          <form key="the-form">
+            <label htmlFor="name">First Name</label>
+            <Input type="text" value="some name" />
+          </form>
         ) : (
           <div key="other">
             <h4 className="mt-0">First Name</h4>

@@ -15,9 +15,9 @@ The `Dropzone` allows users to upload files via drag and drop, or by clicking th
 
 You will also need to provide upload logic yourself via `onProcessUpload` prop which accepts function that should take care of uploading the file to the backend (i.e. send HTTP request). 
 This function accepts an object with following content as its only argument:
-- \{object\} fileData - Metadata about the uploaded file.
-- \{object\} requestConfig - Config to pass to `axios` call (this is required to display progress bar and hande cancel action).
-- \{function\} handleError - Function to communicate to `Dropzone` that file upload resulted in failure, expects `Error` object as its only argument.
+- {object} fileData - Metadata about the uploaded file.
+- {object} requestConfig - Config to pass to `axios` call (this is required to display progress bar and hande cancel action).
+- {function} handleError - Function to communicate to `Dropzone` that file upload resulted in failure, expects `Error` object as its only argument.
 
 Each example below implements such a function.
 
@@ -240,7 +240,7 @@ This example validates that only `400x479` images can be uploaded.
   async function imageDimensionValidator(file) {
     const image = new window.Image();
     try {
-      const url = URL.createObjectURL(file);
+      url = URL.createObjectURL(file);
       image.src = url;
       await image.decode();
       if (image.width !== 400 || image.height !== 479) {
@@ -275,48 +275,5 @@ This example validates that only `400x479` images can be uploaded.
       validator={imageDimensionValidator}
     />
   );
-}
-```
-
-## Reading file contents into memory
-
-Accepts only .xml files up to a size of 20MB. You can read in the contents of the `File` object into memory. The ``onProcessUpload`` prop can retrieve the file Blob from the passed ``fileData`` param and either pass it into a file reader or use text() promise.
-
-Note that `Dropzone` does not handle unexpected errors that might happen in your function, they should be handled by the ``handleProcessUpload`` method.
-
-```jsx live
-() => {
-  const [text, setText] = useState("");
-  const [fileName, setFileName] = useState("");
-
-  const handleProcessUpload = ({ fileData }) => {
-    const blob = fileData.get('file');
-    blob.text().then(xmlText => {
-      setText(xmlText);
-      setFileName(blob.name);
-    });
-  };
-
-  return (
-    <>
-      <Dropzone
-        onProcessUpload={handleProcessUpload}
-        onUploadProgress={(percent) => console.log(percent)}
-        onUploadCancel={() => console.log('UPLOAD CANCEL')}
-        progressVariant="bar"
-        maxSize={20 * 1048576}
-        accept={{
-          "application/xml": ['.xml']
-        }}
-      />
-      {fileName && (
-        <Form.Control.Feedback type="valid">
-          Uploaded{' '}
-          {fileName}
-        </Form.Control.Feedback>
-      )}
-      <p>{text}</p>
-    </>
-  )
 }
 ```

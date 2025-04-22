@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
+
 import { CardContextProvider } from '../CardContext';
 import Card from '..';
 
@@ -13,11 +14,10 @@ describe('correct rendering', () => {
   });
 
   it('renders a context with correct props', () => {
-    render(
-      <CardContextProvider orientation="horizontal">
-        <Card.Footer>Test</Card.Footer>
-      </CardContextProvider>,
-    );
-    expect(screen.getByText('Test').className).toContain('horizontal');
+    const wrapper = mount((
+      <Card orientation="horizontal" />
+    ));
+    const contextProvider = wrapper.find(CardContextProvider);
+    expect(contextProvider.props().orientation).toBe('horizontal');
   });
 });

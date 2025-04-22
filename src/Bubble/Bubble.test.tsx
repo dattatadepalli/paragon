@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render, screen } from '@testing-library/react';
-import Bubble from '.';
+import { mount } from 'enzyme';
+import Bubble from './index';
 
 describe('<Bubble />', () => {
   describe('correct rendering', () => {
@@ -10,27 +10,24 @@ describe('<Bubble />', () => {
       expect(tree).toMatchSnapshot();
     });
     it('renders with variant', () => {
-      render(<Bubble variant="error">1</Bubble>);
-      const bubble = screen.getByText('1');
-      expect(bubble.className).toContain('pgn__bubble-error');
+      const wrapper = mount(<Bubble variant="error">1</Bubble>);
+      const bubble = wrapper.find('.pgn__bubble');
+      expect(bubble.hasClass('pgn__bubble-error')).toEqual(true);
     });
-
     it('renders with default variant', () => {
-      render(<Bubble>1</Bubble>);
-      const bubble = screen.getByText('1');
-      expect(bubble.className).toContain('pgn__bubble-primary');
+      const wrapper = mount(<Bubble>1</Bubble>);
+      const bubble = wrapper.find('.pgn__bubble');
+      expect(bubble.hasClass('pgn__bubble-primary')).toEqual(true);
     });
-
     it('renders with disabled variant', () => {
-      render(<Bubble disabled>1</Bubble>);
-      const bubble = screen.getByText('1');
-      expect(bubble.className).toContain('disabled');
+      const wrapper = mount(<Bubble disabled>1</Bubble>);
+      const bubble = wrapper.find('.pgn__bubble');
+      expect(bubble.hasClass('disabled')).toEqual(true);
     });
-
-    it('renders with expandable variant', () => {
-      render(<Bubble expandable>1</Bubble>);
-      const bubble = screen.getByText('1');
-      expect(bubble.className).toContain('expandable');
+    it('renders with disabled variant', () => {
+      const wrapper = mount(<Bubble expandable>1</Bubble>);
+      const bubble = wrapper.find('.pgn__bubble');
+      expect(bubble.hasClass('expandable')).toEqual(true);
     });
   });
 });

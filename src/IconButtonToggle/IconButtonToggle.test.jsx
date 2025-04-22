@@ -1,5 +1,8 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+
+// adds special assertions like toHaveTextContent
+import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
 import { Info, Home } from '../../icons';
@@ -21,8 +24,7 @@ describe('IconButtonToggle tests', () => {
     expect(btnAbc).toHaveClass('btn-icon-primary-active');
     expect(btnAbc).toHaveAttribute('aria-selected', 'true');
   });
-  test('switching activeValue works as expected', async () => {
-    const user = userEvent.setup();
+  test('switching activeValue works as expected', () => {
     const spyChanger = jest.fn();
     render(
       <IconButtonToggle activeValue="abc" onChange={spyChanger}>
@@ -39,7 +41,7 @@ describe('IconButtonToggle tests', () => {
     expect(btnAbc).toHaveClass('btn-icon-primary-active');
     expect(btnAbc).toHaveAttribute('aria-selected', 'true');
 
-    await user.click(btnDef);
+    userEvent.click(btnDef);
 
     waitFor(() => {
       expect(btnDef).toHaveClass('btn-icon-primary-active');

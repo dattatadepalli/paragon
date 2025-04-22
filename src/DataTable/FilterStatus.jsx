@@ -7,16 +7,12 @@ import Button from '../Button';
 function FilterStatus({
   className, variant, size, clearFiltersText, buttonClassName, showFilteredFields,
 }) {
-  const { state, setAllFilters, headers } = useContext(DataTableContext);
+  const { state, setAllFilters } = useContext(DataTableContext);
   if (!setAllFilters) {
     return null;
   }
 
-  const headersMap = headers.reduce((cur, acc) => {
-    cur[acc.id] = acc.Header;
-    return cur;
-  }, {});
-  const filterNames = state.filters ? state.filters.map((filter) => headersMap[filter.id]) : [];
+  const filterNames = state.filters ? state.filters.map((filter) => filter.id) : [];
   const filterTexts = <p>Filtered by {filterNames.join(', ')}</p>;
 
   return (

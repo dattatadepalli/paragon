@@ -6,9 +6,10 @@ components:
 - SelectableBoxSet
 categories:
 - Forms
-status: 'Stable'
+- Content
+status: 'New'
 designStatus: 'Done'
-devStatus: 'Done'
+devStatus: 'In progress'
 notes: |
 ---
 
@@ -26,7 +27,7 @@ As ``Checkbox``
   const allCheeseOptions = ['swiss', 'cheddar', 'pepperjack'];
   const [checkedCheeses, { add, remove, set, clear }] = useCheckboxSetValues(['swiss']);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     e.target.checked ? add(e.target.value) : remove(e.target.value);
   };
   
@@ -34,32 +35,34 @@ As ``Checkbox``
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
   
   return (
-    <SelectableBox.Set
-      className="bg-light-200 p-3"
-      value={checkedCheeses}
-      type={type}
-      onChange={handleChange}
-      name="cheeses"
-      columns={isExtraSmall ? 1 : 2}
-      ariaLabel="cheese selection"
-    >
-      <SelectableBox value="swiss" type={type} aria-label="swiss checkbox">
-        <h3>It is my first SelectableBox</h3>
-        <p>Swiss</p>
-      </SelectableBox>
-      <SelectableBox value="cheddar" inputHidden={false} type={type} aria-label="cheddar checkbox">
-        <h3>Cheddar</h3>
-      </SelectableBox>
-      <SelectableBox
-        value="pepperjack"
-        inputHidden={false}
+    <div className="bg-light-200 p-3">
+      <SelectableBox.Set
+        value={checkedCheeses}
         type={type}
-        isInvalid={isInvalid()}
-        aria-label="pepperjack checkbox"
+        onChange={handleChange}
+        name="cheeses"
+        columns={isExtraSmall ? 1 : 2}
       >
-        <h3>Pepperjack</h3>
-      </SelectableBox>
-    </SelectableBox.Set>
+        <SelectableBox value="swiss" type={type} aria-label="swiss checkbox">
+          <div>
+            <h3>It is my first SelectableBox</h3>
+            <p>Swiss</p>
+          </div>
+        </SelectableBox>
+        <SelectableBox value="cheddar" inputHidden={false} type={type} aria-label="cheddar checkbox">
+          Cheddar
+        </SelectableBox>
+        <SelectableBox
+          value="pepperjack"
+          inputHidden={false}
+          type={type}
+          isInvalid={isInvalid()}
+          aria-label="pepperjack checkbox"
+        >
+          <h3>Pepperjack</h3>
+        </SelectableBox>
+      </SelectableBox.Set>
+    </div>
   );
 }
 ```
@@ -68,27 +71,30 @@ As ``Checkbox``
 
 ```jsx live
 () => {
+  const type = 'radio';
   const [value, setValue] = useState('green');
-  const handleChange = (e) => setValue(e.target.value);
+  const handleChange = e => setValue(e.target.value);
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
 
   return (
     <SelectableBox.Set
+      type={type}
       value={value}
       onChange={handleChange}
       name="colors"
       columns={isExtraSmall ? 1 : 3}
-      ariaLabel="color selection"
     >
-      <SelectableBox value="red" aria-label="red checkbox">
-        <h3>It is Red color</h3>
-        <p>Select me</p>
+      <SelectableBox value="red" type={type} aria-label="red checkbox">
+        <div>
+          <h3>It is Red color</h3>
+          <p>Select me</p>
+        </div>
       </SelectableBox>
-      <SelectableBox value="green" inputHidden={false} aria-label="green radio-button">
+      <SelectableBox value="green" inputHidden={false} type={type} aria-label="green-checkbox">
         <h3>Green</h3>
         <p>Leaves and grass</p>
       </SelectableBox>
-      <SelectableBox value="blue" inputHidden={false} aria-label="blue radio-button">
+      <SelectableBox value="blue" inputHidden={false} type={type} aria-label="blue checkbox">
         <h3>Blue</h3>
         <p>The sky</p>
       </SelectableBox>
@@ -96,7 +102,6 @@ As ``Checkbox``
   );
 }
 ```
-
 ## As Checkbox
 As ``Checkbox`` with ``isIndeterminate``
 
@@ -111,7 +116,7 @@ As ``Checkbox`` with ``isIndeterminate``
   const isIndeterminate = someChecked && !allChecked;
   const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.small.maxWidth });
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     e.target.checked ? add(e.target.value) : remove(e.target.value);
   };
 
@@ -121,126 +126,39 @@ As ``Checkbox`` with ``isIndeterminate``
 
   return (
     <>
-      <SelectableBox
-        className="mb-3"
-        checked={allChecked}
-        isIndeterminate={isIndeterminate}
-        onClick={handleCheckAllChange}
-        inputHidden={false}
-        type={type}
-        aria-label="all options checkbox"
-      >
-        All the cheese
-      </SelectableBox>
+      <div className="mb-3">
+        <SelectableBox
+          checked={allChecked}
+          isIndeterminate={isIndeterminate}
+          onClick={handleCheckAllChange}
+          inputHidden={false}
+          type={type}
+          aria-label="all options checkbox"
+        >
+          All the cheese
+        </SelectableBox>
+      </div>
       <SelectableBox.Set
         value={checkedCheeses}
         type={type}
         onChange={handleChange}
         name="cheeses"
         columns={isExtraSmall ? 1 : 3}
-        ariaLabel="cheese selection"
       >
         <SelectableBox value="swiss" type={type} aria-label="swiss checkbox">
-          <h3>It is my first SelectableBox</h3>
-          <p>Swiss</p>
+          <div>
+            <h3>It is my first SelectableBox</h3>
+            <p>Swiss</p>
+          </div>
         </SelectableBox>
         <SelectableBox value="cheddar" inputHidden={false} type={type} aria-label="cheddar checkbox">
-          <h3>Cheddar</h3>
+          Cheddar
         </SelectableBox>
         <SelectableBox value="pepperjack" inputHidden={false} type={type} aria-label="pepperjack checkbox">
           <h3>Pepperjack</h3>
         </SelectableBox>
       </SelectableBox.Set>
     </>
-  );
-}
-```
-
-As ``Checkbox`` with ``ariaLabelledby``
-
-```jsx live
-() => {
-  const type = 'checkbox';
-  const allCheeseOptions = ['swiss', 'cheddar', 'pepperjack'];
-  const [checkedCheeses, { add, remove, set, clear }] = useCheckboxSetValues(['swiss']);
-
-  const handleChange = (e) => {
-    e.target.checked ? add(e.target.value) : remove(e.target.value);
-  };
-  
-  const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
-  
-  return (
-    <Stack className="bg-light-200 p-3">
-      <h3 id="cheese selection" className="mb-4">
-        Select your favorite cheese:
-      </h3>
-      <SelectableBox.Set
-        value={checkedCheeses}
-        type={type}
-        onChange={handleChange}
-        name="cheeses"
-        columns={isExtraSmall ? 1 : 3}
-        ariaLabelledby="cheese selection"
-      >
-        <SelectableBox value="swiss" inputHidden={false} type={type} aria-label="swiss checkbox">
-          <h3>Swiss</h3>
-        </SelectableBox>
-        <SelectableBox value="cheddar" inputHidden={false} type={type} aria-label="cheddar checkbox">
-          <h3>Cheddar</h3>
-        </SelectableBox>
-        <SelectableBox value="pepperjack" inputHidden={false} type={type} aria-label="pepperjack checkbox">
-          <h3>Pepperjack</h3>
-        </SelectableBox>
-      </SelectableBox.Set>
-    </Stack>
-  );
-}
-```
-
-## Without active outline
-The `showActiveBoxState` property only affects `SelectableBox` that have `inputHidden` set to `false`.
-If a component has no input, the border is always rendered in an active state.
-
-```jsx live
-() => {
-  const [value, setValue] = useState('apples');
-  const handleChange = (e) => setValue(e.target.value);
-  const isExtraSmall = useMediaQuery({ maxWidth: breakpoints.extraSmall.maxWidth });
-
-  return (
-    <SelectableBox.Set
-      value={value}
-      onChange={handleChange}
-      name="fruits"
-      columns={isExtraSmall ? 1 : 3}
-      ariaLabel="fruits selection"
-    >
-      <SelectableBox
-        value="apples"
-        inputHidden={false}
-        showActiveBoxState={false}
-        aria-label="apple radio-button"
-      >
-        <h3>Apples</h3>
-      </SelectableBox>
-      <SelectableBox
-        value="oranges"
-        inputHidden={false}
-        showActiveBoxState={false}
-        aria-label="orange radio-button"
-      >
-        <h3>Oranges</h3>
-      </SelectableBox>
-      <SelectableBox
-        value="bananas"
-        inputHidden={false}
-        showActiveBoxState={false}
-        aria-label="banana radio-button"
-      >
-        <h3>Bananas</h3>
-      </SelectableBox>
-    </SelectableBox.Set>
   );
 }
 ```

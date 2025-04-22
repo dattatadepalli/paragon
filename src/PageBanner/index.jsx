@@ -16,7 +16,7 @@ export const VARIANTS = {
 };
 
 function PageBanner({
-  children, dismissible, dismissAltText, onDismiss, show, variant, ...rest
+  children, dismissible, dismissAltText, onDismiss, show, variant,
 }) {
   if (!show) {
     return null;
@@ -30,7 +30,6 @@ function PageBanner({
       role="alert"
       aria-live="polite"
       aria-atomic="true"
-      {...rest}
     >
       <div className="pgn__pageBanner-content">
         { children }

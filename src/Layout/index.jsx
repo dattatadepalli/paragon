@@ -84,6 +84,9 @@ SIZES.forEach(size => {
   Layout.defaultProps[size] = sizeDefaultProps;
 });
 
-export { Col, Row };
+export {
+  Col,
+  Row,
+};
 Layout.Element = LayoutElement;
 export default Layout;

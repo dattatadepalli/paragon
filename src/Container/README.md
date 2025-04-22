@@ -12,17 +12,13 @@ notes: |
 
 ---
 
-The base container to contain, pad, and center content in the viewport. This component extends the React-Bootstrap `Container`.<br/> <a href="https://react-bootstrap-v4.netlify.app/layout/grid/" target="_blank" rel="noopener noreferrer">See React-Bootstrap for more documentation.</a>
+The base container to contain, pad, and center content in the viewport. This component extends the React-Bootstrap `Container`.<br/> <a href="https://react-bootstrap.github.io/layout/grid/" target="_blank" rel="noopener noreferrer">See React-Bootstrap for more documentation.</a>
 
 ## Basic Usage
 
 ```jsx live
 <div style={{ overflowX: 'auto' }}>
     <div style={{ width: '1500px', border: 'solid 3px red' }}>
-        <Container className="bg-danger-300 my-4">
-          The content in this container doesn't have a max width
-        </Container>
-        
         <Container size="xl" className="bg-danger-300 my-4">
           The content in this container won't exceed the extra large width.
         </Container>

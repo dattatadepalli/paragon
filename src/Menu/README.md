@@ -12,6 +12,8 @@ devStatus: 'Done'
 notes: ''
 ---
 
+## Menu
+
 An arrow-key navigable ``Menu`` which consists of ``MenuItems``. A ``Menu`` can be employed to produce its common variants, including dropdown menus, select menus, and others. ``Menus`` are keyboard navigable with both tab and arrow keys.
 
 ## MenuItem

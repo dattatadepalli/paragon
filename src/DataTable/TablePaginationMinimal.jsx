@@ -1,13 +1,8 @@
 import React, { useContext } from 'react';
-import { useIntl } from 'react-intl';
 import DataTableContext from './DataTableContext';
 import Pagination from '../Pagination';
-import { ArrowBackIos, ArrowForwardIos } from '../../icons';
-import messages from './messages';
 
 function TablePaginationMinimal() {
-  const intl = useIntl();
-
   const {
     nextPage, pageCount, gotoPage, state,
   } = useContext(DataTableContext);
@@ -24,12 +19,8 @@ function TablePaginationMinimal() {
       variant="minimal"
       currentPage={pageIndex + 1}
       pageCount={pageCount}
-      paginationLabel={intl.formatMessage(messages.paginationLabel)}
+      paginationLabel="table pagination"
       onPageSelect={(pageNum) => gotoPage(pageNum - 1)}
-      icons={{
-        leftIcon: ArrowBackIos,
-        rightIcon: ArrowForwardIos,
-      }}
     />
   );
 }

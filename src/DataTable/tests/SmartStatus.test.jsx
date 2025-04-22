@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
 
 import SmartStatus from '../SmartStatus';
@@ -9,7 +9,6 @@ import RowStatus from '../RowStatus';
 import SelectionStatus from '../selection/SelectionStatus';
 
 const filters = [{ id: 'name' }, { id: 'age' }];
-const headers = [{ id: 'name', Header: 'name' }, { id: 'age', Header: 'age' }];
 const filterNames = ['name', 'age'];
 const itemCount = 101;
 const instance = {
@@ -23,7 +22,6 @@ const instance = {
   SelectionStatusComponent: SelectionStatus,
   FilterStatusComponent: FilterStatus,
   RowStatusComponent: RowStatus,
-  headers,
 };
 
 // eslint-disable-next-line react/prop-types
@@ -48,37 +46,41 @@ describe('<SmartStatus />', () => {
         },
       },
     };
-    const { getByTestId } = render(
+    const wrapper = mount(
       <SmartStatusWrapper value={contextValue} />,
     );
-    expect(getByTestId('selection-status')).toBeInTheDocument();
+    expect(wrapper.find(SelectionStatus)).toHaveLength(1);
   });
   it('Shows the filter state with selection turned off', () => {
-    const { getByText } = render(<SmartStatusWrapper value={{ ...instance, state: { filters } }} />);
-    expect(getByText(`Filtered by ${filterNames.join(', ')}`)).toBeInTheDocument();
+    const wrapper = mount(<SmartStatusWrapper value={{ ...instance, state: { filters } }} />);
+    const status = wrapper.find(SmartStatus);
+    expect(status.text()).toContain(filterNames.join(', '));
   });
   it('Shows the filter state when there are no selected rows', () => {
-    const { getByText } = render(
+    const wrapper = mount(
       <SmartStatusWrapper value={{ ...instance, state: { filters }, selectedFlatRows: [] }} />,
     );
-    expect(getByText(`Filtered by ${filterNames.join(', ')}`)).toBeInTheDocument();
+    const status = wrapper.find(SmartStatus);
+    expect(status.text()).toContain(filterNames.join(', '));
   });
-  it('Shows the number of items on the page if there are no selected rows and no filters', () => {
-    const { getByText } = render(
+  it('Shows the number of items on the page if the there are no selected rows and no filters', () => {
+    const wrapper = mount(
       <SmartStatusWrapper value={instance} />,
     );
-    expect(getByText(`Showing 1 - ${instance.page.length} of ${itemCount}.`)).toBeInTheDocument();
+    const status = wrapper.find(SmartStatus);
+    expect(status.text()).toContain(`Showing ${instance.page.length} of ${itemCount}`);
   });
   it('Shows the number of items on the page if selection is off and there are no filters', () => {
-    const { getByText } = render(
+    const wrapper = mount(
       <SmartStatusWrapper value={instance} />,
     );
-    expect(getByText(`Showing 1 - ${instance.page.length} of ${itemCount}.`)).toBeInTheDocument();
+    const status = wrapper.find(SmartStatus);
+    expect(status.text()).toContain(`Showing ${instance.page.length} of ${itemCount}`);
   });
   it('shows an alternate selection status', () => {
     const altStatusText = 'horses R cool';
     function AltStatus() {
-      return <div data-testid="alternate-status">{altStatusText}</div>;
+      return <div>{altStatusText}</div>;
     }
     const contextValue = {
       ...instance,
@@ -90,27 +92,27 @@ describe('<SmartStatus />', () => {
         },
       },
     };
-    const { getByTestId } = render(<SmartStatusWrapper value={contextValue} />);
-    expect(getByTestId('alternate-status')).toBeInTheDocument();
+    const wrapper = mount(<SmartStatusWrapper value={contextValue} />);
+    expect(wrapper.text()).toContain(altStatusText);
   });
   it('shows an alternate row status', () => {
     const altStatusText = 'horses R cool';
     function AltStatus() {
-      return <div data-testid="alternate-status">{altStatusText}</div>;
+      return <div>{altStatusText}</div>;
     }
-    const { getByTestId } = render(<SmartStatusWrapper
+    const wrapper = mount(<SmartStatusWrapper
       value={{ ...instance, RowStatusComponent: AltStatus }}
     />);
-    expect(getByTestId('alternate-status')).toBeInTheDocument();
+    expect(wrapper.text()).toContain(altStatusText);
   });
   it('shows an alternate filter status', () => {
     const altStatusText = 'horses R cool';
     function AltStatus() {
-      return <div data-testid="alternate-status">{altStatusText}</div>;
+      return <div>{altStatusText}</div>;
     }
-    const { getByTestId } = render(<SmartStatusWrapper
+    const wrapper = mount(<SmartStatusWrapper
       value={{ ...instance, FilterStatusComponent: AltStatus, state: { filters } }}
     />);
-    expect(getByTestId('alternate-status')).toBeInTheDocument();
+    expect(wrapper.text()).toContain(altStatusText);
   });
 });

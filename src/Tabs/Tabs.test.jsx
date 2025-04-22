@@ -1,12 +1,11 @@
 import React from 'react';
-import { render, waitFor, act } from '@testing-library/react';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import userEvent from '@testing-library/user-event';
 
-import Tabs, { MORE_TAB_TEXT } from '.';
+import Tabs, { MORE_TAB_TEXT } from './index';
 import Tab from './Tab';
 
-jest.mock('../hooks/useIndexOfLastVisibleChildHook', () => ({
+jest.mock('../hooks/useIndexOfLastVisibleChild', () => ({
   __esModule: true,
   default: () => 0,
 }));
@@ -37,7 +36,7 @@ window.ResizeObserver = jest.fn(() => ({
 function TabsTestComponent(props) {
   return (
     <Tabs {...props} defaultActiveKey="tab_1">
-      <Tab title="Tab 1" eventKey="tab_1" notification={4} />
+      <Tab title="Tab 1" notification={4} eventKey="tab_1" />
       <Tab title="Tab 2" eventKey="tab_2" />
       <Tab title="Tab 3" eventKey="tab_3" />
     </Tabs>
@@ -56,75 +55,46 @@ describe('<Tabs />', () => {
       expect(tree).toMatchSnapshot();
     });
     it('renders notification property', () => {
-      const { getAllByRole } = render(<TabsTestComponent />);
-
-      const notification = getAllByRole('status');
-      expect(notification.length).toBeGreaterThan(0);
+      const wrapper = mount(<TabsTestComponent />);
+      expect(wrapper.find('.pgn__tab-notification').length).toBeGreaterThan(0);
     });
     it('MutationObserver is initialized', () => {
-      render(<TabsTestComponent />);
+      mount(<TabsTestComponent />);
       expect(observeMutation).toHaveBeenCalledTimes(1);
-
-      observeMutation.mockClear();
       getAttributeValue = 'false';
-      render(<TabsTestComponent />);
-      expect(observeMutation).toHaveBeenCalledTimes(1);
+      mount(<TabsTestComponent />);
+      expect(observeMutation).toHaveBeenCalledTimes(2);
     });
     it('dropdown menu is displayed', () => {
-      const { getAllByRole } = render(<TabsTestComponent />);
-      const dropdownMenu = getAllByRole('tabpanel', { hidden: true })[1];
-      expect(dropdownMenu).toBeInTheDocument();
-      expect(dropdownMenu.className).not.toContain('pgn__tab_invisible');
+      const wrapper = mount(<TabsTestComponent />);
+      expect(wrapper.find('.pgn__tab_more').at(0).hasClass('pgn__tab_invisible')).toBe(false);
     });
-    it('moreTabText is displayed', async () => {
+    it('moreTabText is displayed', () => {
       const text = 'Mehr...';
-      const { rerender, getByText } = render(<TabsTestComponent />);
-      const toggleButton = getByText(MORE_TAB_TEXT);
-      expect(toggleButton).toBeInTheDocument();
-      await act(async () => {
-        await userEvent.click(toggleButton);
-      });
-      rerender(<TabsTestComponent moreTabText={text} />);
-      expect(toggleButton.textContent).toBe(text);
+      const wrapper = mount(<TabsTestComponent />);
+      expect(wrapper.find('#pgn__tab-toggle').at(0).text()).toEqual(MORE_TAB_TEXT);
+      wrapper.setProps({ moreTabText: text });
+      expect(wrapper.find('#pgn__tab-toggle').at(0).text()).toEqual(text);
     });
-    it('click on the dropdown item activates tab', async () => {
-      const { container, getByText, getAllByText } = render(<TabsTestComponent />);
-      const toggleButton = getByText(MORE_TAB_TEXT);
-      await act(async () => {
-        await userEvent.click(toggleButton);
-      });
-      const dropdownItem = getAllByText('Tab 2');
-      await act(async () => {
-        await userEvent.click(dropdownItem[0], undefined, { skipPointerEventsCheck: true });
-      });
-      const tab = container.querySelector('[data-rb-event-key="tab_2"]');
-      expect(tab.className).toContain('active');
+    it('click on the dropdown item activates tab', () => {
+      const wrapper = mount(<TabsTestComponent />);
+      wrapper.find('#pgn__tab-toggle').at(0).simulate('click');
+      wrapper.find('.dropdown-item').at(0).simulate('click');
+      expect(wrapper.find('[data-rb-event-key="tab_2"]').at(0).hasClass('active')).toEqual(true);
     });
-    it('select dropdown item after pressing Enter', async () => {
-      const { getByText, getAllByText, getByRole } = render(<TabsTestComponent />);
-      const toggleButton = getByText(MORE_TAB_TEXT);
-      await act(async () => {
-        await userEvent.click(toggleButton);
-      });
-      const dropdownItem = getAllByText('Tab 2');
-      dropdownItem[0].focus();
-      await act(async () => {
-        await userEvent.keyboard('{enter}');
-      });
-      await waitFor(() => {
-        const tab = getByRole('tab', { name: 'Tab 2' });
-        expect(tab.className).toContain('active');
-      });
+    it('select dropdown item after pressing Enter', () => {
+      const wrapper = mount(<TabsTestComponent />);
+      wrapper.find('#pgn__tab-toggle').at(0).at(0).simulate('click');
+      wrapper.find('.dropdown-item').at(0).simulate('keyPress', { key: 'Enter' });
+      expect(wrapper.find('[data-rb-event-key="tab_2"]').at(0).hasClass('active')).toEqual(true);
     });
     it('invalid child does not render', () => {
-      const { getByRole } = render(
+      const wrapper = mount((
         <Tabs>
           {[false, undefined]}
-        </Tabs>,
-      );
-      const navElement = getByRole('tablist');
-      const childElements = navElement.children;
-      expect(childElements.length).toEqual(1);
+        </Tabs>
+      ));
+      expect(wrapper.find('nav').children().length).toEqual(1);
     });
   });
 });

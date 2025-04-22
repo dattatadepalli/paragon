@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import CardImageCap from '../CardImageCap';
 import CardContext from '../CardContext';
-import { cardSrcFallbackImg } from '../CardFallbackDefaultImage';
 
 // eslint-disable-next-line react/prop-types
 function CardImageCapWrapper({ orientation = 'vertical', isLoading, ...props }) {
@@ -120,12 +120,13 @@ describe('<CardImageCap />', () => {
     expect(logoImg.className).toEqual('pgn__card-logo-cap');
   });
 
-  it('renders the default image if both src and fallbackSrc fail to load', () => {
+  it('hiding component if it isn`t fallbackSrc and src don`t work', () => {
     render(<CardImageCapWrapper src="fakeURL" fallbackSrc="fakeURL" srcAlt="Src alt text" />);
 
     const srcImg = screen.getByAltText('Src alt text');
     fireEvent.load(srcImg);
     fireEvent.error(srcImg);
-    expect(srcImg.src).toEqual(cardSrcFallbackImg);
+    // test-file-stub is what our fileMock.js returns for all images
+    expect(srcImg.src.endsWith('test-file-stub')).toEqual(true);
   });
 });

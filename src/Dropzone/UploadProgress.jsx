@@ -14,7 +14,6 @@ function UploadProgress({
         animation="border"
         aria-live="polite"
         screenReaderText={`Uploading ${name}, ${percent}% done.`}
-        data-testid="upload-spinner"
       />
     );
   }
@@ -35,9 +34,8 @@ function UploadProgress({
           label={`${percent}%`}
           variant="success"
           className="flex-grow-1"
-          data-testid="upload-progress-bar"
         />
-        <Button variant="tertiary" className="ms-3" onClick={onCancel}>
+        <Button variant="tertiary" className="ml-3" onClick={onCancel}>
           <FormattedMessage
             id="pgn.Dropzone.UploadProgress.cancelLabel"
             defaultMessage="Cancel"

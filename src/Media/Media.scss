@@ -1,0 +1,16 @@
+// @import "~bootstrap/scss/media";
+
+// styles/vendor/_media.scss (your custom file)
+
+.media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.media img {
+  margin-right: 1rem;
+}
+
+.media-body {
+  flex: 1;
+}

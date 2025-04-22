@@ -3,7 +3,7 @@ import ProgressBarBase from 'react-bootstrap/ProgressBar';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Annotation from '../Annotation';
-import { getOffsetStyles, placeInfoAtZero } from './utils';
+import { placeInfoAtZero } from './utils';
 
 export const ANNOTATION_CLASS = 'pgn__annotation';
 const HINT_SWAP_PERCENT = 50;
@@ -38,12 +38,11 @@ function ProgressBarAnnotated({
   const isThresholdHintAfter = threshold < HINT_SWAP_PERCENT;
   const progressColor = VARIANTS.includes(variant) ? variant : PROGRESS_DEFAULT_VARIANT;
   const thresholdColor = VARIANTS.includes(thresholdVariant) ? thresholdVariant : THRESHOLD_DEFAULT_VARIANT;
-  const direction = window.getComputedStyle(document.body).getPropertyValue('direction');
 
   const positionAnnotations = useCallback(() => {
-    placeInfoAtZero(progressInfoRef, direction, isProgressHintAfter, ANNOTATION_CLASS);
-    placeInfoAtZero(thresholdInfoRef, direction, isThresholdHintAfter, ANNOTATION_CLASS);
-  }, [direction, isProgressHintAfter, isThresholdHintAfter]);
+    placeInfoAtZero(progressInfoRef, isProgressHintAfter, ANNOTATION_CLASS);
+    placeInfoAtZero(thresholdInfoRef, isThresholdHintAfter, ANNOTATION_CLASS);
+  }, [isProgressHintAfter, isThresholdHintAfter]);
 
   useEffect(() => {
     positionAnnotations();
@@ -56,7 +55,7 @@ function ProgressBarAnnotated({
   }, [positionAnnotations]);
 
   const getHint = (text) => (
-    <span className="pgn__progress-hint" data-testid="progress-hint">
+    <span className="pgn__progress-hint">
       {text}
     </span>
   );
@@ -66,7 +65,7 @@ function ProgressBarAnnotated({
       {!!label && (
         <div
           className="pgn__progress-info"
-          style={getOffsetStyles(now, direction)}
+          style={{ left: `${now}%` }}
           ref={progressInfoRef}
         >
           {!isProgressHintAfter && getHint(progressHint)}
@@ -97,7 +96,7 @@ function ProgressBarAnnotated({
       {(!!threshold && !!thresholdLabel) && (
         <div
           className="pgn__progress-info"
-          style={getOffsetStyles(threshold, direction)}
+          style={{ left: `${threshold}%` }}
           ref={thresholdInfoRef}
         >
           {!isThresholdHintAfter && getHint(thresholdHint)}

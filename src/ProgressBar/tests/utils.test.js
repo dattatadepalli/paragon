@@ -49,41 +49,23 @@ describe('utils', () => {
 
       expect(actualMarginLeft).toEqual(expectedMarginLeft);
     });
-    it('correctly calculates left margin when annotationOnly equals to true and dir equal ltr', () => {
-      placeInfoAtZero(ref, 'ltr', false);
+    it('correctly calculates left margin when annotationOnly equals to true', () => {
+      placeInfoAtZero(ref, false);
 
       const { children } = ref.current;
-      let horizontalMargin = 0.0;
+      let marginLeft = 0.0;
       for (let i = 0; i < children.length || 0; i++) {
         const elementParams = children[i].getBoundingClientRect();
         if (children[i].className.includes(ANNOTATION_CLASS)) {
-          horizontalMargin += elementParams.width / 2;
+          marginLeft += elementParams.width / 2;
         } else {
-          horizontalMargin += elementParams.width;
+          marginLeft += elementParams.width;
         }
       }
-      const expectedMarginLeft = `${-horizontalMargin}px`;
+      const expectedMarginLeft = `${-marginLeft}px`;
       const actualMarginLeft = ref.current.style.marginLeft;
 
       expect(actualMarginLeft).toEqual(expectedMarginLeft);
-    });
-    it('correctly calculates right margin when annotationOnly equals to true and dir equal rtl', () => {
-      placeInfoAtZero(ref, 'rtl', false);
-
-      const { children } = ref.current;
-      let horizontalMargin = 0.0;
-      for (let i = 0; i < children.length || 0; i++) {
-        const elementParams = children[i].getBoundingClientRect();
-        if (children[i].className.includes(ANNOTATION_CLASS)) {
-          horizontalMargin += elementParams.width / 2;
-        } else {
-          horizontalMargin += elementParams.width;
-        }
-      }
-      const expectedHorizontalMargin = `${-horizontalMargin}px`;
-      const actualMarginRight = ref.current.style.marginRight;
-
-      expect(actualMarginRight).toEqual(expectedHorizontalMargin);
     });
     it('returns false if reference is wrong', () => {
       const wrongRef1 = {};

@@ -22,7 +22,6 @@ function TableActions({ className }) {
   return (
     <Actions
       className={classNames('pgn__table-actions', className)}
-      data-testid="table-actions"
       actions={actions}
     />
   );

@@ -28,7 +28,7 @@ notes: |
         </Tooltip>
       }
     >
-      <Button variant="primary" className="me-2 mb-2">Tooltip on {placement}</Button>
+      <Button variant="primary" className="mr-2 mb-2">Tooltip on {placement}</Button>
     </OverlayTrigger>
   ))}
 </>
@@ -48,7 +48,7 @@ notes: |
         </Tooltip>
       }
     >
-      <Button variant="inverse-outline-brand" className="me-2 mb-2">Tooltip on {placement}</Button>
+      <Button variant="inverse-outline-brand" className="mr-2 mb-2">Tooltip on {placement}</Button>
     </OverlayTrigger>
   ))}
 </div>

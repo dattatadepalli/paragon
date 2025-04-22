@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { mount } from 'enzyme';
 
 import DropdownFilter from '../DropdownFilter';
 
@@ -25,45 +24,32 @@ describe('<DropdownFilter />', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
-
   it('renders a select button', () => {
-    render(<DropdownFilter {...props} />);
-    expect(screen.getByLabelText(props.column.Header)).toBeInTheDocument();
+    const wrapper = mount(<DropdownFilter {...props} />);
+    expect(wrapper.text()).toContain(props.column.Header);
   });
-
-  it('sets a filter - no initial filters', async () => {
-    render(<DropdownFilter {...props} />);
-    const select = screen.getByLabelText(props.column.Header);
-    await userEvent.click(select);
-    await userEvent.selectOptions(select, palomino.value);
+  it('sets a filter - no initial filters', () => {
+    const wrapper = mount(<DropdownFilter {...props} />);
+    wrapper.find('select').simulate('click');
+    wrapper.find('option').at(2).simulate('change');
     expect(setFilterMock).toHaveBeenCalledWith(palomino.value);
   });
-
-  it('sets a filter - initial filters', async () => {
-    render(
-      <DropdownFilter column={{ ...props.column, filterValue: [palomino.value] }} />,
-    );
-    const select = screen.getByLabelText(props.column.Header);
-    await userEvent.click(select);
-    await userEvent.selectOptions(select, palomino.value);
+  it('sets a filter - initial filters', () => {
+    const wrapper = mount(<DropdownFilter {...props} />);
+    wrapper.find('select').simulate('click');
+    wrapper.find('option').at(2).simulate('change');
     expect(setFilterMock).toHaveBeenCalledWith(palomino.value);
   });
-
-  it('removes filters when default option is clicked', async () => {
-    render(
-      <DropdownFilter column={{ ...props.column, filterValue: [palomino.value] }} />,
-    );
-    const select = screen.getByLabelText(props.column.Header);
-    await userEvent.click(select);
-    await userEvent.selectOptions(select, '');
+  it('removes filters when default option is clicked', () => {
+    const wrapper = mount(<DropdownFilter column={{ ...props.column, filterValue: palomino.value }} />);
+    wrapper.find('select').simulate('click');
+    wrapper.find('option').at(0).simulate('change');
     expect(setFilterMock).toHaveBeenCalledWith(undefined);
   });
-
-  it('displays a number if a number is provided', async () => {
-    render(<DropdownFilter {...props} />);
-    const select = screen.getByLabelText(props.column.Header);
-    await userEvent.click(select);
-    const option = screen.getByText(`${roan.name} (${roan.number})`);
-    expect(option).toBeInTheDocument();
+  it('displays a number if a number is provided', () => {
+    const wrapper = mount(<DropdownFilter {...props} />);
+    wrapper.find('select').simulate('click');
+    const option = wrapper.find('option').at(1);
+    expect(option.text()).toEqual(`${roan.name} (${roan.number})`);
   });
 });

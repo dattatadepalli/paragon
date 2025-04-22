@@ -1,10 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-
+import { mount } from 'enzyme';
 import TextFilter from '../TextFilter';
 
 describe('<TextFilter />', () => {
-  it('renders Header as function', () => {
+  it('Header as function', () => {
     const mockKey = () => 'key';
     const props = {
       column: {
@@ -14,11 +13,11 @@ describe('<TextFilter />', () => {
         getHeaderProps: jest.fn().mockImplementation(() => ({ key: mockKey })),
       },
     };
-    const { getByText } = render(<TextFilter {...props} />);
-    expect(getByText('Search test')).toBeInTheDocument();
+    const wrapper = mount(<TextFilter {...props} />);
+    expect(wrapper.text()).toContain('Search test');
   });
 
-  it('renders Header as string', () => {
+  it('Header as string', () => {
     const mockKey = () => 'key';
     const props = {
       column: {
@@ -28,11 +27,11 @@ describe('<TextFilter />', () => {
         getHeaderProps: jest.fn().mockImplementation(() => ({ key: mockKey })),
       },
     };
-    const { getByText } = render(<TextFilter {...props} />);
-    expect(getByText('Search test')).toBeInTheDocument();
+    const wrapper = mount(<TextFilter {...props} />);
+    expect(wrapper.text()).toContain('Search test');
   });
 
-  it('renders Header as component', () => {
+  it('Header as component', () => {
     const mockKey = () => 'key';
     const props = {
       column: {
@@ -42,7 +41,7 @@ describe('<TextFilter />', () => {
         getHeaderProps: jest.fn().mockImplementation(() => ({ key: mockKey })),
       },
     };
-    const { getByText } = render(<TextFilter {...props} />);
-    expect(getByText('test_component')).toBeInTheDocument();
+    const wrapper = mount(<TextFilter {...props} />);
+    expect(wrapper.text()).toContain('test_component');
   });
 });

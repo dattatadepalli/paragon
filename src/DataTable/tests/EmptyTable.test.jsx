@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
 
 import EmptyTableContent from '../EmptyTable';
 import DataTableContext from '../DataTableContext';
@@ -10,44 +10,32 @@ const props = {
 };
 
 describe('<EmptyTableContent />', () => {
+  const wrapper = mount(
+    <DataTableContext.Provider value={{ rows: [] }}>
+      <EmptyTableContent {...props} />
+    </DataTableContext.Provider>,
+  );
   it('displays the content', () => {
-    const { getByText } = render(
-      <DataTableContext.Provider value={{ rows: [] }}>
-        <EmptyTableContent {...props} />
-      </DataTableContext.Provider>,
-    );
-
-    expect(getByText(props.content)).toBeInTheDocument();
+    expect(wrapper.text()).toEqual(props.content);
   });
-
   it('adds props to the div', () => {
-    const { getByTestId } = render(
-      <DataTableContext.Provider value={{ rows: [] }}>
-        <EmptyTableContent {...props} data-testid="test-div" />
-      </DataTableContext.Provider>,
-    );
-
-    const divElement = getByTestId('test-div');
-    expect(divElement).toHaveClass(`pgn__data-table-empty ${props.className}`);
+    const cell = wrapper.find('div');
+    expect(cell.props().className).toEqual(`pgn__data-table-empty ${props.className}`);
   });
-
   it('does not display if there are rows', () => {
-    const { container } = render(
+    const nonEmptyWrapper = mount(
       <DataTableContext.Provider value={{ rows: Array(1) }}>
         <EmptyTableContent {...props} />
       </DataTableContext.Provider>,
     );
-
-    expect(container.textContent).toBe('');
+    expect(nonEmptyWrapper.text()).toEqual('');
   });
-
   it('does not display if the table data is loading', () => {
-    const { container } = render(
+    const loadingWrapper = mount(
       <DataTableContext.Provider value={{ isLoading: true }}>
         <EmptyTableContent {...props} />
       </DataTableContext.Provider>,
     );
-
-    expect(container.textContent).toBe('');
+    expect(loadingWrapper.text()).toEqual('');
   });
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { HexColorPicker } from 'react-colorful';
@@ -8,70 +8,31 @@ import Form from '../Form';
 import ModalPopup from '../Modal/ModalPopup';
 import { OverlayTrigger } from '../Overlay';
 import Tooltip from '../Tooltip';
-import useToggle from '../hooks/useToggleHook';
+import useToggle from '../hooks/useToggle';
 
 function ColorPicker({
   color, setColor, className, size,
 }) {
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = React.useState(null);
+  const [hexValid, setHexValid] = React.useState(true);
 
-  const colorIsValid = (colorToValidate) => {
+  const validateHex = useCallback((input) => {
     const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-    return hexRegex.test(colorToValidate);
-  };
-
-  const formatHexColorString = (colorString) => {
-    if (!colorString.startsWith('#')) {
-      return `#${colorString}`.slice(0, 7);
+    if (input.length > 1 && !input.startsWith('#')) {
+      setColor(`#${input}`);
+    } else {
+      setColor(input);
     }
-
-    return colorString.slice(0, 7);
-  };
-
-  const [hexValid, setHexValid] = React.useState(() => (color === '' || colorIsValid(formatHexColorString(color))));
-
-  const [hexColorString, setHexColorString] = React.useState(() => {
-    if (color === '') {
-      return '';
-    }
-
-    return formatHexColorString(color);
-  });
-  const [colorToDisplay, setColorToDisplay] = React.useState(() => {
-    const formattedColor = formatHexColorString(color);
-    if (colorIsValid(formattedColor)) {
-      return formattedColor;
-    }
-
-    return '#fff';
-  });
-
-  const setValidatedColor = (newColor) => {
-    if (newColor === '') {
+    if (input === '' || hexRegex.test(input) === true) {
       setHexValid(true);
-      setColor('');
-      setHexColorString('');
-      setColorToDisplay('#fff');
-      return;
+    } else {
+      setHexValid(false);
     }
+  }, [setColor]);
 
-    const formattedColor = formatHexColorString(newColor);
-
-    if (colorIsValid(formattedColor)) {
-      setHexValid(true);
-      setColor(formattedColor);
-      setHexColorString(formattedColor);
-      setColorToDisplay(formattedColor);
-      return;
-    }
-
-    setHexValid(false);
-    setHexColorString(formattedColor);
-
-    // ensure the picker value stays in sync with the textbox
-    setColor(formattedColor);
-  };
+  // this is needed for when a user changes the color through the sliders
+  useEffect(() => validateHex(color), [validateHex, color]);
 
   return (
     <>
@@ -104,19 +65,16 @@ function ColorPicker({
           className="pgn__color-modal rounded shadow"
           style={{ textAlign: 'start' }}
         >
-          <HexColorPicker color={colorToDisplay} onChange={setValidatedColor} />
+          <HexColorPicker color={color || ''} onChange={setColor} />
           <Form.Group className="pgn__hex-form" size="sm">
-            <div>
-              <Form.Label className="pgn__hex-label">Hex</Form.Label>
-              <Form.Control
-                className="pgn__hex-field"
-                isInvalid={!hexValid}
-                value={hexColorString}
-                onChange={(e) => setValidatedColor(e.target.value)}
-                data-testid="hex-input"
-                spellCheck="false"
-              />
-            </div>
+            <h5>Hex</h5>
+            <Form.Control
+              className="form-field"
+              isInvalid={!hexValid}
+              value={color}
+              onChange={(e) => validateHex(e.target.value)}
+              data-testid="hex-input"
+            />
             {!hexValid && (
               <Form.Control.Feedback
                 className="pgn__color-error"

@@ -1,5 +1,8 @@
 import React from 'react';
+
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { act } from 'react-dom/test-utils';
 
 import userEvent from '@testing-library/user-event';
 import DataTableContext from '../DataTableContext';
@@ -77,7 +80,6 @@ describe('data view toggle behavior', () => {
   });
 
   test('onDataViewToggle is invoked when clicking on buttons', async () => {
-    const user = userEvent.setup();
     const onDataViewToggle = jest.fn();
     render(
       <DataTableContext.Provider
@@ -95,11 +97,15 @@ describe('data view toggle behavior', () => {
     );
     expect(screen.queryByRole('group')).toBeInTheDocument();
     const cardButton = screen.getByLabelText(DATA_VIEW_TOGGLE_VALUES.card.alt);
-    await user.click(cardButton);
+    await act(async () => {
+      userEvent.click(cardButton);
+    });
     expect(onDataViewToggle).toHaveBeenCalledWith(DATA_VIEW_TOGGLE_VALUES.card.value);
 
     const listButton = screen.getByLabelText(DATA_VIEW_TOGGLE_VALUES.list.alt);
-    await user.click(listButton);
+    await act(async () => {
+      userEvent.click(listButton);
+    });
     expect(onDataViewToggle).toHaveBeenCalledWith(DATA_VIEW_TOGGLE_VALUES.list.value);
   });
 });

@@ -56,7 +56,7 @@ The following example demonstrates how to use `OverflowScroll` and `OverflowScro
           onClick={scrollToPrevious}
           disabled={isScrolledToStart}
           size="sm"
-          className="me-2"
+          className="mr-2"
         >
           Previous
         </Button>
@@ -74,7 +74,7 @@ The following example demonstrates how to use `OverflowScroll` and `OverflowScro
   const itemCount = 20;
   const items = useMemo(() => Array.from({ length: itemCount }).map((index) => {
     if (index !== itemCount - 1) {
-      return <ExampleItem key={uuidv4()} className="me-2" />;
+      return <ExampleItem key={uuidv4()} className="mr-2" />;
     }
     // last element, no right margin
     return <ExampleItem key={uuidv4()} />;

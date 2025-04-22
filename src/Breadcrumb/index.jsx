@@ -8,17 +8,13 @@ import Icon from '../Icon';
 
 function Breadcrumb({
   links, activeLabel, spacer, clickHandler,
-  variant, isMobile, ariaLabel, linkAs, ...props
+  variant, isMobile, ariaLabel, linkAs,
 }) {
   const linkCount = links.length;
   const displayLinks = isMobile ? [links[linkCount - 1]] : links;
 
   return (
-    <nav
-      aria-label={ariaLabel}
-      className={classNames('pgn__breadcrumb', `pgn__breadcrumb-${variant}`)}
-      {...props}
-    >
+    <nav aria-label={ariaLabel} className={classNames('pgn__breadcrumb', `pgn__breadcrumb-${variant}`)}>
       <ol className={classNames('list-inline', { 'is-mobile': isMobile })}>
         {displayLinks.map((link, i) => (
           <React.Fragment key={link.label}>

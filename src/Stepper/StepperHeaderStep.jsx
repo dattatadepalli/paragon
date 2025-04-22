@@ -19,7 +19,7 @@ function StepperHeaderStep({
   const isComplete = getIsViewed(index + 1);
   const isViewed = getIsViewed(index);
   const stepIcon = isComplete ? <Icon src={Check} /> : <span>{index + 1}</span>;
-  const errorIcon = <Icon src={Error} data-testid="step-error" />;
+  const errorIcon = <Icon src={Error} />;
   const isClickable = onClick && isViewed && !isActive;
 
   if (isClickable) {
@@ -58,7 +58,6 @@ function StepperHeaderStep({
           'pgn__stepper-header-step-complete': isComplete,
         },
       )}
-      data-testid="step"
     >
       <Bubble variant={hasError ? 'error' : 'primary'} disabled={!isActive}>
         {hasError ? errorIcon : stepIcon}

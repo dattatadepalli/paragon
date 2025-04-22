@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
 import MultiSelectDropdownFilter from '../MultiSelectDropdownFilter';
+import Badge from '../../../Badge';
 
 const setFilterMock = jest.fn();
 const roan = { name: 'roan', number: 3, value: '10' };
@@ -26,77 +27,71 @@ describe('<MultiSelectDropdownFilter />', () => {
     jest.resetAllMocks();
   });
   it('renders a list of checkboxes', async () => {
-    render(<MultiSelectDropdownFilter {...props} />);
+    const wrapper = mount(<MultiSelectDropdownFilter {...props} />);
+    wrapper.find('button').simulate('click');
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
+      const checkbox = wrapper.find({ type: 'checkbox' }).find('input');
+      expect(checkbox.length).toEqual(3);
     });
-    const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes.length).toEqual(3);
   });
   it('renders a title', () => {
-    render(<MultiSelectDropdownFilter {...props} />);
-    expect(screen.getByText(props.column.Header)).toBeInTheDocument();
+    const wrapper = mount(<MultiSelectDropdownFilter {...props} />);
+    expect(wrapper.text()).toContain(props.column.Header);
   });
   it('sets a filter - no initial filters', async () => {
-    render(<MultiSelectDropdownFilter {...props} />);
+    const wrapper = mount(<MultiSelectDropdownFilter {...props} />);
+    wrapper.find('button').simulate('click');
+    const checkbox = wrapper.find({ type: 'checkbox' }).find('input').at(1);
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
-    });
-    const checkbox = screen.getAllByRole('checkbox')[1];
-    await act(async () => {
-      await userEvent.click(checkbox, undefined, { skipPointerEventsCheck: true });
+      checkbox.simulate('change');
     });
     expect(setFilterMock).toHaveBeenCalledWith([palomino.value]);
   });
   it('sets a filter - initial filters', async () => {
-    render(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    const wrapper = mount(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    wrapper.find('button').simulate('click');
+    const checkbox = wrapper.find({ type: 'checkbox' }).find('input').at(1);
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
-    });
-    const checkbox = screen.getAllByRole('checkbox')[1];
-    await act(async () => {
-      await userEvent.click(checkbox, undefined, { skipPointerEventsCheck: true });
+      checkbox.simulate('change');
     });
     expect(setFilterMock).toHaveBeenCalledWith([roan.value, palomino.value]);
   });
   it('removes a filter', async () => {
-    render(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [palomino.value] }} />);
+    const wrapper = mount(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [palomino.value] }} />);
+    wrapper.find('button').simulate('click');
+    const checkbox = wrapper.find({ type: 'checkbox' }).find('input').at(1);
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
-    });
-    const checkbox = screen.getAllByRole('checkbox')[1];
-    await act(async () => {
-      await userEvent.click(checkbox, undefined, { skipPointerEventsCheck: true });
+      checkbox.simulate('change');
     });
     expect(setFilterMock).toHaveBeenCalledWith([]);
   });
   it('renders checkbox label with filter name', async () => {
-    render(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    const wrapper = mount(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    wrapper.find('button').simulate('click');
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
+      const label = wrapper.find('.form-check-label').at(0);
+      expect(label.text()).toContain(roan.name);
     });
-    const label = screen.getByText(roan.name);
-    expect(label).toBeInTheDocument();
   });
-  it('renders checkbox label with number - with badge', async () => {
-    render(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+  it('renders checkbox label with number', async () => {
+    const wrapper = mount(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    wrapper.find('button').simulate('click');
+
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
+      const label = wrapper.find('.pgn__checkbox-filter').at(0);
+      const badge = label.find(Badge);
+      expect(badge).toHaveLength(1);
+      expect(badge.text()).toEqual(String(roan.number));
     });
-    const label = screen.getByText(roan.name);
-    expect(label).toBeInTheDocument();
-    const badge = screen.getByText(roan.number.toString());
-    expect(badge).toBeInTheDocument();
   });
-  it('renders checkbox label with number - without badge', async () => {
-    render(
-      <MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />,
-    );
+  it('renders checkbox label with number', async () => {
+    const wrapper = mount(<MultiSelectDropdownFilter column={{ ...props.column, filterValue: [roan.value] }} />);
+    wrapper.find('button').simulate('click');
+
     await act(async () => {
-      await userEvent.click(screen.getByText(props.column.Header));
+      const label = wrapper.find('.pgn__checkbox-filter').at(1);
+      const badge = label.find(Badge);
+      expect(badge).toHaveLength(0);
     });
-    const label = screen.getByText(palomino.name);
-    expect(label).toBeInTheDocument();
-    expect(label.querySelector('.badge')).toBeNull();
   });
 });

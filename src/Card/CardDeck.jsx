@@ -1,6 +1,7 @@
 import React, { Children, useMemo } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import BaseCardDeck from 'react-bootstrap/CardDeck';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useOverflowScrollItems } from '../OverflowScroll';
@@ -100,5 +101,7 @@ CardDeck.defaultProps = {
   hasOverflowScrollItems: false,
   hasEqualColumnHeights: true,
 };
+
+CardDeck.Deprecated = BaseCardDeck;
 
 export default CardDeck;

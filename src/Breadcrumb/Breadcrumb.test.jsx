@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { mount } from 'enzyme';
 
-import Breadcrumb from '.';
+import Breadcrumb from './index';
 
 const baseProps = {
   links: [
@@ -22,62 +21,70 @@ const baseProps = {
 };
 
 describe('<Breadcrumb />', () => {
+  let wrapper;
+
   it('renders with just links', () => {
-    render(<Breadcrumb {...baseProps} />);
-    expect(screen.queryAllByRole('list').length).toBe(1);
-    expect(screen.queryAllByRole('listitem').length).toBe(baseProps.links.length);
+    wrapper = mount(<Breadcrumb {...baseProps} />);
+
+    const list = wrapper.find('ol li');
+    expect(list.length).toEqual(5);
+    expect(list.find('a').length).toEqual(3);
   });
 
   it('renders with links and active label', () => {
     const label = 'Current Page';
-    render(<Breadcrumb {...baseProps} activeLabel={label} />);
-    const list = screen.queryAllByRole('list');
-    const listItems = screen.queryAllByRole('listitem');
+    wrapper = mount(<Breadcrumb {...baseProps} activeLabel={label} />);
 
-    expect(list.length).toBe(1);
-    expect(listItems.length).toBe(baseProps.links.length + 1);
-    expect(listItems[listItems.length - 1].textContent).toBe(label);
+    const list = wrapper.find('ol li');
+    expect(list.length).toEqual(7);
+    expect(list.find('a').length).toEqual(3);
+    expect(list.last().text()).toEqual(label);
   });
 
   it('renders custom spacer', () => {
-    render(
-      <Breadcrumb {...baseProps} spacer={<span>/</span>} />,
-    );
-    const listItems = screen.queryAllByRole('listitem');
-    expect(listItems.length).toBe(baseProps.links.length);
-    expect(screen.getAllByRole('presentation').length).toBe(2);
+    wrapper = mount(<Breadcrumb
+      {...baseProps}
+      spacer={<span className="custom-spacer">/</span>}
+    />);
+
+    const list = wrapper.find('ol li');
+    expect(list.length).toEqual(5);
+    expect(list.find('a').length).toEqual(3);
+    expect(list.find('.custom-spacer').length).toEqual(2);
   });
 
-  it('fires the passed in click handler', async () => {
-    const user = userEvent.setup();
+  it('fires the passed in click handler', () => {
     const clickHandler = jest.fn();
-    render(<Breadcrumb {...baseProps} clickHandler={clickHandler} />);
+    wrapper = mount(<Breadcrumb {...baseProps} clickHandler={clickHandler} />);
 
-    const listItems = screen.queryAllByRole('listitem');
-    const links = screen.queryAllByRole('link');
-    expect(listItems.length).toBe(baseProps.links.length);
+    const list = wrapper.find('ol li');
+    expect(list.length).toEqual(5);
 
-    await user.click(links[0]);
+    const links = list.find('a');
+    expect(links.length).toEqual(3);
+
+    links.first().simulate('click');
     expect(clickHandler).toHaveBeenCalled();
   });
 
   it('renders in mobile view', () => {
-    render(<Breadcrumb {...baseProps} isMobile />);
-    const list = screen.getByRole('list');
-    const listItems = screen.getAllByRole('listitem');
-    expect(listItems.length).toBe(1);
-    expect(list.className).toContain('is-mobile');
+    wrapper = mount(<Breadcrumb {...baseProps} isMobile />);
+
+    const list = wrapper.find('ol');
+    const listElements = list.find('li');
+    expect(listElements.length).toEqual(2);
+    expect(list.hasClass('is-mobile')).toEqual(true);
   });
 
   it('renders links as custom elements', () => {
-    render(<Breadcrumb {...baseProps} linkAs="div" />);
-    const list = screen.getByRole('list');
+    wrapper = mount(<Breadcrumb {...baseProps} linkAs="div" />);
 
-    const anchors = list.querySelectorAll('a');
-    expect(anchors.length).toBe(0);
+    const list = wrapper.find('ol');
+    const anchors = list.find('a');
+    expect(anchors.length).toEqual(0);
 
-    const customLinks = list.querySelectorAll('div');
-    expect(customLinks.length).toBe(3);
+    const customLinks = list.find('div');
+    expect(customLinks.length).toEqual(3);
   });
 
   it('passes down link props to link elements', () => {
@@ -88,11 +95,13 @@ describe('<Breadcrumb />', () => {
       target: '_blank',
     };
 
-    render(<Breadcrumb links={[linkProps]} />);
+    wrapper = mount(<Breadcrumb links={[linkProps]} />);
 
-    const links = screen.getByRole('link');
-    expect(links.className).toContain('my-link');
-    expect(links.getAttribute('target')).toBe('_blank');
-    expect(links.getAttribute('href')).toBe('/link-1');
+    const list = wrapper.find('ol');
+    const renderedLink = list.find('a').first();
+
+    expect(renderedLink.hasClass('my-link')).toEqual(true);
+    expect(renderedLink.prop('target')).toEqual('_blank');
+    expect(renderedLink.prop('href')).toEqual('/link-1');
   });
 });

@@ -6,6 +6,7 @@ components:
 - Spinner
 categories:
 - Status & metadata
+- Choreography
 designStatus: 'Done'
 devStatus: 'Done'
 notes: |
@@ -16,7 +17,7 @@ A spinning animation that indicates loading.
 
 <p>
   This is a pass through component from React-Bootstrap.<br/>
-  <a href="https://react-bootstrap-v4.netlify.app/components/spinners/" target="_blank" rel="noopener noreferrer">
+  <a href="https://react-bootstrap.github.io/components/spinners" target="_blank" rel="noopener noreferrer">
     See React-Bootstrap for documentation.
   </a>
 </p>
@@ -35,7 +36,7 @@ A spinning animation that indicates loading.
 () => {
   const variants = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
   return variants.map((variant) => (
-    <Spinner animation="border" variant={variant} className="me-3" screenReaderText="loading" />
+    <Spinner animation="border" variant={variant} className="mr-3" screenReaderText="loading" />
   ));
 }
 ```

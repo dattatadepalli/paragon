@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event';
-import { IntlProvider } from 'react-intl';
-
+import { fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import * as popper from '@popperjs/core';
 
 import Checkpoint from './Checkpoint';
@@ -25,7 +23,7 @@ describe('Checkpoint', () => {
   describe('second Checkpoint in Tour', () => {
     beforeEach(() => {
       render(
-        <IntlProvider locale="en" messages={{}}>
+        <>
           <div id="target-element">...</div>
           <Checkpoint
             advanceButtonText="Next"
@@ -40,7 +38,7 @@ describe('Checkpoint', () => {
             title="Checkpoint title"
             totalCheckpoints={5}
           />
-        </IntlProvider>,
+        </>,
       );
     });
 
@@ -60,15 +58,15 @@ describe('Checkpoint', () => {
       expect(screen.getByRole('button', { name: 'Next' })).toBeInTheDocument();
     });
 
-    it('dismiss button onClick calls handleDismiss', async () => {
+    it('dismiss button onClick calls handleDismiss', () => {
       const dismissButton = screen.getByRole('button', { name: 'Dismiss' });
-      await userEvent.click(dismissButton);
+      fireEvent.click(dismissButton);
       expect(handleDismiss).toHaveBeenCalledTimes(1);
     });
 
-    it('advance button onClick calls handleAdvance', async () => {
+    it('advance button onClick calls handleAdvance', () => {
       const advanceButton = screen.getByRole('button', { name: 'Next' });
-      await userEvent.click(advanceButton);
+      fireEvent.click(advanceButton);
       expect(handleAdvance).toHaveBeenCalledTimes(1);
     });
   });
@@ -76,7 +74,7 @@ describe('Checkpoint', () => {
   describe('last Checkpoint in Tour', () => {
     beforeEach(() => {
       render(
-        <IntlProvider locale="en" messages={{}}>
+        <>
           <div id="#last-element" />
           <Checkpoint
             advanceButtonText="Next"
@@ -91,7 +89,7 @@ describe('Checkpoint', () => {
             title="Checkpoint title"
             totalCheckpoints={5}
           />
-        </IntlProvider>,
+        </>,
       );
     });
 
@@ -99,10 +97,9 @@ describe('Checkpoint', () => {
       expect(screen.getByText('End', { selector: 'button' })).toBeInTheDocument();
     });
 
-    it('end button onClick calls handleEnd', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: PointerEventsCheckLevel.Never });
+    it('end button onClick calls handleEnd', () => {
       const endButton = screen.getByText('End', { selector: 'button' });
-      await user.click(endButton);
+      fireEvent.click(endButton);
       expect(handleEnd).toHaveBeenCalledTimes(1);
     });
   });
@@ -110,7 +107,7 @@ describe('Checkpoint', () => {
   describe('only one Checkpoint in Tour', () => {
     beforeEach(() => {
       render(
-        <IntlProvider locale="en" messages={{}}>
+        <>
           <div id="#target-element" />
           <Checkpoint
             advanceButtonText="Next"
@@ -125,7 +122,7 @@ describe('Checkpoint', () => {
             title="Checkpoint title"
             totalCheckpoints={1}
           />
-        </IntlProvider>,
+        </>,
       );
     });
 
@@ -142,7 +139,7 @@ describe('Checkpoint', () => {
   describe('only one Checkpoint in Tour and showDismissButton set to true', () => {
     it('it renders dismiss button and end button', () => {
       render(
-        <IntlProvider locale="en" messages={{}}>
+        <>
           <div id="#target-element" />
           <Checkpoint
             advanceButtonText="Next"
@@ -158,7 +155,7 @@ describe('Checkpoint', () => {
             totalCheckpoints={1}
             showDismissButton
           />
-        </IntlProvider>,
+        </>,
       );
       expect(screen.getByText('Dismiss', { selector: 'button' })).toBeInTheDocument();
       expect(screen.getByText('End', { selector: 'button' })).toBeInTheDocument();

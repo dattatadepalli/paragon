@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
-import userEvent from '@testing-library/user-event';
 
 import ControlledSelectionStatus from '../ControlledSelectionStatus';
 import { clearSelectionAction, setSelectAllRowsAllPagesAction, setSelectedRowsAction } from '../data/actions';
@@ -25,11 +24,11 @@ const instance = {
 };
 
 // eslint-disable-next-line react/prop-types
-function ControlledSelectionStatusWrapper({ value, props = {}, ...rest }) {
+function ControlledSelectionStatusWrapper({ value, props = {} }) {
   return (
     <IntlProvider locale="en" messages={{}}>
       <DataTableContext.Provider value={value}>
-        <ControlledSelectionStatus {...props} {...rest} />
+        <ControlledSelectionStatus {...props} />
       </DataTableContext.Provider>
     </IntlProvider>
   );
@@ -38,21 +37,13 @@ function ControlledSelectionStatusWrapper({ value, props = {}, ...rest }) {
 describe('<ControlledSelectionStatus />', () => {
   it('accepts a class name', () => {
     const customClassName = 'classy';
-    render(
-      <ControlledSelectionStatusWrapper
-        value={instance}
-        props={{ className: customClassName }}
-        data-testid="selection-status-component"
-      />,
-    );
-    const component = screen.getByTestId('selection-status-component');
-    expect(component).toHaveClass(customClassName);
+    const wrapper = mount(<ControlledSelectionStatusWrapper value={instance} props={{ className: customClassName }} />);
+    expect(wrapper.find(ControlledSelectionStatus).props().className).toEqual(customClassName);
   });
-
   describe('entire table selected', () => {
     it('shows that entire table is selected', () => {
       const selectedRows = Array(instance.itemCount).map((item, index) => ({ id: index + 1 }));
-      render(
+      const wrapper = mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -66,12 +57,11 @@ describe('<ControlledSelectionStatus />', () => {
           }}
         />,
       );
-      expect(screen.getByText(`All ${instance.itemCount} selected`)).toBeInTheDocument();
+      expect(wrapper.text()).toContain(`All ${instance.itemCount}`);
     });
-
     it('does not show select all button if entire table is selected', () => {
       const selectedRows = Array(instance.itemCount).map((item, index) => ({ id: index + 1 }));
-      render(
+      const wrapper = mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -85,14 +75,13 @@ describe('<ControlledSelectionStatus />', () => {
           }}
         />,
       );
-      const selectAllButton = screen.queryByTestId(SELECT_ALL_TEST_ID);
-      expect(selectAllButton).not.toBeInTheDocument();
+      const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+      expect(button.length).toEqual(0);
     });
-
     it('selects any unselected page rows', () => {
       const selectedRows = Array(instance.itemCount).map((item, index) => ({ id: index + 1 }));
       const dispatchSpy = jest.fn();
-      render(
+      mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -111,31 +100,27 @@ describe('<ControlledSelectionStatus />', () => {
       expect(dispatchSpy).toHaveBeenCalledWith(action);
     });
   });
-
   describe('individual rows selected', () => {
     it('shows the number of rows selected', () => {
-      render(<ControlledSelectionStatusWrapper value={instance} />);
+      const wrapper = mount(<ControlledSelectionStatusWrapper value={instance} />);
       const [selections] = instance.controlledTableSelections;
-      expect(screen.getByText(`${selections.selectedRows.length.toString()} selected`)).toBeInTheDocument();
+      expect(wrapper.text()).toContain(selections.selectedRows.length.toString());
     });
-
     it('renders default selection text', () => {
-      render(<ControlledSelectionStatusWrapper value={instance} />);
-      expect(screen.getByText(CLEAR_SELECTION_TEXT)).toBeInTheDocument();
+      const wrapper = mount(<ControlledSelectionStatusWrapper value={instance} />);
+      expect(wrapper.text()).toContain(CLEAR_SELECTION_TEXT);
     });
-
     it('can accept clear selection text as a prop', () => {
       const customText = 'CLEAR ME';
-      render(
-        <ControlledSelectionStatusWrapper value={instance} props={{ clearSelectionText: customText }} />,
-      );
-      expect(screen.getByText(customText)).toBeInTheDocument();
-      expect(screen.queryByText(CLEAR_SELECTION_TEXT)).not.toBeInTheDocument();
+      const wrapper = mount((
+        <ControlledSelectionStatusWrapper value={instance} props={{ clearSelectionText: customText }} />
+      ));
+      expect(wrapper.text()).toContain(customText);
+      expect(wrapper.text()).not.toContain(CLEAR_SELECTION_TEXT);
     });
-
-    it('toggles select all on select all button click', async () => {
+    it('toggles select all on select all button click', () => {
       const dispatchSpy = jest.fn();
-      render(
+      const wrapper = mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -146,16 +131,15 @@ describe('<ControlledSelectionStatus />', () => {
           }}
         />,
       );
-      const selectAllButton = screen.getByTestId(SELECT_ALL_TEST_ID);
-      await userEvent.click(selectAllButton);
+      const button = wrapper.find(`button.${SELECT_ALL_TEST_ID}`);
+      button.simulate('click');
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       const action = setSelectAllRowsAllPagesAction();
       expect(dispatchSpy).toHaveBeenCalledWith(action);
     });
-
-    it('clears selection on clear selection button click', async () => {
+    it('clears selection on clear selection button click', () => {
       const dispatchSpy = jest.fn();
-      render(
+      const wrapper = mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -166,17 +150,16 @@ describe('<ControlledSelectionStatus />', () => {
           }}
         />,
       );
-      const clearSelectionButton = screen.getByTestId(CLEAR_SELECTION_TEST_ID);
-      await userEvent.click(clearSelectionButton);
+      const button = wrapper.find(`button.${CLEAR_SELECTION_TEST_ID}`);
+      button.simulate('click');
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       const action = clearSelectionAction();
       expect(dispatchSpy).toHaveBeenCalledWith(action);
     });
   });
-
   describe('no rows selected', () => {
     it('does not render the clear selection button', () => {
-      render(
+      const wrapper = mount(
         <ControlledSelectionStatusWrapper
           value={{
             ...instance,
@@ -190,8 +173,7 @@ describe('<ControlledSelectionStatus />', () => {
           }}
         />,
       );
-      const clearSelectionButton = screen.queryByTestId(CLEAR_SELECTION_TEST_ID);
-      expect(clearSelectionButton).not.toBeInTheDocument();
+      expect(wrapper.find(CLEAR_SELECTION_TEST_ID).length).toEqual(0);
     });
   });
 });

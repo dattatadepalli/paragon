@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import Sticky from '.';
+import Sticky from './index';
 
 const observe = jest.fn();
 const unobserve = jest.fn();
@@ -21,28 +21,27 @@ describe('<Sticky />', () => {
       expect(tree).toMatchSnapshot();
     });
     it('renders with top positioning', () => {
-      render(<Sticky>content</Sticky>);
-      const sticky = screen.getByText('content');
-      expect(sticky.className).toContain('pgn__sticky-top');
-
-      render(<Sticky position="top">content</Sticky>);
-      expect(sticky.className).toContain('pgn__sticky-top');
+      const wrapper = mount(<Sticky>content</Sticky>);
+      const sticky = wrapper.find('.pgn__sticky');
+      expect(sticky.hasClass('pgn__sticky-top')).toEqual(true);
+      wrapper.setProps({ position: 'top' });
+      expect(sticky.hasClass('pgn__sticky-top')).toEqual(true);
     });
     it('renders with bottom positioning', () => {
-      render(<Sticky position="bottom">content</Sticky>);
-      const sticky = screen.getByText('content');
-      expect(sticky.className).toContain('pgn__sticky-bottom');
+      const wrapper = mount(<Sticky position="bottom">content</Sticky>);
+      const sticky = wrapper.find('.pgn__sticky');
+      expect(sticky.hasClass('pgn__sticky-bottom')).toEqual(true);
     });
     it('renders with offset', () => {
       const offset = 3;
-      render(<Sticky offset={offset}>content</Sticky>);
-      const sticky = screen.getByText('content');
-      expect(sticky.className).toContain(`pgn__sticky-offset--${offset}`);
+      const wrapper = mount(<Sticky offset={offset}>content</Sticky>);
+      const sticky = wrapper.find('.pgn__sticky');
+      expect(sticky.hasClass(`pgn__sticky-offset--${offset}`)).toEqual(true);
     });
     it('observer is initialized during render and detached during unmount', () => {
-      render(<Sticky>content</Sticky>);
+      const wrapper = mount(<Sticky>content</Sticky>);
       expect(observe).toHaveBeenCalled();
-      render(null);
+      wrapper.unmount();
       expect(unobserve).toHaveBeenCalled();
     });
   });

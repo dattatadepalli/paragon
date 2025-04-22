@@ -62,7 +62,7 @@ const FormCheckbox = React.forwardRef(({
   floatLabelLeft,
   ...props
 }, ref) => {
-  const { hasCheckboxSetProvider } = useCheckboxSetContext();
+  const { getCheckboxControlProps, hasCheckboxSetProvider } = useCheckboxSetContext();
   const { hasFormGroupProvider, useSetIsControlGroupEffect, getControlProps } = useFormGroupContext();
   useSetIsControlGroupEffect(true);
   const shouldActAsGroup = hasFormGroupProvider && !hasCheckboxSetProvider;
@@ -70,11 +70,14 @@ const FormCheckbox = React.forwardRef(({
     ...getControlProps({}),
     role: 'group',
   } : {};
-
-  const control = React.createElement(controlAs, { ...props, className: controlClassName, ref });
+  const checkboxInputProps = getCheckboxControlProps({
+    ...props,
+    className: controlClassName,
+  });
+  const control = React.createElement(controlAs, { ...checkboxInputProps, ref });
   return (
     <FormGroupContextProvider
-      controlId={props.id}
+      controlId={checkboxInputProps.id}
       isInvalid={isInvalid}
       isValid={isValid}
     >
@@ -82,7 +85,7 @@ const FormCheckbox = React.forwardRef(({
         className={classNames('pgn__form-checkbox', className, {
           'pgn__form-control-valid': isValid,
           'pgn__form-control-invalid': isInvalid,
-          'pgn__form-control-disabled': props.disabled,
+          'pgn__form-control-disabled': checkboxInputProps.disabled,
           'pgn__form-control-label-left': !!floatLabelLeft,
         })}
         {...groupProps}
@@ -104,8 +107,6 @@ const FormCheckbox = React.forwardRef(({
 });
 
 FormCheckbox.propTypes = {
-  /** Specifies id of the FormCheckbox component. */
-  id: PropTypes.string,
   /** Specifies contents of the component. */
   children: PropTypes.node.isRequired,
   /** Specifies class name to append to the base element. */
@@ -122,14 +123,10 @@ FormCheckbox.propTypes = {
   isValid: PropTypes.bool,
   /** Specifies control element. */
   controlAs: PropTypes.elementType,
-  /** Specifies whether the floating label should be aligned to the left. */
   floatLabelLeft: PropTypes.bool,
-  /** Specifies whether the `FormCheckbox` is disabled. */
-  disabled: PropTypes.bool,
 };
 
 FormCheckbox.defaultProps = {
-  id: undefined,
   className: undefined,
   controlClassName: undefined,
   labelClassName: undefined,
@@ -138,7 +135,6 @@ FormCheckbox.defaultProps = {
   isValid: false,
   controlAs: CheckboxControl,
   floatLabelLeft: false,
-  disabled: false,
 };
 
 export { CheckboxControl };

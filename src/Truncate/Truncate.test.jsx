@@ -1,27 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Truncate from '.';
+import { mount } from 'enzyme';
+import Truncate from './index';
 
 describe('<Truncate />', () => {
-  render(
-    <Truncate.Deprecated className="pgn__truncate">
+  const wrapper = mount(
+    <Truncate>
       Learners, course teams, researchers, developers.
-    </Truncate.Deprecated>,
+    </Truncate>,
   );
   it('render with className', () => {
-    const element = screen.getByText(/Learners, course teams, researchers, developers./i);
-    expect(element).toBeTruthy();
-    expect(element.className).toContain('pgn__truncate');
-    expect(element.getAttribute('aria-label')).toBe('Learners, course teams, researchers, developers.');
-    expect(element.getAttribute('title')).toBe('Learners, course teams, researchers, developers.');
+    wrapper.setProps({ className: 'pgn__truncate' });
+    expect(wrapper.hasClass('pgn__truncate')).toEqual(true);
   });
   it('render with onTruncate', () => {
     const mockFn = jest.fn();
-    render(
-      <Truncate.Deprecated className="pgn__truncate" onTruncate={mockFn}>
-        Learners, course teams, researchers, developers.
-      </Truncate.Deprecated>,
-    );
-    expect(mockFn).toHaveBeenCalledTimes(2);
+    wrapper.setProps({ onTruncate: mockFn });
+    expect(mockFn.mock.calls.length).toBe(1);
   });
 });

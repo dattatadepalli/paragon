@@ -1,16 +1,11 @@
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import BaseTabs from 'react-bootstrap/Tabs';
+import TabsDeprecated from './deprecated';
 import Bubble from '../Bubble';
 import Dropdown from '../Dropdown';
-import useIndexOfLastVisibleChild from '../hooks/useIndexOfLastVisibleChildHook';
+import useIndexOfLastVisibleChild from '../hooks/useIndexOfLastVisibleChild';
 import Tab from './Tab';
 
 export const MORE_TAB_TEXT = 'More...';
@@ -23,15 +18,15 @@ function Tabs({
   activeKey,
   ...props
 }) {
-  const [containerElementRef, setContainerElementRef] = useState(null);
+  const containerElementRef = useRef(null);
   const overflowElementRef = useRef(null);
   const indexOfLastVisibleChild = useIndexOfLastVisibleChild(
-    containerElementRef?.firstChild,
+    containerElementRef.current?.children[0],
     overflowElementRef.current?.parentNode,
   );
 
   useEffect(() => {
-    if (containerElementRef) {
+    if (containerElementRef.current) {
       const observer = new MutationObserver((mutations => {
         mutations.forEach(mutation => {
           // React-Bootstrap attribute 'data-rb-event-key' is responsible for the tab identification
@@ -40,8 +35,8 @@ function Tabs({
           const isActive = mutation.target.getAttribute('aria-selected') === 'true';
           // datakey attribute is added manually to the dropdown
           // elements so that they correspond to the native tabs' eventKey
-          const element = containerElementRef.querySelector(`[datakey='${eventKey}']`);
-          const moreTab = containerElementRef.querySelector('.pgn__tab_more');
+          const element = containerElementRef.current.querySelector(`[datakey='${eventKey}']`);
+          const moreTab = containerElementRef.current.querySelector('.pgn__tab_more');
           if (isActive) {
             element?.classList.add('active');
             // Here we add active class to the 'More Tab' if element exists in the dropdown
@@ -55,13 +50,13 @@ function Tabs({
           }
         });
       }));
-      observer.observe(containerElementRef, {
+      observer.observe(containerElementRef.current, {
         attributes: true, subtree: true, attributeFilter: ['aria-selected'],
       });
       return () => observer.disconnect();
     }
     return undefined;
-  }, [containerElementRef]);
+  }, []);
 
   useEffect(() => {
     if (overflowElementRef.current?.parentNode) {
@@ -69,10 +64,10 @@ function Tabs({
     }
   }, [overflowElementRef.current?.parentNode]);
 
-  const handleDropdownTabClick = useCallback((eventKey) => {
-    const hiddenTab = containerElementRef.querySelector(`[data-rb-event-key='${eventKey}']`);
+  const handleDropdownTabClick = (eventKey) => {
+    const hiddenTab = containerElementRef.current.querySelector(`[data-rb-event-key='${eventKey}']`);
     hiddenTab.click();
-  }, [containerElementRef]);
+  };
 
   const tabsChildren = useMemo(() => {
     const indexOfOverflowStart = indexOfLastVisibleChild + 1;
@@ -170,10 +165,10 @@ function Tabs({
     />
     ));
     return childrenList;
-  }, [activeKey, children, defaultActiveKey, indexOfLastVisibleChild, moreTabText, handleDropdownTabClick]);
+  }, [activeKey, children, defaultActiveKey, indexOfLastVisibleChild, moreTabText]);
 
   return (
-    <div ref={setContainerElementRef}>
+    <div ref={containerElementRef}>
       <BaseTabs
         defaultActiveKey={defaultActiveKey}
         activeKey={activeKey}
@@ -208,6 +203,8 @@ Tabs.defaultProps = {
   defaultActiveKey: undefined,
   activeKey: undefined,
 };
+
+Tabs.Deprecated = TabsDeprecated;
 
 export default Tabs;
 export { Tab };

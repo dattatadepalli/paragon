@@ -10,6 +10,7 @@ components:
 - StepperHeaderStep
 categories:
 - Navigation
+- Content
 designStatus: 'Done'
 devStatus: 'Done'
 notes: |

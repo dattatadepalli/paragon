@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { ExpandMore } from '../../icons';
 import Button from '../Button';
 import ModalPopup from '../Modal/ModalPopup';
-import useToggle from '../hooks/useToggleHook';
+import useToggle from '../hooks/useToggle';
 import Menu from '.';
 import withDeprecatedProps, { DeprTypes } from '../withDeprecatedProps';
 
@@ -15,7 +15,6 @@ function SelectMenu({
   children,
   className,
   variant,
-  disabled,
   ...props
 }) {
   const [triggerTarget, setTriggerTarget] = useState(null);
@@ -90,7 +89,6 @@ function SelectMenu({
         variant={variant}
         iconAfter={ExpandMore}
         onClick={open}
-        disabled={disabled}
       >
         {selected !== undefined && children[selected] ? children[selected].props.children : defaultMessage}
       </Button>
@@ -133,15 +131,12 @@ SelectMenu.propTypes = {
   className: PropTypes.string,
   /** Specifies variant to use. */
   variant: PropTypes.string,
-  /** Specifies if the `SelectMenu` is disabled. */
-  disabled: PropTypes.bool,
 };
 
 SelectMenu.defaultProps = {
   defaultMessage: SELECT_MENU_DEFAULT_MESSAGE,
   className: undefined,
   variant: 'outline-primary',
-  disabled: false,
 };
 
 const SelectMenuWithDeprecatedProp = withDeprecatedProps(SelectMenu, 'SelectMenu', {

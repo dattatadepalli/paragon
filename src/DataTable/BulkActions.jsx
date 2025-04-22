@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import DataTableContext from './DataTableContext';
 import Actions from './CollapsibleButtonGroup';
 
-function BulkActions({ className, ...rest }) {
+function BulkActions({ className }) {
   const tableInstance = useContext(DataTableContext);
   const {
     bulkActions,
@@ -28,9 +28,7 @@ function BulkActions({ className, ...rest }) {
   return (
     <Actions
       className={classNames('pgn__bulk-actions', className)}
-      data-testid="bulk-actions"
       actions={actions}
-      {...rest}
     />
   );
 }

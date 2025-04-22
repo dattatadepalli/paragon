@@ -1,27 +1,28 @@
 import React, { useContext } from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { mount } from 'enzyme';
 
 import ControlledSelectHeader from '../ControlledSelectHeader';
 import DataTable from '../..';
+import { CheckboxControl } from '../../../Form';
 import DataTableContext from '../../DataTableContext';
 import * as selectActions from '../data/actions';
+import { toggleCheckbox } from './utils';
 import { getRowIds } from '../data/helpers';
+
+// eslint-disable-next-line react/prop-types
+function ControlledSelectHeaderWrapper({ tableProps, selectProps }) {
+  return (
+    <DataTable {...tableProps}>
+      <ControlledSelectHeader {...selectProps} />
+      <DataTableContextChild />
+    </DataTable>
+  );
+}
 
 function DataTableContextChild() {
   const contextValue = useContext(DataTableContext);
   return (
     <div className="context-value" data-contextvalue={contextValue} />
-  );
-}
-
-// eslint-disable-next-line react/prop-types
-function ControlledSelectHeaderWrapper({ tableProps, selectProps, ...rest }) {
-  return (
-    <DataTable {...tableProps}>
-      <ControlledSelectHeader {...selectProps} {...rest} />
-      <DataTableContextChild />
-    </DataTable>
   );
 }
 
@@ -41,9 +42,7 @@ describe('<ControlledSelectHeader />', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
-
-  it('correctly selects all page rows', async () => {
-    const user = userEvent.setup();
+  it('correctly selects all page rows', () => {
     const isChecked = true;
     mockToggleAllPageRowsSelectedProps.mockReturnValue({
       checked: isChecked,
@@ -51,17 +50,14 @@ describe('<ControlledSelectHeader />', () => {
     });
     const spy = jest.spyOn(selectActions, 'setSelectedRowsAction');
     const selectProps = { rows };
-    render(<ControlledSelectHeaderWrapper tableProps={tableProps} selectProps={selectProps} />);
-
-    const checkbox = screen.getByRole('checkbox');
-    await user.click(checkbox);
-
+    const wrapper = mount(
+      <ControlledSelectHeaderWrapper tableProps={tableProps} selectProps={selectProps} />,
+    );
+    toggleCheckbox({ isChecked, wrapper });
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(rows, tableProps.itemCount);
   });
-
-  it('correctly unselects all page rows', async () => {
-    const user = userEvent.setup();
+  it('correctly unselects all page rows', () => {
     const spy = jest.spyOn(selectActions, 'clearPageSelectionAction');
     mockToggleAllPageRowsSelectedProps.mockReturnValue({
       checked: false,
@@ -77,16 +73,14 @@ describe('<ControlledSelectHeader />', () => {
       state: { selectedRowIds },
       isAllPageRowsSelected: true,
     };
-    render(<ControlledSelectHeaderWrapper tableProps={newTableProps} selectProps={selectProps} />);
-
-    const checkbox = screen.getByRole('checkbox');
-    await user.click(checkbox);
-
+    const wrapper = mount(
+      <ControlledSelectHeaderWrapper tableProps={newTableProps} selectProps={selectProps} />,
+    );
+    toggleCheckbox({ isChecked: false, wrapper });
     expect(spy).toHaveBeenCalledTimes(1);
     const rowIds = getRowIds(rows).map(id => id.toString());
     expect(spy).toHaveBeenCalledWith(rowIds);
   });
-
   it('correctly shows indeterminate checkbox when some page rows (not all) are selected', () => {
     const isIndeterminate = true;
     mockToggleAllPageRowsSelectedProps.mockReturnValue({
@@ -101,9 +95,11 @@ describe('<ControlledSelectHeader />', () => {
         },
       },
     };
-    render(<ControlledSelectHeaderWrapper tableProps={newTableProps} selectProps={selectProps} />);
+    const wrapper = mount(
+      <ControlledSelectHeaderWrapper tableProps={newTableProps} selectProps={selectProps} />,
+    );
 
-    const checkbox = screen.getByRole('checkbox');
-    expect(checkbox.indeterminate).toEqual(isIndeterminate);
+    const actualIsIndeterminate = wrapper.find(CheckboxControl).prop('isIndeterminate');
+    expect(actualIsIndeterminate).toEqual(isIndeterminate);
   });
 });

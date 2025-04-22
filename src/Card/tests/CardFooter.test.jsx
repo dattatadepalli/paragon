@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
 import Button from '../../Button';
 import CardFooter from '../CardFooter';
 import CardContext from '../CardContext';
@@ -59,20 +59,21 @@ describe('<CardFooter />', () => {
   });
   it('renders footer text as element', () => {
     const textElement = <a href="https://example.com">Link text here</a>;
-    const { getByText } = render(<CardFooterWrapper textElement={textElement} />);
-    const link = getByText('Link text here');
-
-    expect(link).toBeTruthy();
-    expect(link.getAttribute('href')).toBe('https://example.com');
+    const wrapper = mount(<CardFooterWrapper textElement={textElement} />);
+    const link = wrapper.find('a');
+    expect(wrapper.find('button').length).toEqual(2);
+    expect(link.exists()).toEqual(true);
+    expect(link.prop('children')).toEqual('Link text here');
+    expect(link.prop('href')).toEqual('https://example.com');
   });
-
-  it('renders without loading state', () => {
-    const { container } = render(<CardFooterWrapper />);
-    expect(container.querySelector('.pgn__card-footer-loader')).toBeNull();
+  it('render without loading state', () => {
+    const wrapper = mount(<CardFooterWrapper />);
+    expect(wrapper.exists('.pgn__card-footer-loader')).toBe(false);
+    expect(wrapper.props().isLoading).toBeUndefined();
   });
-
-  it('renders with loading state', () => {
-    const { container } = render(<CardFooterWrapper isLoading />);
-    expect(container.querySelector('.pgn__card-footer-loader')).toBeTruthy();
+  it('render with loading state', () => {
+    const wrapper = mount(<CardFooterWrapper isLoading />);
+    expect(wrapper.exists('.pgn__card-footer-loader')).toBe(true);
+    expect(wrapper.props().isLoading).toBe(true);
   });
 });

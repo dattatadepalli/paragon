@@ -88,8 +88,7 @@ describe('<CardCarouselControls />', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('handles scroll to previous click', async () => {
-    const user = userEvent.setup();
+  it('handles scroll to previous click', () => {
     const contextValue = {
       ...defaultCardCarouselContextValue,
       isScrolledToStart: false,
@@ -97,12 +96,11 @@ describe('<CardCarouselControls />', () => {
     render((
       <CardCarouselControlsWrapper cardCarouselContextValue={contextValue} />
     ));
-    await user.click(screen.getByLabelText('Scroll to previous'));
+    userEvent.click(screen.getByLabelText('Scroll to previous'));
     expect(mockScrollToPrevious).toHaveBeenCalledTimes(1);
   });
 
-  it('handles scroll to next click', async () => {
-    const user = userEvent.setup();
+  it('handles scroll to next click', () => {
     const contextValue = {
       ...defaultCardCarouselContextValue,
       isScrolledToEnd: false,
@@ -110,7 +108,7 @@ describe('<CardCarouselControls />', () => {
     render((
       <CardCarouselControlsWrapper cardCarouselContextValue={contextValue} />
     ));
-    await user.click(screen.getByLabelText('Scroll to next'));
+    userEvent.click(screen.getByLabelText('Scroll to next'));
     expect(mockScrollToNext).toHaveBeenCalledTimes(1);
   });
 });

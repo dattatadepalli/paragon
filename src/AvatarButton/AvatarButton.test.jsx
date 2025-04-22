@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AvatarButton from '.';
+import AvatarButton from './index';
 
 describe('AvatarButton', () => {
   it('renders in all sizes', () => {

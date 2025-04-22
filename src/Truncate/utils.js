@@ -11,7 +11,7 @@ const createCopyElement = (element) => {
   const newElement = document.createElement(element.tagName);
   newElement.setAttribute(
     'style',
-    `line-height: ${LINE_HEIGHT_VALUE}px; display: inline-block; word-break: break-word;`,
+    `line-height: ${LINE_HEIGHT_VALUE}px; display: inline-block;`,
   );
   return newElement;
 };

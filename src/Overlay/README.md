@@ -1,5 +1,5 @@
 ---
-title: 'Overlay'
+title: 'Overlays'
 type: 'component'
 components:
 - Overlay
@@ -19,7 +19,7 @@ This component is used to power Tooltips and Popovers.
 
 <p>
   This is a pass through component from React-Bootstrap.<br/>
-  <a href="https://react-bootstrap-v4.netlify.app/components/overlays/" target="_blank" rel="noopener noreferrer">
+  <a href="https://react-bootstrap.github.io/components/overlays/" target="_blank" rel="noopener noreferrer">
     See React-Bootstrap for additional documentation.
   </a>
 </p>
@@ -38,7 +38,7 @@ This component is used to power Tooltips and Popovers.
           Click me to see
         </Button>
       </div>
-      <Overlay target={target.current} show={isOpen} placement="right">
+      <Overlay target={target.current} show={open} placement="right">
         {({ placement, arrowProps, show: _show, popper, ...props }) => (
           <div
             {...props}

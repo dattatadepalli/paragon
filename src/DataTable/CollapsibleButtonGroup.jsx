@@ -2,8 +2,8 @@ import React, { useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { MoreVert } from '../../icons';
-import useToggle from '../hooks/useToggleHook';
-import useWindowSize from '../hooks/useWindowSizeHook';
+import useToggle from '../hooks/useToggle';
+import useWindowSize from '../hooks/useWindowSize';
 import DataTableContext from './DataTableContext';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
@@ -18,7 +18,6 @@ export const SMALL_SCREEN_ACTION_OVERFLOW_BUTTON_TEXT = 'Actions';
 function CollapsibleButtonGroup({
   className,
   actions,
-  ...rest
 }) {
   const [isOverflowMenuOpen, openOverflowMenu, closeOverflowMenu] = useToggle(false);
   const [overflowMenuTarget, setOverflowMenuTarget] = useState(null);
@@ -59,7 +58,7 @@ function CollapsibleButtonGroup({
   );
 
   return (
-    <div className={className} {...rest}>
+    <div className={className}>
       {dropdownActions.length > 0 && (
         <>
           <IconButton
@@ -78,7 +77,7 @@ function CollapsibleButtonGroup({
             placement="bottom-end"
             isOpen={isOverflowMenuOpen}
           >
-            <div className="pgn__data-table__overflow-actions-menu">
+            <div className="pgn__datatable__overflow-actions-menu">
               <Stack gap={2}>
                 {dropdownActions.map(cloneAction)}
               </Stack>
@@ -86,7 +85,7 @@ function CollapsibleButtonGroup({
           </ModalPopup>
         </>
       )}
-      <div className="pgn__data-table__visible-actions">
+      <div className="pgn__datatable__visible-actions">
         {visibleActions.map(cloneAction)}
       </div>
     </div>
@@ -102,7 +101,7 @@ CollapsibleButtonGroup.propTypes = {
   className: PropTypes.string,
   /** Array of action objects, containing a component and their callback args */
   actions: PropTypes.arrayOf(PropTypes.shape({
-    component: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]).isRequired,
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
     args: PropTypes.shape({}),
   })).isRequired,
 };
