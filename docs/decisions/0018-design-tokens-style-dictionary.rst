@@ -100,7 +100,7 @@ Additionally, we have provided users with the capability to modify tokens using 
             }
           }
 
-    - ``color-yiq``: Formatter to determine contrasting colors for better readability.
+    - ``color-contrast``: Formatter to determine contrasting colors for better readability.
 
         Example::
 
@@ -110,7 +110,7 @@ Additionally, we have provided users with the capability to modify tokens using 
                 "value": "{color.danger.base}",
                 "type": "color",
                 "source": "$badge-danger-color",
-                "modify": [{ "type": "color-yiq" }]
+                "modify": [{ "type": "color-contrast" }]
               },
             }
           }

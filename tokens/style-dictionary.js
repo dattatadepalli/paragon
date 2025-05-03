@@ -20,12 +20,12 @@ const getTokensStudioTransforms = async () => import('@tokens-studio/sd-transfor
 
 /**
  * @typedef ModifyColorYiq
- * @property {'color-yiq'} type - The type of modification.
+ * @property {'color-contrast'} type - The type of modification.
  * @property {number} [amount] - The amount of modification to apply.
  * @property {string} [otherColor] - The other color to mix with.
- * @property {number} [light] - The light color to use for color-yiq.
- * @property {number} [dark] - The dark color to use for color-yiq.
- * @property {number} [threshold] - The threshold to use for color-yiq.
+ * @property {number} [light] - The light color to use for color-contrast.
+ * @property {number} [dark] - The dark color to use for color-contrast.
+ * @property {number} [threshold] - The threshold to use for color-contrast.
  */
 
 /**
@@ -94,7 +94,7 @@ const colorTransform = (token, themeVariant) => {
         case 'mix':
           color = color.mix(otherColor, amount, 'rgb');
           break;
-        case 'color-yiq': {
+        case 'color-contrast': {
           const { light, dark, threshold } = modifier;
           color = colorYiq({
             tokenName,

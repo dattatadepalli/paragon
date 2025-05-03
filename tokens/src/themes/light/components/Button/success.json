@@ -5,7 +5,7 @@
       "text": {
         "success": {
           "source": "$btn-success-color",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.bg.success}"
         },
         "outline-success": {
@@ -32,7 +32,7 @@
         },
         "inverse-success": {
           "source": "$btn-success-inverse-bg",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.text.inverse-success}"
         },
         "inverse-outline-success": {
@@ -62,7 +62,7 @@
         "text": {
           "success": {
             "source": "$btn-success-hover-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.hover.bg.success}"
           },
           "outline-success": {
@@ -121,12 +121,12 @@
         "text": {
           "success": {
             "source": "$btn-success-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.success}"
           },
           "outline-success": {
             "source": "$btn-success-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.outline-success}"
           },
           "inverse-success": {
@@ -136,7 +136,7 @@
           },
           "inverse-outline-success": {
             "source": "$btn-success-inverse-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.inverse-outline-success}"
           }
         },

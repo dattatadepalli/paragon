@@ -952,7 +952,7 @@
   --pgn-color-list-group-disabled-base: var(--pgn-color-gray-600);
   --pgn-color-list-group-action-base: var(--pgn-color-gray-700);
   --pgn-color-list-group-action-active-bg: var(--pgn-color-gray-200);
-  --pgn-color-yiq-light: var(--pgn-color-white);
+  --pgn-color-contrast-light: var(--pgn-color-white);
   --pgn-color-gray-500: var(--pgn-color-gray-base); /* Gray color of level 500. */
   --pgn-color-primary-100: #F0F3F5FF; /* Primary color of level 100. */
   --pgn-color-primary-200: #C2CBD5FF; /* Primary color of level 200. */

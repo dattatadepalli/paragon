@@ -1,19 +1,152 @@
+// @import "~bootstrap/scss/utilities";
+
+// // Add background, border, and text color utilities
+// // for all theme color levels.
+// $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+
+// @each $color, $value in $theme-colors {
+//   @each $level in $color-levels {
+//     @include bg-variant(".bg-#{$color}-#{$level}", theme-color($color, $level), true);
+//     @include text-emphasis-variant(".text-#{$color}-#{$level}", theme-color($color, $level), true);
+//     .border-#{$color}-#{$level} {
+//       border-color: theme-color($color, $level) !important;
+//     }
+//   }
+// }
+
+// .x-small {
+//   font-size: $x-small-font-size;
+// }
+
+// .micro {
+//   font-size: $micro-font-size;
+//   font-weight: normal;
+//   line-height: $micro-line-height;
+// }
+
+// .mw-xs {
+//   max-width: $max-width-xs !important;
+// }
+
+// .mw-sm {
+//   max-width: $max-width-sm !important;
+// }
+
+// .mw-md {
+//   max-width: $max-width-md !important;
+// }
+
+// .mw-lg {
+//   max-width: $max-width-lg !important;
+// }
+
+// .mw-xl {
+//   max-width: $max-width-xl !important;
+// }
+
+// .icon-spin {
+//   animation: spinner-border .75s linear infinite;
+//   -webkit-animation: spinner-border .75s linear infinite;
+// }
+
+// // Define breakpoints for `.w-*` class (e.g. `.w-md-100`)
+// @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
+//   @each $size-name, $size-value in $sizes {
+//     @media (min-width: $breakpoint-value) {
+//       .w-#{$breakpoint-name}-#{$size-name} {
+//         width: $size-value !important;
+//       }
+//     }
+//   }
+// }
+
+// // Define classes for rtl (margin-inline-start == margin-left, margin-inline-end == margin-right)
+// @each $size, $length in $spacers {
+//   .mis-#{$size} {
+//     margin-inline-start: $length !important;
+//   }
+
+//   .mie-#{$size} {
+//     margin-inline-end: $length !important;
+//   }
+// }
+
+// .mis-auto {
+//   margin-inline-start: auto !important;
+// }
+
+// .mie-auto {
+//   margin-inline-end: auto !important;
+// }
+
+// // Define classes for z-index
+// $indexes: () !default;
+// $indexes: map-merge(
+//   (
+//     0: 0,
+//     1: 200,
+//     2: 400,
+//     3: 600,
+//     4: 800,
+//     5: 1000,
+//     6: 1200,
+//     7: 1400,
+//     8: 1600,
+//     9: 1800,
+//     10: 2000
+//   ),
+//   $indexes
+// );
+
+// @each $index, $size in $indexes {
+//   .zindex-#{$index} {
+//     z-index: $size !important;
+//   }
+// }
+
+// @each $level in $levels {
+//   @each $box-shadow-side in $box-shadow-sides {
+//     .box-shadow-#{$box-shadow-side}-#{$level} {
+//       @include pgn-box-shadow($level, $box-shadow-side);
+//     }
+//   }
+// }
+
+
+
 @import "~bootstrap/scss/utilities";
 
-// Add background, border, and text color utilities
-// for all theme color levels.
+// Fallback if not already defined
+@function theme-color($color, $level: null) {
+  @if map-has-key($theme-colors, $color) {
+    @return map-get($theme-colors, $color);
+  }
+  @return $color; // use raw value
+}
+
+// Theme color levels (if you're using custom color shades)
 $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
 
-@each $color, $value in $theme-colors {
+// Generate custom background, text, and border utilities
+@each $color, $base in $theme-colors {
   @each $level in $color-levels {
-    @include bg-variant(".bg-#{$color}-#{$level}", theme-color($color, $level), true);
-    @include text-emphasis-variant(".text-#{$color}-#{$level}", theme-color($color, $level), true);
+    $value: theme-color($color, $level);
+
+    .bg-#{$color}-#{$level} {
+      background-color: $value !important;
+    }
+
+    .text-#{$color}-#{$level} {
+      color: $value !important;
+    }
+
     .border-#{$color}-#{$level} {
-      border-color: theme-color($color, $level) !important;
+      border-color: $value !important;
     }
   }
 }
 
+// Typography utilities
 .x-small {
   font-size: $x-small-font-size;
 }
@@ -24,32 +157,20 @@ $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
   line-height: $micro-line-height;
 }
 
-.mw-xs {
-  max-width: $max-width-xs !important;
-}
+// Max-width utilities
+.mw-xs { max-width: $max-width-xs !important; }
+.mw-sm { max-width: $max-width-sm !important; }
+.mw-md { max-width: $max-width-md !important; }
+.mw-lg { max-width: $max-width-lg !important; }
+.mw-xl { max-width: $max-width-xl !important; }
 
-.mw-sm {
-  max-width: $max-width-sm !important;
-}
-
-.mw-md {
-  max-width: $max-width-md !important;
-}
-
-.mw-lg {
-  max-width: $max-width-lg !important;
-}
-
-.mw-xl {
-  max-width: $max-width-xl !important;
-}
-
+// Spinning icon
 .icon-spin {
-  animation: spinner-border .75s linear infinite;
-  -webkit-animation: spinner-border .75s linear infinite;
+  animation: spinner-border 0.75s linear infinite;
+  -webkit-animation: spinner-border 0.75s linear infinite;
 }
 
-// Define breakpoints for `.w-*` class (e.g. `.w-md-100`)
+// Responsive width utility classes (e.g. w-md-25)
 @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
   @each $size-name, $size-value in $sizes {
     @media (min-width: $breakpoint-value) {
@@ -60,7 +181,7 @@ $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
   }
 }
 
-// Define classes for rtl (margin-inline-start == margin-left, margin-inline-end == margin-right)
+// Logical margin utilities
 @each $size, $length in $spacers {
   .mis-#{$size} {
     margin-inline-start: $length !important;
@@ -79,35 +200,91 @@ $color-levels: 100, 200, 300, 400, 500, 600, 700, 800, 900;
   margin-inline-end: auto !important;
 }
 
-// Define classes for z-index
+// Z-index utility classes
 $indexes: () !default;
-$indexes: map-merge(
-  (
-    0: 0,
-    1: 200,
-    2: 400,
-    3: 600,
-    4: 800,
-    5: 1000,
-    6: 1200,
-    7: 1400,
-    8: 1600,
-    9: 1800,
-    10: 2000
-  ),
-  $indexes
-);
+$indexes: map-merge((
+  0: 0,
+  1: 200,
+  2: 400,
+  3: 600,
+  4: 800,
+  5: 1000,
+  6: 1200,
+  7: 1400,
+  8: 1600,
+  9: 1800,
+  10: 2000
+), $indexes);
 
-@each $index, $size in $indexes {
+@each $index, $value in $indexes {
   .zindex-#{$index} {
-    z-index: $size !important;
+    z-index: $value !important;
   }
 }
 
+// Box shadow utilities
 @each $level in $levels {
-  @each $box-shadow-side in $box-shadow-sides {
-    .box-shadow-#{$box-shadow-side}-#{$level} {
-      @include pgn-box-shadow($level, $box-shadow-side);
+  @each $side in $box-shadow-sides {
+    .box-shadow-#{$side}-#{$level} {
+      @include pgn-box-shadow($level, $side);
     }
   }
 }
+
+
+// Custom spacing utilities
+$custom-spacers: (
+  0: 0,
+  0.5: 0.125rem,
+  1: 0.25rem,
+  1.5: 0.375rem,
+  2: 0.5rem,
+  2.5: 0.625rem,
+  3: 0.75rem,
+  3.5: 0.875rem,
+  4: 1rem,
+  4.5: 1.125rem,
+  5: 1.25rem,
+  6: 1.5rem,
+  7: 1.75rem,
+  8: 2rem,
+  9: 2.25rem,
+  10: 2.5rem
+);
+
+// Spacing directions
+$spacing-properties: (
+  m: margin,
+  p: padding
+);
+
+$spacing-directions: (
+  null: "", // shorthand
+  t: -top,
+  r: -right,
+  b: -bottom,
+  l: -left,
+  x: -left -right,
+  y: -top -bottom
+);
+@each $prefix, $property in $spacing-properties {
+  @each $infix, $dirs in $spacing-directions {
+    @each $size, $length in $custom-spacers {
+      $escaped-size: str-replace("#{$size}", ".", "\\."); // Escape dot
+      $class: ".#{$prefix}#{$infix}-#{$escaped-size}";
+
+      #{$class} {
+        @if type-of($dirs) == "list" {
+          @each $dir in $dirs {
+            #{$property}#{$dir}: $length !important;
+          }
+        } @else {
+          #{$property}#{$dirs}: $length !important;
+        }
+      }
+    }
+  }
+}
+
+
+

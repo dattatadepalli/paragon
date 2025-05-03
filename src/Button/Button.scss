@@ -8,9 +8,9 @@
   $hover-border: darken($border, 10%),
   $active-background: darken($background, 10%),
   $active-border: darken($border, 12.5%),
-  $color: color-yiq($background),
-  $hover-color: color-yiq($hover-background),
-  $active-color: color-yiq($active-background)
+  $color: color-contrast($background),
+  $hover-color: color-contrast($hover-background),
+  $active-color: color-contrast($active-background)
 ) {
   color: $color;
 
@@ -59,7 +59,7 @@
 // We do this to better control active and focus states.
 @mixin button-outline-variant(
   $color,
-  $color-hover: color-yiq($color),
+  $color-hover: color-contrast($color),
   $active-background: $color,
   $active-border: $color
 ) {
@@ -82,7 +82,7 @@
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    color: color-yiq($active-background);
+    color: color-contrast($active-background);
     background-color: $active-background;
     border-color: $active-border;
   }
@@ -118,7 +118,7 @@
 //
 @mixin button-inverse-variant(
   $color,
-  $background: color-yiq($color),
+  $background: color-contrast($color),
   $active-background: $color,
   $active-border: $color
 ) {
@@ -158,10 +158,10 @@
     &::before {
       content: "";
       position: absolute;
-      top: calc(-1 * #{$btn-focus-distance-to-border});
-      right: calc(-1 * #{$btn-focus-distance-to-border});
-      bottom: calc(-1 * #{$btn-focus-distance-to-border});
-      left: calc(-1 * #{$btn-focus-distance-to-border});
+      top: -1 * $btn-focus-distance-to-border;
+      right: -1 * $btn-focus-distance-to-border;
+      bottom: -1 * $btn-focus-distance-to-border;
+      left: -1 * $btn-focus-distance-to-border;
       border: solid $btn-focus-width $ring-color;
       border-radius: $btn-focus-border-radius;
     }
@@ -303,7 +303,7 @@ fieldset:disabled a.btn {
     $active-border: theme-color($color, "active");
 
     // Defaults
-    $color-hover: color-yiq($value) !default;
+    $color-hover: color-contrast($value) !default;
     $active-background: $value !default;
     $active-border: $value !default;
 
@@ -323,7 +323,7 @@ fieldset:disabled a.btn {
     $active-border: theme-color($color, "active");
 
     // Defaults
-    $background: color-yiq($value) !default;
+    $background: color-contrast($value) !default;
     $active-background: $value !default;
     $active-border: $value !default;
 
@@ -344,7 +344,7 @@ fieldset:disabled a.btn {
     $active-border: transparent;
 
     // Defaults
-    $color-hover: color-yiq($value) !default;
+    $color-hover: color-contrast($value) !default;
     $active-background: $value !default;
     $active-border: $value !default;
 

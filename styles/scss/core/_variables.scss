@@ -54,7 +54,7 @@ $colors: map-merge(
   $colors
 );
 
-$primary: #0A3055 !default;
+$primary: #15376d;
 $secondary: $gray-700 !default;
 $brand: #9D0054 !default;
 $success: $green !default;
@@ -385,7 +385,7 @@ $body-color:                $gray-700 !default;
 // Style anchor elements.
 
 $link-color:                              $info-500 !default;
-$link-decoration:                         none !default;
+$link-decoration:                         none;
 $link-hover-color:                        darken($link-color, 15%) !default;
 $link-hover-decoration:                   underline !default;
 $inline-link-color:                       $info-500 !default;

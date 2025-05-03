@@ -4,7 +4,7 @@ const chroma = require('chroma-js');
 const chalk = require('chalk');
 
 /**
- * Javascript version of bootstrap's color-yiq function. Decides whether to return light color variant or dark one
+ * Javascript version of bootstrap's color-contrast function. Decides whether to return light color variant or dark one
  * based on contrast value of the input color
  *
  * @param {Object} args

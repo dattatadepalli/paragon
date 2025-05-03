@@ -3,14 +3,14 @@
     "$type": "color",
     "badge": {
       "text": {
-        "primary": { "source": "$badge-primary-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.primary.base}" },
-        "secondary": { "source": "$badge-secondary-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.secondary.base}" },
-        "success": { "source": "$badge-success-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.success.base}" },
-        "danger": { "source": "$badge-danger-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.danger.base}" },
-        "warning": { "source": "$badge-warning-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.warning.base}" },
-        "info": { "source": "$badge-info-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.info.base}" },
-        "light": { "source": "$badge-light-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.light.base}" },
-        "dark": { "source": "$badge-dark-color", "modify": [{ "type": "color-yiq" }], "$value": "{color.dark.base}" }
+        "primary": { "source": "$badge-primary-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.primary.base}" },
+        "secondary": { "source": "$badge-secondary-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.secondary.base}" },
+        "success": { "source": "$badge-success-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.success.base}" },
+        "danger": { "source": "$badge-danger-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.danger.base}" },
+        "warning": { "source": "$badge-warning-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.warning.base}" },
+        "info": { "source": "$badge-info-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.info.base}" },
+        "light": { "source": "$badge-light-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.light.base}" },
+        "dark": { "source": "$badge-dark-color", "modify": [{ "type": "color-contrast" }], "$value": "{color.dark.base}" }
       },
       "bg": {
         "primary": { "source": "$badge-primary-bg", "$value": "{color.primary.base}" },

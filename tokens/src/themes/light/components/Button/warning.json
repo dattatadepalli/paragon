@@ -5,7 +5,7 @@
       "text": {
         "warning": {
           "source": "$btn-warning-color",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.bg.warning}"
         },
         "outline-warning": {
@@ -32,7 +32,7 @@
         },
         "inverse-warning": {
           "source": "$btn-warning-inverse-bg",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.text.inverse-warning}"
         },
         "inverse-outline-warning": {
@@ -62,7 +62,7 @@
         "text": {
           "warning": {
             "source": "$btn-warning-hover-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.hover.bg.warning}"
           },
           "outline-warning": {
@@ -121,12 +121,12 @@
         "text": {
           "warning": {
             "source": "$btn-warning-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.warning}"
           },
           "outline-warning": {
             "source": "$btn-warning-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.outline-warning}"
           },
           "inverse-warning": {
@@ -136,7 +136,7 @@
           },
           "inverse-outline-warning": {
             "source": "$btn-warning-inverse-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.inverse-outline-warning}"
           }
         },

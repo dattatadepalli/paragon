@@ -1,5 +1,14 @@
 @import "~bootstrap/scss/grid";
 
+.row > * {
+  flex-shrink: unset !important;
+  width: unset !important;
+  max-width: unset !important;
+  padding-right: unset !important;
+  padding-left: unset !important;
+  margin-top: unset !important;
+}
+
 .container-mw-xs {
   max-width: calc(#{$max-width-xs} + #{$grid-gutter-width}) !important;
 }

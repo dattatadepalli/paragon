@@ -58,11 +58,11 @@ Paragon uses [chroma-js](https://gka.github.io/chroma.js/) library to perform co
    ```
    outputs `#9DACBB` value
 
-3. `color-yiq` – [Bootstrap's color contrast function](https://getbootstrap.com/docs/4.0/getting-started/theming/#color-contrast) that outputs black (defaults to `#454545`) or white (defaults to `#FFF`) color depending on the specified base color, e.g.
+3. `color-contrast` – [Bootstrap's color contrast function](https://getbootstrap.com/docs/4.0/getting-started/theming/#color-contrast) that outputs black (defaults to `#454545`) or white (defaults to `#FFF`) color depending on the specified base color, e.g.
    ```
    {
      "value": "#0A3055",
-     "modify": [{ "type": "color-yiq" }]
+     "modify": [{ "type": "color-contrast" }]
    }
    ```
    outputs `#454545`

@@ -5,7 +5,7 @@
       "text": {
         "light": {
           "source": "$btn-light-color",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.bg.light}"
         },
         "outline-light": {
@@ -28,7 +28,7 @@
         },
         "inverse-light": {
           "source": "$btn-light-inverse-bg",
-          "modify": [{ "type": "color-yiq" }],
+          "modify": [{ "type": "color-contrast" }],
           "$value": "{color.btn.text.inverse-light}"
         },
         "outline-light": {
@@ -62,7 +62,7 @@
         "text": {
           "light": {
             "source": "$btn-light-hover-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.hover.bg.light}"
           },
           "outline-light": {
@@ -121,12 +121,12 @@
         "text": {
           "light": {
             "source": "$btn-light-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.light}"
           },
           "outline-light": {
             "source": "$btn-light-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.outline-light}"
           },
           "inverse-light": {
@@ -136,7 +136,7 @@
           },
           "inverse-outline-light": {
             "source": "$btn-light-inverse-outline-active-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.btn.active.bg.inverse-outline-light}"
           }
         },

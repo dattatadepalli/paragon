@@ -168,7 +168,7 @@
         "tooltip": {
           "valid": {
             "source": "$form-feedback-tooltip-valid-color",
-            "modify": [{ "type": "color-yiq" }],
+            "modify": [{ "type": "color-contrast" }],
             "$value": "{color.form.feedback.valid}"
           },
           "bg": {
