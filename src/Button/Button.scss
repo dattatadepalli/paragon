@@ -4,10 +4,10 @@
 @mixin button-variant(
   $background,
   $border,
-  $hover-background: darken($background, 7.5%),
-  $hover-border: darken($border, 10%),
-  $active-background: darken($background, 10%),
-  $active-border: darken($border, 12.5%),
+  $hover-background: mix(black,$background, 7.5%),
+  $hover-border: mix(black,$border, 10%),
+  $active-background: mix(black,$background, 10%),
+  $active-border: mix(black,$border, 12.5%),
   $color: color-contrast($background),
   $hover-color: color-contrast($hover-background),
   $active-color: color-contrast($active-background)
@@ -82,7 +82,7 @@
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    color: color-contrast($active-background);
+    color: $color-hover;
     background-color: $active-background;
     border-color: $active-border;
   }
@@ -128,8 +128,8 @@
 
   &:not(:disabled):not(.disabled) {
     &:hover {
-      color: darken($color, 7.5%);
-      background-color: darken($color, 7.5%);
+      color: mix(black,$color, 7.5%);
+      background-color: mix(black,$color, 7.5%);
       border-color: transparent;
     }
   }
@@ -143,7 +143,7 @@
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    color: darken($color, 10%);
+    color: mix(black,$color, 10%);
     background: #eeeeee;
   }
 }
@@ -279,10 +279,10 @@ fieldset:disabled a.btn {
     $active-border: theme-color($color, "active");
 
     // Defaults
-    $hover-background: darken($background, 7.5%) !default;
-    $hover-border: darken($border, 10%) !default;
-    $active-background: darken($background, 10%) !default;
-    $active-border: darken($border, 12.5%) !default;
+    $hover-background: mix(black,$background, 7.5%) !default;
+    $hover-border: mix(black,$border, 10%) !default;
+    $active-background: mix(black,$background, 10%) !default;
+    $active-border: mix(black,$border, 12.5%) !default;
 
     @include button-variant(
       $background,
@@ -345,8 +345,8 @@ fieldset:disabled a.btn {
 
     // Defaults
     $color-hover: color-contrast($value) !default;
-    $active-background: $value !default;
-    $active-border: $value !default;
+    $active-background: theme-color($color, "background") !default;
+    $active-border: transparent;
 
     @include button-outline-variant(
       $text-and-border,

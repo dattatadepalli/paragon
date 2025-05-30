@@ -118,3 +118,8 @@ a.brand-link {
     }
   }
 }
+
+a:hover {
+  --bs-link-hover-color-rgb: #003c5e;
+  color: var(--bs-link-hover-color-rgb);
+}

@@ -49,7 +49,7 @@ function colorYiq({
     // if not - darken resulting color until it does until maxAttempts is reached.
     let numDarkenAttempts = 1;
     while (chroma.contrast(backgroundColor, result) < 4.5 && numDarkenAttempts <= maxAttempts) {
-      result = result.darken(0.1);
+      result = result.mix(black,0.1);
       numDarkenAttempts += 1;
       if (numDarkenAttempts === maxAttempts) {
         const title = `[a11y] Warning: Failed to sufficiently darken token ${chalk.keyword('orange').bold(tokenName)} to pass contrast ratio of 4.5:1.`;

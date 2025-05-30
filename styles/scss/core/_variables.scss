@@ -33,7 +33,7 @@ $grays: map-merge(
   $grays
 );
 
-$blue: #0a3055 !default;
+$blue: #23419F !default;
 $red: #C32D3A !default;
 $yellow: #FFD900 !default;
 $green: #178253 !default;
@@ -54,7 +54,7 @@ $colors: map-merge(
   $colors
 );
 
-$primary: $blue !default;
+$primary: #15376d !default;
 $secondary: $gray-700 !default;
 $brand: #9D0054 !default;
 $success: $green !default;
@@ -386,34 +386,34 @@ $body-color:                $gray-700 !default;
 
 $link-color:                              $info-500 !default;
 $link-decoration:                         none;
-$link-hover-color:                        darken($link-color, 15%) !default;
+$link-hover-color:                        mix(black,$link-color, 15%) !default;
 $link-hover-decoration:                   underline !default;
 $inline-link-color:                       $info-500 !default;
 $inline-link-decoration:                  underline !default;
 $inline-link-decoration-color:            rgba($inline-link-color, .3) !default;
-$inline-link-hover-color:                 darken($inline-link-color, 15%) !default;
+$inline-link-hover-color:                 mix(black,$inline-link-color, 15%) !default;
 $inline-link-hover-decoration:            underline !default;
 $inline-link-hover-decoration-color:      rgba($inline-link-hover-color, 1) !default;
 
 $muted-link-color:                              $primary-500 !default;
 $muted-link-decoration:                         none !default;
-$muted-link-hover-color:                        darken($muted-link-color, 15%) !default;
+$muted-link-hover-color:                        mix(black,$muted-link-color, 15%) !default;
 $muted-link-hover-decoration:                   underline !default;
 $muted-inline-link-color:                       $primary-500 !default;
 $muted-inline-link-decoration:                  underline !default;
 $muted-inline-link-decoration-color:            rgba($muted-inline-link-color, .3) !default;
-$muted-inline-link-hover-color:                 darken($muted-inline-link-color, 15%) !default;
+$muted-inline-link-hover-color:                 mix(black,$muted-inline-link-color, 15%) !default;
 $muted-inline-link-hover-decoration:            underline !default;
 $muted-inline-link-hover-decoration-color:      rgba($muted-inline-link-hover-color, 1) !default;
 
 $brand-link-color:                              $brand-500 !default;
 $brand-link-decoration:                         none !default;
-$brand-link-hover-color:                        darken($brand-link-color, 15%) !default;
+$brand-link-hover-color:                        mix(black,$brand-link-color, 15%) !default;
 $brand-link-hover-decoration:                   underline !default;
 $brand-inline-link-color:                       $brand-500 !default;
 $brand-inline-link-decoration:                  underline !default;
 $brand-inline-link-decoration-color:            rgba($brand-inline-link-color, .3) !default;
-$brand-inline-link-hover-color:                 darken($brand-inline-link-color, 15%) !default;
+$brand-inline-link-hover-color:                 mix(black,$brand-inline-link-color, 15%) !default;
 $brand-inline-link-hover-decoration:            underline !default;
 $brand-inline-link-hover-decoration-color:      rgba($brand-inline-link-hover-color, 1) !default;
 

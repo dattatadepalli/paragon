@@ -2,18 +2,18 @@
 
 $nav-link-padding-y:                               .5rem !default;
 $nav-link-padding-x:                               1rem !default;
-$nav-link-color:                                   $gray-700 !default;
+$nav-link-color:                                   $gray-700;
 $nav-link-disabled-color:                          $gray-300 !default;
 $nav-link-font-weight:                             500 !default;
 
 $nav-tabs-border-color:                            $light-400 !default;
 $nav-tabs-border-width:                            2px !default;
 $nav-tabs-border-radius:                           0 !default;
-$nav-tabs-link-hover-border-color:                 transparent transparent $nav-tabs-border-color !default;
+$nav-tabs-link-hover-border-color:                 transparent transparent $nav-tabs-border-color;
 $nav-tabs-link-hover-bg:                           $light-400 !default;
 $nav-tabs-link-active-color:                       $primary-500 !default;
 $nav-tabs-link-active-bg:                          transparent !default;
-$nav-tabs-link-active-border-color:                transparent transparent $primary-500 !default;
+$nav-tabs-link-active-border-color:                transparent transparent $primary-500;
 $nav-tabs-link-focus-border-color:                 $nav-tabs-link-active-color !default;
 $nav-tabs-link-distance-to-border:                 .313rem !default;
 $nav-tabs-link-border-bottom-width:                .188rem !default;

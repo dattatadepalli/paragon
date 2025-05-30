@@ -107,7 +107,7 @@ const colorTransform = (token, themeVariant) => {
           break;
         }
         case 'darken':
-          color = darken(color, amount);
+          color = mix(black,color, amount);
           break;
         case 'lighten':
           color = lighten(color, amount);

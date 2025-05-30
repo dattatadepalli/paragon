@@ -765,6 +765,10 @@ $select-icon-padding: .5625rem !default;
   border-color: $input-border-color;
 }
 
+.form-control {
+  border: 1px solid $gray-500;
+}
+
 .form-control:hover {
   border: solid $input-hover-width $dark-700;
 }
